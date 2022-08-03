@@ -4,6 +4,8 @@
  */
 package doancuoiky;
 
+import Screens.Login;
+
 
 /**
  *
@@ -16,6 +18,8 @@ public class DoAnCuoiKy {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Login frmlogin = new Login();
+        frmlogin.setVisible(true);
     }
             
     

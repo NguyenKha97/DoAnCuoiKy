@@ -33,7 +33,7 @@ public class KetNoi {
         
         ds.setUser(user);
         ds.setPassword(pass);        
-        ds.setServerName("DESKTOP-0RC4ARU\\SQLEXPRESS");
+//        ds.setServerName("DESKTOP-0RC4ARU\\SQLEXPRESS");
         ds.setPortNumber(Integer.parseInt("1433")); //1433
         ds.setDatabaseName("QLBH");
         

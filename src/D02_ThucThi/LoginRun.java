@@ -22,15 +22,13 @@ public class LoginRun {
     
     public static void execute(String username, String pass) throws SQLException{
 
-
         con = KetNoi.getConnection(username, pass);
         if(con != null){
             statusLogin = true;   
         }
         else
             JOptionPane.showMessageDialog(null, "ĐĂNG NHẬP KHÔNG THÀNH CÔNG:\n" + "Mật khẩu hoặc tên tài khoản không đúng, vui lòng nhập lại");
-
-        
+   
     }
     
 }
