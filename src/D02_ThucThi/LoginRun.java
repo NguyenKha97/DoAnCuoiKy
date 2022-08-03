@@ -21,7 +21,7 @@ public class LoginRun {
     public static Connection con;
     
     public static void execute(String username, String pass) throws SQLException{
-        Login frmLogin = new Login();
+
 
         con = KetNoi.getConnection(username, pass);
         if(con != null){
@@ -30,11 +30,7 @@ public class LoginRun {
         else
             JOptionPane.showMessageDialog(null, "ĐĂNG NHẬP KHÔNG THÀNH CÔNG:\n" + "Mật khẩu hoặc tên tài khoản không đúng, vui lòng nhập lại");
 
-        if(statusLogin == true){
-            Main frmMain = new Main();
-            frmLogin.setVisible(false);
-            frmMain.setVisible(true);
-        }
+        
     }
     
 }
