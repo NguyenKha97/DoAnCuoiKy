@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author admin
  */
 public class QuanLyKH {
+    int index;
     public DefaultTableModel taiTTKH(){
         DefaultTableModel table = new DefaultTableModel();
         try {
@@ -24,7 +25,7 @@ public class QuanLyKH {
     
             String []colsName = {"STT", "Mã KH", "Họ và tên", "Địa chỉ", "Số ĐT", "Sinh nhật", "Ngày ĐK", "Doanh số", "Loại KH" };
             table.setColumnIdentifiers(colsName);
-            int index = 1;
+            index = 1;
             try {
             while(rs.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
                 String rows[] = new String[9];
@@ -41,6 +42,7 @@ public class QuanLyKH {
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                 //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                 index++;
+//                System.out.println(index);
             }
             } catch (SQLException e) {
             e.printStackTrace();
@@ -52,4 +54,41 @@ public class QuanLyKH {
         }
         return table;
     }
+    
+    public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count){
+//        System.out.println(i);
+        table.removeRow(i);
+        int j = i;
+//        System.out.println(count);
+        for(  ; j <(index-count-1); j++ ){
+            table.setValueAt(j+1, j, 0);
+        }
+        return table;
+    }
+    public void xoaDongTrenSQL(int i){
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT MAKH from KHACHHANG");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0; String makh="";
+            try {
+                while(rs.next()&&temp<=i){
+                    if(temp == i){
+                        makh = rs.getString("MAKH");
+//                        System.out.println(makh);
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+            e.printStackTrace();
+            }
+            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'");
+            cstmt.execute();
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
+    
 }

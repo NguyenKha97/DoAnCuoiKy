@@ -28,8 +28,8 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
     public boolean getStatusLogin(){
-        System.out.println(txtLogin.isSelected());
-        return txtLogin.isSelected();
+        System.out.println(dangNhap.isSelected());
+        return dangNhap.isSelected();
     }
 
     /**
@@ -45,7 +45,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtPass = new javax.swing.JPasswordField();
-        txtLogin = new javax.swing.JButton();
+        dangNhap = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,10 +59,10 @@ public class Login extends javax.swing.JFrame {
 
         txtPass.setText("sa");
 
-        txtLogin.setText("LOGIN");
-        txtLogin.addActionListener(new java.awt.event.ActionListener() {
+        dangNhap.setText("LOGIN");
+        dangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginActionPerformed(evt);
+                dangNhapActionPerformed(evt);
             }
         });
 
@@ -87,7 +87,7 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(144, 144, 144))
         );
         layout.setVerticalGroup(
@@ -104,14 +104,14 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtLogin)
+                .addComponent(dangNhap)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
+    private void dangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dangNhapActionPerformed
         
         /*SQLServerDataSource ds = new SQLServerDataSource();
         
@@ -150,7 +150,7 @@ public class Login extends javax.swing.JFrame {
             frmMain.setVisible(true);
         }
         
-    }//GEN-LAST:event_txtLoginActionPerformed
+    }//GEN-LAST:event_dangNhapActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,10 +193,10 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton dangNhap;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JButton txtLogin;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
