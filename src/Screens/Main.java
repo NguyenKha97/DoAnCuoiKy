@@ -27,9 +27,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Main extends javax.swing.JFrame {
     
+    boolean taittkh;
     QuanLyKH qlkh = new QuanLyKH();
     DefaultTableModel table1 = qlkh.taiTTKH();
     int countButton5 = 0;
+    NhapTTKH nhapttkh = new NhapTTKH();
     
     /**
      * Creates new form Main
@@ -115,6 +117,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         themKH.setText("THÊM KH");
+        themKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                themKHActionPerformed(evt);
+            }
+        });
 
         capNhatKH.setText("CẬP NHẬT TT KH");
 
@@ -424,6 +431,7 @@ public class Main extends javax.swing.JFrame {
         
         
         jTable1.setModel(table1);
+        taittkh = true;
     }//GEN-LAST:event_taiTTKHActionPerformed
 
     private void dangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dangxuatActionPerformed
@@ -458,18 +466,26 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void xoaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaKHActionPerformed
-        // TODO add your handling code here:
-//        int choice = JOptionPane.showConfirmDialog(jButton5, "Ban co chac chan muon xoa du lieu nay");
-        int choice = JOptionPane.showConfirmDialog(xoaKH, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
-        System.out.println(choice);
-        if(choice == 0){
+
         int i = jTable1.getSelectedRow();
-        countButton5++;
-        qlkh.xoaDong(i, table1, countButton5);
-        jTable1.setModel(table1);
-        qlkh.xoaDongTrenSQL(i);
+        if(i>=0 && taittkh) {
+            System.out.println(jTable1.getSelectedRow());
+            int choice = JOptionPane.showConfirmDialog(xoaKH, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
+//        System.out.println(choice);
+            if (choice == 0) {
+//                int i = jTable1.getSelectedRow();
+                countButton5++;
+                qlkh.xoaDong(i, table1, countButton5);
+                jTable1.setModel(table1);
+                qlkh.xoaDongTrenSQL(i);
+            }
         }
     }//GEN-LAST:event_xoaKHActionPerformed
+
+    private void themKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themKHActionPerformed
+        nhapttkh.setVisible(true);
+        
+    }//GEN-LAST:event_themKHActionPerformed
 
     /**
      * @param args the command line arguments
@@ -528,7 +544,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    static javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JButton taiTTKH;

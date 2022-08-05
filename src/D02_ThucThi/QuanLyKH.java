@@ -8,6 +8,12 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +26,7 @@ public class QuanLyKH {
         DefaultTableModel table = new DefaultTableModel();
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from KHACHHANG");
+            CallableStatement cstmt = conn.prepareCall("SELECT * from KHACHHANG WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
     
             String []colsName = {"STT", "Mã KH", "Họ và tên", "Địa chỉ", "Số ĐT", "Sinh nhật", "Ngày ĐK", "Doanh số", "Loại KH" };
@@ -68,27 +74,61 @@ public class QuanLyKH {
     public void xoaDongTrenSQL(int i){
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT MAKH from KHACHHANG");
+            CallableStatement cstmt = conn.prepareCall("SELECT MAKH from KHACHHANG WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0; String makh="";
             try {
                 while(rs.next()&&temp<=i){
                     if(temp == i){
                         makh = rs.getString("MAKH");
-//                        System.out.println(makh);
+                        System.out.println(makh);
                     }
                     temp++;
                 }
             } catch (SQLException e) {
             e.printStackTrace();
             }
-            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'");
+//            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'"); 
+            cstmt = conn.prepareCall("UPDATE KHACHHANG SET XOA =" + 1 + " WHERE MAKH='" + makh + "'");
             cstmt.execute();
             
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
     }
-    
+    public boolean themKH(String MaKH, String HoTenKH, String DiaChiKH, String SoDTKH, Date SinhNhatKH, Date NgDKKH, short loai) {
+        try {
+            Connection conn = LoginRun.con;
+            String loaiKH;
+            if(loai==1)
+                loaiKH = "Vang lai";
+            else if(loai ==2)
+                loaiKH = "Thuong xuyen";
+            else if(loai==3)
+                loaiKH = "Vip";
+            else
+                loaiKH = "";
+            //("yyyy/MM/dd")
+            DateFormat df = new SimpleDateFormat();
+            System.out.println(NgDKKH);
+            System.out.println(SinhNhatKH);
+
+//            "SELECT CONVERT(smalldatetime, '" + df.format(NgDKKH) + "')"
+            CallableStatement cstmt = conn.prepareCall("INSERT INTO KHACHHANG VALUES ('" + MaKH + "', '" + HoTenKH + "', '"
+                    + DiaChiKH + "', '" + SoDTKH + "', '" + new java.sql.Date(SinhNhatKH.getTime()) + "', '"   
+                    + new java.sql.Date(NgDKKH.getTime()) + "', '" + 1 + "', '" + loaiKH 
+                    + "', '" + 0 + "')");
+            
+//            cstmt.setDate(0, new java.sql.Date(SinhNhatKH.getTime()));
+//            cstmt.setDate(0, new java.sql.Date(NgDKKH.getTime()));
+            cstmt.execute();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return false;
+        }
+        
+    }
     
 }
