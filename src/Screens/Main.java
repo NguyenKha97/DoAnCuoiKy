@@ -5,6 +5,7 @@
 package Screens;
 
 import D02_ThucThi.LoginRun;
+import D02_ThucThi.QuanLy;
 import D02_ThucThi.QuanLyKH;
 import D02_ThucThi.QuanLyNV;
 import D02_ThucThi.QuanLySP;
@@ -27,12 +28,35 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Main extends javax.swing.JFrame {
     
-    boolean taittkh;
-    QuanLyKH qlkh = new QuanLyKH();
-    DefaultTableModel table1 = qlkh.taiTTKH();
-    int countButton5 = 0;
-    NhapTTKH nhapttkh = new NhapTTKH();
+    boolean taittkh, taittnv, taittsp;
+    static QuanLyKH qlkh = new QuanLyKH();
+    static QuanLyNV qlnv = new QuanLyNV();
+    static QuanLySP qlsp = new QuanLySP();
+    static DefaultTableModel tableKH = qlkh.taiTT();
+    static DefaultTableModel tableNV = qlnv.taiTT();
+    static DefaultTableModel tableSP = qlsp.taiTT();
+    static int countButtonXoaKH = 1;
+    static int countButtonXoaNV = 1;
+    static int countButtonXoaSP = 1;
     
+    private boolean xoaAction(javax.swing.JTable table, boolean taitt, int countButton, javax.swing.JButton button, DefaultTableModel dfTable, QuanLy ql) {
+        int i = table.getSelectedRow();
+        if (i >= 0 && taitt) {
+            System.out.println(table.getSelectedRow());
+            int choice = JOptionPane.showConfirmDialog(button, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
+//        System.out.println(choice);
+            if (choice == 0) {
+//                int i = jTable1.getSelectedRow();
+//                countButton++;
+                System.out.println(countButton);
+                ql.xoaDong(i, dfTable, countButton);
+                table.setModel(dfTable);
+                ql.xoaDongTrenSQL(i);
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Creates new form Main
      */
@@ -52,25 +76,25 @@ public class Main extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        khachHang = new javax.swing.JTable();
         taiTTKH = new javax.swing.JButton();
         themKH = new javax.swing.JButton();
         capNhatKH = new javax.swing.JButton();
         xoaKH = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        nhanVien = new javax.swing.JTable();
+        taiTTNV = new javax.swing.JButton();
+        themNV = new javax.swing.JButton();
+        capNhatNV = new javax.swing.JButton();
+        xoaNV = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
+        sanPham = new javax.swing.JTable();
+        taiTTSP = new javax.swing.JButton();
+        themSP = new javax.swing.JButton();
+        capNhatSP = new javax.swing.JButton();
+        xoaSP = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         dangxuat = new javax.swing.JButton();
@@ -79,7 +103,7 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Màn hình chính");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        khachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -105,9 +129,9 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
+        khachHang.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        khachHang.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(khachHang);
 
         taiTTKH.setText("TẢI TT KH");
         taiTTKH.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +187,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Quản lý khách hàng", jPanel1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        nhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -189,21 +213,31 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable2);
+        nhanVien.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(nhanVien);
 
-        jButton6.setText("TẢI TT NV");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        taiTTNV.setText("TẢI TT NV");
+        taiTTNV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                taiTTNVActionPerformed(evt);
             }
         });
 
-        jButton7.setText("THÊM NV");
+        themNV.setText("THÊM NV");
+        themNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                themNVActionPerformed(evt);
+            }
+        });
 
-        jButton8.setText("CẬP NHẬT TT NV");
+        capNhatNV.setText("CẬP NHẬT TT NV");
 
-        jButton9.setText("XÓA NV");
+        xoaNV.setText("XÓA NV");
+        xoaNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xoaNVActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -212,13 +246,13 @@ public class Main extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jButton6)
+                .addComponent(taiTTNV)
                 .addGap(58, 58, 58)
-                .addComponent(jButton7)
+                .addComponent(themNV)
                 .addGap(51, 51, 51)
-                .addComponent(jButton8)
+                .addComponent(capNhatNV)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton9)
+                .addComponent(xoaNV)
                 .addGap(59, 59, 59))
         );
         jPanel2Layout.setVerticalGroup(
@@ -227,16 +261,16 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
+                    .addComponent(taiTTNV)
+                    .addComponent(themNV)
+                    .addComponent(capNhatNV)
+                    .addComponent(xoaNV))
                 .addGap(0, 116, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý nhân viên", jPanel2);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        sanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -262,26 +296,31 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(jTable3);
+        sanPham.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(sanPham);
 
-        jButton10.setText("TẢI TT SP");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        taiTTSP.setText("TẢI TT SP");
+        taiTTSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                taiTTSPActionPerformed(evt);
             }
         });
 
-        jButton11.setText("THÊM SP");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        themSP.setText("THÊM SP");
+        themSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                themSPActionPerformed(evt);
             }
         });
 
-        jButton12.setText("CẬP NHẬT TT SP");
+        capNhatSP.setText("CẬP NHẬT TT SP");
 
-        jButton13.setText("XÓA SP");
+        xoaSP.setText("XÓA SP");
+        xoaSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xoaSPActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -290,13 +329,13 @@ public class Main extends javax.swing.JFrame {
             .addComponent(jScrollPane3)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(jButton10)
+                .addComponent(taiTTSP)
                 .addGap(62, 62, 62)
-                .addComponent(jButton11)
+                .addComponent(themSP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                .addComponent(jButton12)
+                .addComponent(capNhatSP)
                 .addGap(67, 67, 67)
-                .addComponent(jButton13)
+                .addComponent(xoaSP)
                 .addGap(40, 40, 40))
         );
         jPanel3Layout.setVerticalGroup(
@@ -305,10 +344,10 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10)
-                    .addComponent(jButton11)
-                    .addComponent(jButton12)
-                    .addComponent(jButton13))
+                    .addComponent(taiTTSP)
+                    .addComponent(themSP)
+                    .addComponent(capNhatSP)
+                    .addComponent(xoaSP))
                 .addGap(0, 118, Short.MAX_VALUE))
         );
 
@@ -377,60 +416,8 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void taiTTKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taiTTKHActionPerformed
-        // TODO add your handling code here:
-//        try {
-//            String dbURL = "jdbc:sqlserver://localhost:1433;"
-//                    + "databaseName=QLBH;user=sa;password=sa";
-//            Connection conn = DriverManager.getConnection(dbURL);
-//            if (conn != null) {
-//                System.out.println("Connected");
-////                DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
-////                System.out.println("Driver name: " + dm.getDriverName());
-////                System.out.println("Driver version: " + dm.getDriverVersion());
-////                System.out.println("Product name: " + dm.getDatabaseProductName());
-////                System.out.println("Product version: " + dm.getDatabaseProductVersion());
-//            }
-/*
-          try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from KHACHHANG");
-            ResultSet rs = cstmt.executeQuery();
-
-            DefaultTableModel table = new DefaultTableModel();
-            jTable1.setModel(table);
-            
-            String []colsName = {"STT", "Mã KH", "Họ và tên", "Địa chỉ", "Số ĐT", "Sinh nhật", "Ngày ĐK", "Doanh số", "Loại KH" };
-            table.setColumnIdentifiers(colsName);
-            int index = 1;
-            try {
-            while(rs.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
-                String rows[] = new String[9];
-                rows[0] = Integer.toString(index);
-                rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
-                rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
-                rows[3] = rs.getString(3);
-                rows[4] = rs.getString(4);
-                rows[5] = rs.getString(5);
-                rows[6] = rs.getString(6);
-                rows[7] = rs.getString(7);
-                rows[8] = rs.getString(8);
-                
-                table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
-                //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
-                index++;
-            }
-            } catch (SQLException e) {
-            e.printStackTrace();
-            }
-            
-            
-        } catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex);
-        }
- */
-        
-        
-        jTable1.setModel(table1);
+         
+        khachHang.setModel(tableKH);
         taittkh = true;
     }//GEN-LAST:event_taiTTKHActionPerformed
 
@@ -447,45 +434,77 @@ public class Main extends javax.swing.JFrame {
         frmLogin.setVisible(true);
     }//GEN-LAST:event_dangxuatActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void taiTTNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taiTTNVActionPerformed
         // TODO add your handling code here:
-        QuanLyNV qlnv = new QuanLyNV();
-        DefaultTableModel table2 = qlnv.taiTTNV();
-        jTable2.setModel(table2);
-    }//GEN-LAST:event_jButton6ActionPerformed
+        nhanVien.setModel(tableNV);
+        taittnv = true;
+    }//GEN-LAST:event_taiTTNVActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    private void taiTTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taiTTSPActionPerformed
         // TODO add your handling code here:
-        QuanLySP qlsp = new QuanLySP();
-        DefaultTableModel table3 = qlsp.taiTTSP();
-        jTable3.setModel(table3);
-    }//GEN-LAST:event_jButton10ActionPerformed
+        sanPham.setModel(tableSP);
+        taittsp = true;
+    }//GEN-LAST:event_taiTTSPActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void themSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themSPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+        new NhapTTSP().setVisible(true);
+    }//GEN-LAST:event_themSPActionPerformed
 
     private void xoaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaKHActionPerformed
 
-        int i = jTable1.getSelectedRow();
+/*        int i = khachHang.getSelectedRow();
         if(i>=0 && taittkh) {
-            System.out.println(jTable1.getSelectedRow());
+            System.out.println(khachHang.getSelectedRow());
             int choice = JOptionPane.showConfirmDialog(xoaKH, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
 //        System.out.println(choice);
             if (choice == 0) {
 //                int i = jTable1.getSelectedRow();
-                countButton5++;
-                qlkh.xoaDong(i, table1, countButton5);
-                jTable1.setModel(table1);
+                countButtonxoaKH++;
+                qlkh.xoaDong(i, tableKH, countButtonxoaKH);
+                khachHang.setModel(tableKH);
                 qlkh.xoaDongTrenSQL(i);
             }
-        }
+        }*/
+        if(xoaAction(khachHang, taittkh, countButtonXoaKH, xoaKH, tableKH, qlkh))
+            countButtonXoaKH++;
     }//GEN-LAST:event_xoaKHActionPerformed
 
     private void themKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themKHActionPerformed
-        nhapttkh.setVisible(true);
+        new NhapTTKH().setVisible(true);
         
     }//GEN-LAST:event_themKHActionPerformed
+
+    private void xoaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaNVActionPerformed
+        // TODO add your handling code here:
+ /*       int i = nhanVien.getSelectedRow();
+        if(i>=0 && taittnv) {
+            System.out.println(nhanVien.getSelectedRow());
+            int choice = JOptionPane.showConfirmDialog(xoaNV, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
+//        System.out.println(choice);
+            if (choice == 0) {
+//                int i = jTable1.getSelectedRow();
+                countButtonxoaNV++;
+                qlnv.xoaDong(i, tableNV, countButtonxoaNV);
+                nhanVien.setModel(tableNV);
+                qlnv.xoaDongTrenSQL(i);
+            }
+        }*/
+        
+        if(xoaAction(nhanVien, taittnv, countButtonXoaNV, xoaNV, tableNV, qlnv))
+            countButtonXoaNV++;
+    }//GEN-LAST:event_xoaNVActionPerformed
+
+    private void xoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaSPActionPerformed
+
+        if(xoaAction(sanPham, taittsp, countButtonXoaSP, xoaSP, tableSP, qlsp))
+            countButtonXoaSP++;
+    }//GEN-LAST:event_xoaSPActionPerformed
+
+    private void themNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themNVActionPerformed
+        // TODO add your handling code here:
+        new NhapTTNV().setVisible(true);
+    }//GEN-LAST:event_themNVActionPerformed
 
     /**
      * @param args the command line arguments
@@ -525,15 +544,9 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton capNhatKH;
+    private javax.swing.JButton capNhatNV;
+    private javax.swing.JButton capNhatSP;
     private javax.swing.JButton dangxuat;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -544,11 +557,17 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    static javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
+    static javax.swing.JTable khachHang;
+    static javax.swing.JTable nhanVien;
+    static javax.swing.JTable sanPham;
     private javax.swing.JButton taiTTKH;
+    private javax.swing.JButton taiTTNV;
+    private javax.swing.JButton taiTTSP;
     private javax.swing.JButton themKH;
+    private javax.swing.JButton themNV;
+    private javax.swing.JButton themSP;
     private javax.swing.JButton xoaKH;
+    private javax.swing.JButton xoaNV;
+    private javax.swing.JButton xoaSP;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,9 +20,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author admin
  */
-public class QuanLyKH {
-    int index;
-    public DefaultTableModel taiTTKH(){
+public class QuanLyKH extends QuanLy {
+    static int index;
+    @Override
+    public DefaultTableModel taiTT(){
         DefaultTableModel table = new DefaultTableModel();
         try {
             Connection conn = LoginRun.con;
@@ -50,8 +51,8 @@ public class QuanLyKH {
                 index++;
 //                System.out.println(index);
             }
+                System.out.println("index sau taitt = " + index);
             } catch (SQLException e) {
-            e.printStackTrace();
             }
             
             
@@ -61,16 +62,19 @@ public class QuanLyKH {
         return table;
     }
     
+    @Override
     public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count){
-//        System.out.println(i);
+        System.out.println("row = " + i);
         table.removeRow(i);
         int j = i;
-//        System.out.println(count);
+        System.out.println("count = " + count);
+        System.out.println("indẽ-count-i=" + (index-count-1));
         for(  ; j <(index-count-1); j++ ){
             table.setValueAt(j+1, j, 0);
         }
         return table;
     }
+    @Override
     public void xoaDongTrenSQL(int i){
         try {
             Connection conn = LoginRun.con;
@@ -86,7 +90,7 @@ public class QuanLyKH {
                     temp++;
                 }
             } catch (SQLException e) {
-            e.printStackTrace();
+                System.out.println("loi oy");
             }
 //            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'"); 
             cstmt = conn.prepareCall("UPDATE KHACHHANG SET XOA =" + 1 + " WHERE MAKH='" + makh + "'");
@@ -96,20 +100,26 @@ public class QuanLyKH {
             System.err.println("Cannot connect database, " + ex);
         }
     }
-    public boolean themKH(String MaKH, String HoTenKH, String DiaChiKH, String SoDTKH, Date SinhNhatKH, Date NgDKKH, short loai) {
+    public boolean them(String MaKH, String HoTenKH, String DiaChiKH, String SoDTKH, Date SinhNhatKH, Date NgDKKH, short loai) {
         try {
             Connection conn = LoginRun.con;
             String loaiKH;
-            if(loai==1)
-                loaiKH = "Vang lai";
-            else if(loai ==2)
-                loaiKH = "Thuong xuyen";
-            else if(loai==3)
-                loaiKH = "Vip";
-            else
-                loaiKH = "";
+            switch (loai) {
+                case 1:
+                    loaiKH = "Vang lai";
+                    break;
+                case 2:
+                    loaiKH = "Thuong xuyen";
+                    break;
+                case 3:
+                    loaiKH = "Vip";
+                    break;
+                default:
+                    loaiKH = "";
+                    break;
+            }
             //("yyyy/MM/dd")
-            DateFormat df = new SimpleDateFormat();
+/*            DateFormat df = new SimpleDateFormat();*/
             System.out.println(NgDKKH);
             System.out.println(SinhNhatKH);
 

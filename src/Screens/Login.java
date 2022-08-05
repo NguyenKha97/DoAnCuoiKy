@@ -148,8 +148,7 @@ public class Login extends javax.swing.JFrame {
             Main frmMain = new Main();
             setVisible(false);
             frmMain.setVisible(true);
-        }
-        
+        }       
     }//GEN-LAST:event_dangNhapActionPerformed
 
     /**

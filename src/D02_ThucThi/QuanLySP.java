@@ -14,17 +14,19 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author admin
  */
-public class QuanLySP {
-    public DefaultTableModel taiTTSP(){
+public class QuanLySP extends QuanLy {
+    static int index;
+    @Override
+    public DefaultTableModel taiTT (){
         DefaultTableModel table = new DefaultTableModel();
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from SANPHAM");
+            CallableStatement cstmt = conn.prepareCall("SELECT * from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
     
             String []colsName = {"STT", "Mã SP", "Tên SP", "Đơn vị tính", "Nước sản xuất", "Giá" };
             table.setColumnIdentifiers(colsName);
-            int index = 1;
+            index = 1;
             try {
             while(rs.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
                 String rows[] = new String[6];
@@ -38,6 +40,7 @@ public class QuanLySP {
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                 //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                 index++;
+                System.out.println(index);
             }
             } catch (SQLException e) {
             e.printStackTrace();
@@ -49,4 +52,58 @@ public class QuanLySP {
         }
         return table;
     }
+
+    @Override
+    public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count) {
+                System.out.println("row = " + i);
+        table.removeRow(i);
+        int j = i;
+        System.out.println(count);
+        for(  ; j <(index-count-1); j++ ){
+            table.setValueAt(j+1, j, 0);
+        }
+        return table;
+    }
+
+    @Override
+    public void xoaDongTrenSQL(int i) {
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0; String masp="";
+            try {
+                while(rs.next()&&temp<=i){
+                    if(temp == i){
+                        masp = rs.getString("MASP");
+                        System.out.println(masp);
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+            }
+//            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'"); 
+            cstmt = conn.prepareCall("UPDATE SANPHAM SET XOA =" + 1 + " WHERE MASP='" + masp + "'");
+            cstmt.execute();
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
+    public boolean them(String MaSP, String TenSP, String Dvt, String NuocSX, String Gia ) {
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("INSERT INTO SANPHAM VALUES ('" + MaSP + "', '" + TenSP + "', '"
+                    + Dvt + "', '" + NuocSX +"', '" +  Gia + "', '" + 0 + "')");
+            cstmt.execute();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return false;
+        }
+        
+    }
+    
 }

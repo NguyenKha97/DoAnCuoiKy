@@ -272,12 +272,13 @@ public class NhapTTKH extends javax.swing.JFrame {
         else if(jRadioButton3.isSelected())
             loai = 3;
         
-        boolean check = qlkh.themKH(txtMaKH.getText(), txtHoTenKH.getText(), txtDiaChiKH.getText(), txtSoDTKH.getText(), chonSinhNhat.getDate(), chonNgDK.getDate(), loai);
-        Main.jTable1.setModel(qlkh.taiTTKH());
-
+        boolean check = qlkh.them(txtMaKH.getText(), txtHoTenKH.getText(), txtDiaChiKH.getText(), txtSoDTKH.getText(), chonSinhNhat.getDate(), chonNgDK.getDate(), loai);
+        Main.tableKH = qlkh.taiTT();
+        Main.khachHang.setModel(Main.tableKH);
         if(check){
             JOptionPane.showMessageDialog(null, "Tao thanh cong");
             setVisible(!check);
+            Main.countButtonXoaKH=1;
         }
         else {
             JOptionPane.showMessageDialog(null, "Khong thanh cong, vui long kiem tra lai");

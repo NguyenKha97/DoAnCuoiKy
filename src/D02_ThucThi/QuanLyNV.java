@@ -8,23 +8,26 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author admin
  */
-public class QuanLyNV {
-    public DefaultTableModel taiTTNV(){
+public class QuanLyNV extends QuanLy {
+    static int index;
+    @Override
+    public DefaultTableModel taiTT(){
         DefaultTableModel table = new DefaultTableModel();
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from NHANVIEN");
+            CallableStatement cstmt = conn.prepareCall("SELECT * from NHANVIEN WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
     
             String []colsName = {"STT", "Mã NV", "Số ĐT", "Họ và tên", "Ngày vào làm" };
             table.setColumnIdentifiers(colsName);
-            int index = 1;
+            index = 1;
             try {
             while(rs.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
                 String rows[] = new String[5];
@@ -37,9 +40,9 @@ public class QuanLyNV {
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                 //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                 index++;
+                System.out.println(index);
             }
             } catch (SQLException e) {
-            e.printStackTrace();
             }
             
             
@@ -48,4 +51,59 @@ public class QuanLyNV {
         }
         return table;
     }
+    
+    @Override
+    public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count){
+//        System.out.println(i);
+        table.removeRow(i);
+        System.out.println("row = " + i);
+        int j = i;
+//        System.out.println(count);
+        for(  ; j <(index-count-1); j++ ){
+            table.setValueAt(j+1, j, 0);
+        }
+        return table;
+    }
+    
+    @Override
+    public void xoaDongTrenSQL(int i){
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT MANV from NHANVIEN WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0; String manv="";
+            try {
+                while(rs.next()&&temp<=i){
+                    if(temp == i){
+                        manv = rs.getString("MANV");
+                        System.out.println(manv);
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+            }
+//            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'"); 
+            cstmt = conn.prepareCall("UPDATE NHANVIEN SET XOA =" + 1 + " WHERE MANV='" + manv + "'");
+            cstmt.execute();
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
+    public boolean them(String MaNV, String HoTenNV, String SoDTNV, Date NgVaoLam) {
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("INSERT INTO NHANVIEN VALUES ('" + MaNV + "', '" + HoTenNV + "', '"
+                    + SoDTNV + "', '" + new java.sql.Date(NgVaoLam.getTime()) +"', '" +  0 + "')");
+            cstmt.execute();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return false;
+        }
+        
+    }
+    
 }
