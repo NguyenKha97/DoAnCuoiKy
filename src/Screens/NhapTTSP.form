@@ -77,7 +77,7 @@
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="txtNuocSX" alignment="0" min="-2" pref="137" max="-2" attributes="0"/>
-                          <Component id="txtMaSP" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
+                          <Component id="txtMaSP" alignment="0" min="-2" pref="59" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -121,9 +121,9 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtMaSP" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtTenSP" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="donViTinh" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtMaSP" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -158,8 +158,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="M&#xe3; SP"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtMaSP">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -221,6 +219,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtGia">
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtMaSP">
     </Component>
   </SubComponents>
 </Form>

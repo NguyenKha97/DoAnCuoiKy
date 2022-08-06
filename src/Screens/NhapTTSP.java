@@ -5,7 +5,6 @@
 package Screens;
 
 import D02_ThucThi.QuanLySP;
-import static Screens.Main.qlnv;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,7 +42,6 @@ public class NhapTTSP extends javax.swing.JFrame {
         jCalendar2 = new com.toedter.calendar.JCalendar();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtMaSP = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtNuocSX = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -54,6 +52,7 @@ public class NhapTTSP extends javax.swing.JFrame {
         donViTinh = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtGia = new javax.swing.JTextField();
+        txtMaSP = new javax.swing.JTextField();
 
         txtSinhNhatKH.setToolTipText("");
         txtSinhNhatKH.setName(""); // NOI18N
@@ -126,7 +125,7 @@ public class NhapTTSP extends javax.swing.JFrame {
                                 .addGap(61, 61, 61)
                                 .addComponent(jLabel5))
                             .addComponent(txtNuocSX, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -158,9 +157,9 @@ public class NhapTTSP extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTenSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(donViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(donViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -246,6 +245,7 @@ public class NhapTTSP extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new NhapTTSP().setVisible(true);
             }

@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLySP extends QuanLy {
     static int index;
+
     @Override
     public DefaultTableModel taiTT (){
         DefaultTableModel table = new DefaultTableModel();
@@ -40,13 +41,10 @@ public class QuanLySP extends QuanLy {
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                 //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                 index++;
-                System.out.println(index);
             }
             } catch (SQLException e) {
             e.printStackTrace();
             }
-            
-            
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -55,10 +53,8 @@ public class QuanLySP extends QuanLy {
 
     @Override
     public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count) {
-                System.out.println("row = " + i);
         table.removeRow(i);
         int j = i;
-        System.out.println(count);
         for(  ; j <(index-count-1); j++ ){
             table.setValueAt(j+1, j, 0);
         }
@@ -82,7 +78,6 @@ public class QuanLySP extends QuanLy {
                 }
             } catch (SQLException e) {
             }
-//            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'"); 
             cstmt = conn.prepareCall("UPDATE SANPHAM SET XOA =" + 1 + " WHERE MASP='" + masp + "'");
             cstmt.execute();
             

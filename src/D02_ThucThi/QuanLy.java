@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
  * @author admin
  */
 public abstract class QuanLy {
+    
+    
     public abstract DefaultTableModel taiTT();
     public abstract DefaultTableModel xoaDong(int i, DefaultTableModel dfTable, int countButton);
     public abstract void xoaDongTrenSQL(int i);

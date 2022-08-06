@@ -22,6 +22,25 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLyKH extends QuanLy {
     static int index;
+    
+    
+    public String getMaCuoi(){
+        String result ="";
+        try {
+            Connection conn = LoginRun.con;
+//            WHERE XOA = 0
+            CallableStatement cstmt = conn.prepareCall("SELECT TOP 1 MAKH FROM KHACHHANG ORDER BY MAKH DESC");
+            ResultSet rs = cstmt.executeQuery();
+//            System.out.println(rs);
+//            System.out.println(rs.next());
+            rs.next();
+            result = rs.getString(1);  
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+//        System.out.println(result);
+        return result;
+    }
     @Override
     public DefaultTableModel taiTT(){
         DefaultTableModel table = new DefaultTableModel();
@@ -33,29 +52,27 @@ public class QuanLyKH extends QuanLy {
             String []colsName = {"STT", "Mã KH", "Họ và tên", "Địa chỉ", "Số ĐT", "Sinh nhật", "Ngày ĐK", "Doanh số", "Loại KH" };
             table.setColumnIdentifiers(colsName);
             index = 1;
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             try {
             while(rs.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
                 String rows[] = new String[9];
                 rows[0] = Integer.toString(index);
-                rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
-                rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã ) 
+                rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên
                 rows[3] = rs.getString(3);
                 rows[4] = rs.getString(4);
-                rows[5] = rs.getString(5);
-                rows[6] = rs.getString(6);
+                rows[5] = df.format(rs.getDate(5));
+                rows[6] = df.format(rs.getDate(6));
                 rows[7] = rs.getString(7);
                 rows[8] = rs.getString(8);
                 
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                 //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                 index++;
-//                System.out.println(index);
             }
-                System.out.println("index sau taitt = " + index);
             } catch (SQLException e) {
             }
-            
-            
+         
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -67,8 +84,6 @@ public class QuanLyKH extends QuanLy {
         System.out.println("row = " + i);
         table.removeRow(i);
         int j = i;
-        System.out.println("count = " + count);
-        System.out.println("indẽ-count-i=" + (index-count-1));
         for(  ; j <(index-count-1); j++ ){
             table.setValueAt(j+1, j, 0);
         }
@@ -118,19 +133,11 @@ public class QuanLyKH extends QuanLy {
                     loaiKH = "";
                     break;
             }
-            //("yyyy/MM/dd")
-/*            DateFormat df = new SimpleDateFormat();*/
-            System.out.println(NgDKKH);
-            System.out.println(SinhNhatKH);
 
-//            "SELECT CONVERT(smalldatetime, '" + df.format(NgDKKH) + "')"
             CallableStatement cstmt = conn.prepareCall("INSERT INTO KHACHHANG VALUES ('" + MaKH + "', '" + HoTenKH + "', '"
                     + DiaChiKH + "', '" + SoDTKH + "', '" + new java.sql.Date(SinhNhatKH.getTime()) + "', '"   
                     + new java.sql.Date(NgDKKH.getTime()) + "', '" + 1 + "', '" + loaiKH 
                     + "', '" + 0 + "')");
-            
-//            cstmt.setDate(0, new java.sql.Date(SinhNhatKH.getTime()));
-//            cstmt.setDate(0, new java.sql.Date(NgDKKH.getTime()));
             cstmt.execute();
             return true;
             
