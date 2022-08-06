@@ -6,9 +6,11 @@ package Screens;
 
 import D02_ThucThi.LoginRun;
 import D02_ThucThi.QuanLy;
+import D02_ThucThi.QuanLyHD;
 import D02_ThucThi.QuanLyKH;
 import D02_ThucThi.QuanLyNV;
 import D02_ThucThi.QuanLySP;
+import javax.swing.table.DefaultTableModel;
 import D02_ThucThi.QuanLyHD;
 import static Screens.NhapTTKH.txtmaKH;
 import doancuoiky.DoAnCuoiKy;
@@ -32,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Main extends javax.swing.JFrame {
     
+
     boolean taittkh, taittnv, taittsp, taitthd;
     static QuanLyKH qlkh = new QuanLyKH();
     static QuanLyNV qlnv = new QuanLyNV();
