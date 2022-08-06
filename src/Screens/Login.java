@@ -27,10 +27,6 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
     }
-    public boolean getStatusLogin(){
-        System.out.println(dangNhap.isSelected());
-        return dangNhap.isSelected();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,41 +109,14 @@ public class Login extends javax.swing.JFrame {
 
     private void dangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dangNhapActionPerformed
         
-        /*SQLServerDataSource ds = new SQLServerDataSource();
-        
-        ds.setUser(txtUser.getText());
-        String pass = txtPass.getText();
-        ds.setPassword(pass);
-        
-        ds.setServerName("DESKTOP-0RC4ARU\\SQLEXPRESS");
-        ds.setPortNumber(Integer.parseInt("1433")); //1433
-        ds.setDatabaseName("QLBH");
-        
-        try {
-            Connection con = KetNoi.getConnection(txtUser.getText(),txtPass.getText());
-            statusLogin = true;
-                 
-            con.close();
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "ĐĂNG NHẬP KHÔNG THÀNH CÔNG:\n" + "Mật khẩu hoặc tên tài khoản không đúng, vui lòng nhập lại");
-            System.out.println(ex);
-        }
-            if(statusLogin == true){
-                Main frmMain = new Main();
-                setVisible(false);
-            
-                frmMain.setVisible(true);
-        }*/
         try {
             LoginRun.execute(txtUser.getText(), txtPass.getText());
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
         if(statusLogin == true){
-            Main frmMain = new Main();
             setVisible(false);
-            frmMain.setVisible(true);
+            new Main().setVisible(true);
         }       
     }//GEN-LAST:event_dangNhapActionPerformed
 

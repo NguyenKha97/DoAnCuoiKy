@@ -20,15 +20,6 @@ public class KetNoi {
     
     public static Connection getConnection(String user, String pass){
         
-//        try {
-//                if (connection != null && !connection.isClosed()) {
-//                    return connection;
-//		}
-//            } catch (SQLException e1) {
-//                // TODO Auto-generated catch block
-//		e1.printStackTrace();
-//            }
-        
         SQLServerDataSource ds = new SQLServerDataSource();
         
         ds.setUser(user);

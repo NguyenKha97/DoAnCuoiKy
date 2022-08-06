@@ -9,7 +9,12 @@ import D02_ThucThi.QuanLy;
 import D02_ThucThi.QuanLyKH;
 import D02_ThucThi.QuanLyNV;
 import D02_ThucThi.QuanLySP;
+<<<<<<< HEAD
 import D02_ThucThi.QuanLyHD;
+=======
+import static Screens.NhapTTKH.txtmaKH;
+import doancuoiky.DoAnCuoiKy;
+>>>>>>> 518fb345fbe375cb83910208a9716dd7168657a2
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -30,8 +35,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Main extends javax.swing.JFrame {
     
+<<<<<<< HEAD
     boolean taittkh, taittnv, taittsp, taitthd;
     static QuanLyKH qlkh = new QuanLyKH();
+=======
+    boolean taittkh, taittnv, taittsp;
+    static public QuanLyKH qlkh = new QuanLyKH();
+>>>>>>> 518fb345fbe375cb83910208a9716dd7168657a2
     static QuanLyNV qlnv = new QuanLyNV();
     static QuanLySP qlsp = new QuanLySP();
     static QuanLyHD qlhd = new QuanLyHD();
@@ -47,13 +57,13 @@ public class Main extends javax.swing.JFrame {
     private boolean xoaAction(javax.swing.JTable table, boolean taitt, int countButton, javax.swing.JButton button, DefaultTableModel dfTable, QuanLy ql) {
         int i = table.getSelectedRow();
         if (i >= 0 && taitt) {
-            System.out.println(table.getSelectedRow());
+//            System.out.println(table.getSelectedRow());
             int choice = JOptionPane.showConfirmDialog(button, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
 //        System.out.println(choice);
             if (choice == 0) {
 //                int i = jTable1.getSelectedRow();
 //                countButton++;
-                System.out.println(countButton);
+//                System.out.println(countButton);
                 ql.xoaDong(i, dfTable, countButton);
                 table.setModel(dfTable);
                 ql.xoaDongTrenSQL(i);
@@ -513,7 +523,8 @@ public class Main extends javax.swing.JFrame {
 
     private void themSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themSPActionPerformed
         // TODO add your handling code here:
-        new NhapTTSP().setVisible(true);
+        NhapTTSP nhapttsp = new NhapTTSP();
+        nhapttsp.setVisible(true);
     }//GEN-LAST:event_themSPActionPerformed
 
     private void xoaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaKHActionPerformed
@@ -536,8 +547,10 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_xoaKHActionPerformed
 
     private void themKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themKHActionPerformed
-        new NhapTTKH().setVisible(true);
-        
+        NhapTTKH nhapttkh = new NhapTTKH();
+        nhapttkh.setVisible(true);
+        nhapttkh.txtmaKH.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
+        nhapttkh.txtmaKH.setVisible(true);
     }//GEN-LAST:event_themKHActionPerformed
 
     private void xoaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaNVActionPerformed
@@ -568,7 +581,10 @@ public class Main extends javax.swing.JFrame {
 
     private void themNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themNVActionPerformed
         // TODO add your handling code here:
-        new NhapTTNV().setVisible(true);
+        NhapTTNV nhapttnv = new NhapTTNV();
+        nhapttnv.setVisible(true);
+        nhapttnv.txtmaNV.setText(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()));
+        nhapttnv.txtmaNV.setVisible(true);
     }//GEN-LAST:event_themNVActionPerformed
 
     private void taiTTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taiTTHDActionPerformed

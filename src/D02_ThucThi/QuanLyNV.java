@@ -8,6 +8,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,6 +19,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLyNV extends QuanLy {
     static int index;
+    
+    public String getMaCuoi(){
+        String result ="";
+        try {
+            Connection conn = LoginRun.con;
+//            WHERE XOA = 0
+            CallableStatement cstmt = conn.prepareCall("SELECT TOP 1 MANV FROM NHANVIEN ORDER BY MANV DESC");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            result = rs.getString(1);  
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return result;
+    }
+    
     @Override
     public DefaultTableModel taiTT(){
         DefaultTableModel table = new DefaultTableModel();
@@ -27,7 +45,8 @@ public class QuanLyNV extends QuanLy {
     
             String []colsName = {"STT", "Mã NV", "Số ĐT", "Họ và tên", "Ngày vào làm" };
             table.setColumnIdentifiers(colsName);
-            index = 1;
+            index = 1; 
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             try {
             while(rs.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
                 String rows[] = new String[5];
@@ -35,17 +54,14 @@ public class QuanLyNV extends QuanLy {
                 rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
                 rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
                 rows[3] = rs.getString(3);
-                rows[4] = rs.getString(4);
-                
+                rows[4] = df.format(rs.getDate(4));
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                 //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                 index++;
-                System.out.println(index);
             }
             } catch (SQLException e) {
             }
-            
-            
+    
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -54,11 +70,9 @@ public class QuanLyNV extends QuanLy {
     
     @Override
     public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count){
-//        System.out.println(i);
         table.removeRow(i);
         System.out.println("row = " + i);
         int j = i;
-//        System.out.println(count);
         for(  ; j <(index-count-1); j++ ){
             table.setValueAt(j+1, j, 0);
         }
