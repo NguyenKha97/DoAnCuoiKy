@@ -6,15 +6,14 @@ package Screens;
 
 import D02_ThucThi.LoginRun;
 import D02_ThucThi.QuanLy;
+import D02_ThucThi.QuanLyHD;
 import D02_ThucThi.QuanLyKH;
 import D02_ThucThi.QuanLyNV;
 import D02_ThucThi.QuanLySP;
-<<<<<<< HEAD
+import javax.swing.table.DefaultTableModel;
 import D02_ThucThi.QuanLyHD;
-=======
 import static Screens.NhapTTKH.txtmaKH;
 import doancuoiky.DoAnCuoiKy;
->>>>>>> 518fb345fbe375cb83910208a9716dd7168657a2
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -35,13 +34,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Main extends javax.swing.JFrame {
     
-<<<<<<< HEAD
+
     boolean taittkh, taittnv, taittsp, taitthd;
     static QuanLyKH qlkh = new QuanLyKH();
-=======
-    boolean taittkh, taittnv, taittsp;
-    static public QuanLyKH qlkh = new QuanLyKH();
->>>>>>> 518fb345fbe375cb83910208a9716dd7168657a2
     static QuanLyNV qlnv = new QuanLyNV();
     static QuanLySP qlsp = new QuanLySP();
     static QuanLyHD qlhd = new QuanLyHD();
