@@ -80,26 +80,11 @@ public class QuanLyNV extends QuanLy {
     }
     
     @Override
-    public void xoaDongTrenSQL(int i){
+    public void xoaDongTrenSQL(String ma){
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT MANV from NHANVIEN WHERE XOA = 0");
-            ResultSet rs = cstmt.executeQuery();
-            int temp = 0; String manv="";
-            try {
-                while(rs.next()&&temp<=i){
-                    if(temp == i){
-                        manv = rs.getString("MANV");
-                        System.out.println(manv);
-                    }
-                    temp++;
-                }
-            } catch (SQLException e) {
-            }
-//            cstmt = conn.prepareCall("DELETE from KHACHHANG where MAKH = '" + makh + "'"); 
-            cstmt = conn.prepareCall("UPDATE NHANVIEN SET XOA =" + 1 + " WHERE MANV='" + manv + "'");
-            cstmt.execute();
-            
+            CallableStatement cstmt = conn.prepareCall("UPDATE NHANVIEN SET XOA =" + 1 + " WHERE MANV='" + ma + "'");
+            cstmt.execute();   
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -118,6 +103,20 @@ public class QuanLyNV extends QuanLy {
             return false;
         }
         
+    }
+    
+    public boolean capNhat(String ma, String hoTen, String soDT) {
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("UPDATE NHANVIEN SET HOTEN = '" + hoTen 
+                    + "', SODT = '" + soDT + "' WHERE MANV = '" + ma + "'");
+            cstmt.execute();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return false;
+        }
     }
 
 }

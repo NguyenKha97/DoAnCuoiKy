@@ -55,13 +55,15 @@ public class Main extends javax.swing.JFrame {
 //            System.out.println(table.getSelectedRow());
             int choice = JOptionPane.showConfirmDialog(button, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
 //        System.out.println(choice);
+            String  ma= (String) table.getValueAt(i, 1);
+//            System.out.println("ma = " + ma);
             if (choice == 0) {
 //                int i = jTable1.getSelectedRow();
 //                countButton++;
 //                System.out.println(countButton);
                 ql.xoaDong(i, dfTable, countButton);
                 table.setModel(dfTable);
-                ql.xoaDongTrenSQL(i);
+                ql.xoaDongTrenSQL(ma);
                 return true;
             }
         }
@@ -134,7 +136,7 @@ public class Main extends javax.swing.JFrame {
                 java.lang.Short.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -146,6 +148,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         khachHang.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        khachHang.setDropMode(javax.swing.DropMode.ON);
         khachHang.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(khachHang);
 
@@ -164,6 +167,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         capNhatKH.setText("CẬP NHẬT TT KH");
+        capNhatKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatKHActionPerformed(evt);
+            }
+        });
 
         xoaKH.setText("XÓA KH");
         xoaKH.addActionListener(new java.awt.event.ActionListener() {
@@ -198,7 +206,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(capNhatKH)
                     .addComponent(themKH)
                     .addComponent(taiTTKH))
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý khách hàng", jPanel1);
@@ -247,6 +255,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         capNhatNV.setText("CẬP NHẬT TT NV");
+        capNhatNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatNVActionPerformed(evt);
+            }
+        });
 
         xoaNV.setText("XÓA NV");
         xoaNV.addActionListener(new java.awt.event.ActionListener() {
@@ -281,7 +294,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(themNV)
                     .addComponent(capNhatNV)
                     .addComponent(xoaNV))
-                .addGap(0, 226, Short.MAX_VALUE))
+                .addGap(0, 94, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý nhân viên", jPanel2);
@@ -330,6 +343,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         capNhatSP.setText("CẬP NHẬT TT SP");
+        capNhatSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatSPActionPerformed(evt);
+            }
+        });
 
         xoaSP.setText("XÓA SP");
         xoaSP.addActionListener(new java.awt.event.ActionListener() {
@@ -364,7 +382,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(themSP)
                     .addComponent(capNhatSP)
                     .addComponent(xoaSP))
-                .addGap(0, 228, Short.MAX_VALUE))
+                .addGap(0, 96, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý sản phẩm", jPanel3);
@@ -431,7 +449,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(btnThemHD)
                     .addComponent(btnUpdateHD)
                     .addComponent(btnXoaHD))
-                .addGap(0, 132, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý hóa đơn", jPanel4);
@@ -444,7 +462,7 @@ public class Main extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
+            .addGap(0, 330, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Quản lý chi tiết hóa đơn", jPanel5);
@@ -479,7 +497,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(dangxuat)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
         );
 
         pack();
@@ -563,7 +581,6 @@ public class Main extends javax.swing.JFrame {
                 qlnv.xoaDongTrenSQL(i);
             }
         }*/
-        
         if(xoaAction(nhanVien, taittnv, countButtonXoaNV, xoaNV, tableNV, qlnv))
             countButtonXoaNV++;
     }//GEN-LAST:event_xoaNVActionPerformed
@@ -596,6 +613,47 @@ public class Main extends javax.swing.JFrame {
     private void btnThemHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemHDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemHDActionPerformed
+
+    private void capNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatKHActionPerformed
+        // TODO add your handling code here:
+        
+        int i = khachHang.getSelectedRow();
+        if (i >= 0 && taittkh) {
+            CapNhatTTKH capnhatkh = new CapNhatTTKH();
+            capnhatkh.setVisible(true);
+            capnhatkh.txtmaKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 1));
+            capnhatkh.txtHoTenKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 2));
+            capnhatkh.txtDiaChiKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 3));
+            capnhatkh.txtSoDTKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 4));
+            
+        }
+    }//GEN-LAST:event_capNhatKHActionPerformed
+
+    private void capNhatNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatNVActionPerformed
+        // TODO add your handling code here:
+        int i = nhanVien.getSelectedRow();
+        if (i >= 0 && taittnv) {
+            CapNhatTTNV capnhatnv = new CapNhatTTNV();
+            capnhatnv.setVisible(true);
+            capnhatnv.txtmaNV.setText((String) nhanVien.getValueAt(nhanVien.getSelectedRow(), 1));
+            capnhatnv.txtHoTenNV.setText((String) nhanVien.getValueAt(nhanVien.getSelectedRow(), 2));
+            capnhatnv.txtSoDTNV.setText((String) nhanVien.getValueAt(nhanVien.getSelectedRow(), 3));           
+        }
+    }//GEN-LAST:event_capNhatNVActionPerformed
+
+    private void capNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatSPActionPerformed
+        // TODO add your handling code here:
+        int i = sanPham.getSelectedRow();
+        if (i >= 0 && taittsp) {
+            CapNhatTTSP capnhatsp = new CapNhatTTSP();
+            capnhatsp.setVisible(true);
+            capnhatsp.txtmaSP.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 1));
+            capnhatsp.txtTenSP.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 2));
+            capnhatsp.donViTinh.setSelectedItem((String) sanPham.getValueAt(sanPham.getSelectedRow(), 3));
+            capnhatsp.txtNuocSX.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 4)); 
+            capnhatsp.txtGia.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 5)); 
+        }
+    }//GEN-LAST:event_capNhatSPActionPerformed
 
     /**
      * @param args the command line arguments
