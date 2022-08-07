@@ -12,8 +12,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -70,16 +68,18 @@ public class QuanLyHD extends QuanLy {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public boolean capNhatTriGia(String mahd, String trigia) {
-
+    public void getTriGia(String mahd) {
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE HOADON SET TRIGIA = '" + Double.parseDouble(trigia) + "' WHERE SOHD ='" + mahd + "'");
-            cstmt.execute();
-            return true;
+            CallableStatement cstmt = conn.prepareCall("SELECT TRIGIA FROM HOADON WHERE XOA = 0 AND SOHD ='" + mahd + "'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            
+            System.out.println(rs.getString(1));
+//            return rs.getS;
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
-            return false;
+//            return null;
         }
     }
 
@@ -97,8 +97,9 @@ public class QuanLyHD extends QuanLy {
 
     public boolean themHD(int mahd, Date ngayhd, String makh, String manv, Double trigia) {
         try {
+            System.out.println(mahd);
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("INSERT INTO HOADON VALUES ('" + mahd + "', '" + new java.sql.Date(ngayhd.getTime()) + "', '" + makh + "', '" + manv + "', '" + trigia + "'");
+            CallableStatement cstmt = conn.prepareCall("INSERT INTO HOADON VALUES ('" + mahd + "', '" + new java.sql.Date(ngayhd.getTime()) + "', '" + makh + "', '" + manv + "', '" + trigia + "', '" + 0 + "')");
             cstmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -106,17 +107,29 @@ public class QuanLyHD extends QuanLy {
             return false;
         }
     }
-    public int getNewSoHD(){
-         try{
+
+    public int getNewSoHD() {
+        try {
             Connection conn = LoginRun.con;
             CallableStatement cstmt = conn.prepareCall("SELECT TOP 1 SOHD FROM HOADON ORDER BY SOHD DESC");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
             int newSOHD = Integer.parseInt(rs.getString(1));
             return ++newSOHD;
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
             return -1;
+        }
+    }
+    public boolean capnhatTriGia(String sohd, double trigiaNew){
+         try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("UPDATE HOADON SET TRIGIA = '" + trigiaNew + "' WHERE XOA = 0 AND SOHD ='" + sohd + "'");
+            cstmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return false;
         }
     }
 

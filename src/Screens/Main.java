@@ -28,7 +28,7 @@ import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import D02_ThucThi.QuanLyCTHD;
-import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -115,7 +115,7 @@ public class Main extends javax.swing.JFrame {
         HoaDon = new javax.swing.JTable();
         taiTTHD = new javax.swing.JButton();
         btnThemHD = new javax.swing.JButton();
-        btnUpdateHD = new javax.swing.JButton();
+        btnXemHD = new javax.swing.JButton();
         btnXoaHD = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -404,10 +404,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        btnUpdateHD.setText("Cập nhật TT HD");
-        btnUpdateHD.addActionListener(new java.awt.event.ActionListener() {
+        btnXemHD.setText("Xem chi tiết HD");
+        btnXemHD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateHDActionPerformed(evt);
+                btnXemHDActionPerformed(evt);
             }
         });
 
@@ -424,7 +424,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addComponent(btnThemHD)
                 .addGap(88, 88, 88)
-                .addComponent(btnUpdateHD)
+                .addComponent(btnXemHD)
                 .addGap(69, 69, 69)
                 .addComponent(btnXoaHD)
                 .addContainerGap(50, Short.MAX_VALUE))
@@ -437,7 +437,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(taiTTHD)
                     .addComponent(btnThemHD)
-                    .addComponent(btnUpdateHD)
+                    .addComponent(btnXemHD)
                     .addComponent(btnXoaHD))
                 .addGap(0, 181, Short.MAX_VALUE))
         );
@@ -624,15 +624,21 @@ public class Main extends javax.swing.JFrame {
         taitthd = true;
     }//GEN-LAST:event_taiTTHDActionPerformed
 
-    private void btnUpdateHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateHDActionPerformed
+    private void btnXemHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemHDActionPerformed
         // TODO add your handling code here:
-        new CapNhatTTHD().setVisible(true);
-    }//GEN-LAST:event_btnUpdateHDActionPerformed
+        CapNhatTTHD update = new CapNhatTTHD();
+        int i = HoaDon.getSelectedRow();
+        String mahd = HoaDon.getValueAt(i, 1).toString();
+        DefaultTableModel tableCT = qlcthd.getCTTheoHD(mahd);
+        update.tableCTHD.setModel(tableCT);
+        taittCTHD = true;
+        update.setVisible(true);
+    }//GEN-LAST:event_btnXemHDActionPerformed
 
     private void btnThemHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemHDActionPerformed
         // TODO add your handling code here:
         NhapTTHD nhaptthd = new NhapTTHD();
-        ComboBoxModel<String> comboModels = qlsp.getListMaSP();
+        DefaultComboBoxModel comboModels = qlsp.getListMaSP();
         nhaptthd.maSPComboBox.setModel(comboModels);
         nhaptthd.setVisible(true);
         
@@ -685,7 +691,7 @@ public class Main extends javax.swing.JFrame {
     public static javax.swing.JTable HoaDon;
     private javax.swing.JButton btnTaiTTCTHD;
     private javax.swing.JButton btnThemHD;
-    private javax.swing.JButton btnUpdateHD;
+    private javax.swing.JButton btnXemHD;
     private javax.swing.JButton btnXoaHD;
     private javax.swing.JButton capNhatKH;
     private javax.swing.JButton capNhatNV;

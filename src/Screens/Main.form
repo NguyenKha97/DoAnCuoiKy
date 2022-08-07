@@ -498,7 +498,7 @@
                       <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                       <Component id="btnThemHD" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                      <Component id="btnUpdateHD" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnXemHD" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                       <Component id="btnXoaHD" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="50" max="32767" attributes="0"/>
@@ -513,7 +513,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="taiTTHD" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnThemHD" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnUpdateHD" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnXemHD" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnXoaHD" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="181" max="32767" attributes="0"/>
@@ -601,12 +601,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemHDActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnUpdateHD">
+            <Component class="javax.swing.JButton" name="btnXemHD">
               <Properties>
-                <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t TT HD"/>
+                <Property name="text" type="java.lang.String" value="Xem chi ti&#x1ebf;t HD"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateHDActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXemHDActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnXoaHD">
