@@ -32,7 +32,7 @@ public class QuanLyHD extends QuanLy {
             CallableStatement cstmt = conn.prepareCall("SELECT * from HOADON WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
-            String[] colsName = {"STT", "Mã HD", "Ngày Lập", "Mã KH", "Mã NV", "Trị Giá"};
+            String[] colsName = {"STT", "Số HD", "Ngày Lập", "Mã KH", "Mã NV", "Trị Giá"};
             table.setColumnIdentifiers(colsName);
             index = 1;
             try {
@@ -95,15 +95,28 @@ public class QuanLyHD extends QuanLy {
         }
     }
 
-    public boolean themHD(String mahd, Date ngayhd, String makh, String manv, String trigia) {
+    public boolean themHD(int mahd, Date ngayhd, String makh, String manv, Double trigia) {
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("INSERT INTO HOADON VALUES ('" + mahd + "', '" + new java.sql.Date(ngayhd.getTime()) + "', '" + makh + "', '" + manv + "', '" + Double.parseDouble(trigia) + "'");
+            CallableStatement cstmt = conn.prepareCall("INSERT INTO HOADON VALUES ('" + mahd + "', '" + new java.sql.Date(ngayhd.getTime()) + "', '" + makh + "', '" + manv + "', '" + trigia + "'");
             cstmt.execute();
             return true;
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
             return false;
+        }
+    }
+    public int getNewSoHD(){
+         try{
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT TOP 1 SOHD FROM HOADON ORDER BY SOHD DESC");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            int newSOHD = Integer.parseInt(rs.getString(1));
+            return ++newSOHD;
+        }catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return -1;
         }
     }
 

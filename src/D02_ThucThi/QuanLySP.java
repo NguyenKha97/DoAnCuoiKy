@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ComboBoxModel;
+import javax.swing.event.ListDataListener;
 
 /**
  *
@@ -99,6 +101,35 @@ public class QuanLySP extends QuanLy {
             return false;
         }
         
+    }
+    
+    public ComboBoxModel<String> getListMaSP(){
+        try {
+            ComboBoxModel<String> listMaSP;
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            while(rs.next()){
+                listMaSP.setSelectedItem(rs.getString("MASP"));
+            }
+            return listMaSP;
+            } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex); 
+            return null;
+        }
+     }
+    public double getGia(String masp){
+        try {           
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT GIA from SANPHAM WHERE MASP='"+masp+"'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            double gia = Double.parseDouble(rs.getString(1));
+            return gia;
+            } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex); 
+            return 0.0;
+        }
     }
 
 }

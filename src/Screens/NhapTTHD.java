@@ -12,12 +12,14 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import D02_ThucThi.QuanLySP;
 /**
  *
  * @author NEMO
  */
 public class NhapTTHD extends javax.swing.JFrame {
       QuanLyHD qlhd = new QuanLyHD();
+      QuanLySP qlsp = new QuanLySP();
     /**
      * Creates new form NhapTTHD
      */
@@ -39,12 +41,17 @@ public class NhapTTHD extends javax.swing.JFrame {
         newMaKH = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         newMaNV = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         newTriGia = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnThemHD = new javax.swing.JButton();
         btnHuyThemHD = new javax.swing.JButton();
         newNgayHD = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
+        maSPComboBox = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        textSL = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        btnTinhTG = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,8 +62,13 @@ public class NhapTTHD extends javax.swing.JFrame {
 
         jLabel3.setText("Mã Nhân Viên:");
 
-        jLabel4.setText("Trị Giá:");
+        newMaNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newMaNVActionPerformed(evt);
+            }
+        });
 
+        newTriGia.setEditable(false);
         newTriGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newTriGiaActionPerformed(evt);
@@ -74,66 +86,102 @@ public class NhapTTHD extends javax.swing.JFrame {
 
         btnHuyThemHD.setText("Hủy");
 
+        jLabel6.setText("Mã Sản Phẩm:");
+
+        maSPComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel7.setText("Số Lượng:");
+
+        jLabel8.setText("VND");
+
+        btnTinhTG.setText("Tính Trị Giá");
+        btnTinhTG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTinhTGActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(97, 97, 97)
+                .addComponent(btnThemHD)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnHuyThemHD)
+                .addGap(122, 122, 122))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
+                        .addGap(188, 188, 188)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel3))
+                                        .addGap(27, 27, 27)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(newMaNV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                                    .addComponent(newMaKH, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(newNgayHD, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel5))
-                                        .addGap(61, 61, 61))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(52, 52, 52)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(newTriGia)
-                                    .addComponent(newMaNV)
-                                    .addComponent(newNgayHD, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                                    .addComponent(newMaKH))
-                                .addGap(8, 8, 8))
-                            .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addComponent(btnThemHD)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnHuyThemHD)))))
-                .addGap(74, 74, 74))
+                                        .addComponent(newTriGia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                                        .addComponent(jLabel8))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(textSL)
+                                            .addComponent(maSPComboBox, 0, 106, Short.MAX_VALUE))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnTinhTG)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newMaKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(newMaKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6)
+                    .addComponent(maSPComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(newMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(newTriGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7)
+                    .addComponent(textSL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(newNgayHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(newTriGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)
+                        .addComponent(btnTinhTG))
+                    .addComponent(newNgayHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemHD)
                     .addComponent(btnHuyThemHD))
@@ -146,27 +194,49 @@ public class NhapTTHD extends javax.swing.JFrame {
     private void newTriGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTriGiaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_newTriGiaActionPerformed
-
-    private int newSoHD(String oldMaHD){
-        int oldMaInt = Integer.parseInt(oldMaHD);       
-        return ++oldMaInt;
+    private double tinhTriGia(String masp, String sl){
+        double giaSP = qlsp.getGia(masp);
+        System.out.println(giaSP);
+        double trigia = Double.parseDouble(sl)*giaSP;
+        return trigia;
     }
     private void btnThemHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemHDActionPerformed
         // TODO add your handling code here:
-        try{
-             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT TOP 1 SOHD FROM HOADON ORDER BY SOHD DESC");
-            ResultSet rs = cstmt.executeQuery();
-            rs.next();
-             
-            
-        int mahd = newSoHD(rs.getString(1));
-//        boolean request = qlhd.themHD(mahd, ngayhd, makh, manv, trigia);
-        }catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex);           
-        }
         
+        Date ngayMoi = newNgayHD.getDate();
+        String maKhMoi = newMaKH.getText();
+        String maNvMoi = newMaNV.getText();
+        String maSp = maSPComboBox.getSelectedItem().toString();
+        String soluong = textSL.getText();
+        
+        double trigiahd = tinhTriGia(maSp, soluong);
+        int newMahd = qlhd.getNewSoHD();
+        boolean request = qlhd.themHD(newMahd, ngayMoi, maKhMoi, maNvMoi, trigiahd);
+        if(request){          
+             Main.tableHD = Main.qlhd.taiTT();
+             Main.HoaDon.setModel(Main.tableHD);
+            JOptionPane.showMessageDialog(null, "Tao thanh cong");
+            setVisible(!request);
+            Main.countButtonXoaHD=1;
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Khong thanh cong, vui long kiem tra lai");
+        }
+              
     }//GEN-LAST:event_btnThemHDActionPerformed
+
+    private void newMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMaNVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newMaNVActionPerformed
+
+    private void btnTinhTGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTinhTGActionPerformed
+        // TODO add your handling code here:
+        String maSp = maSPComboBox.getSelectedItem().toString();
+        String soluong = textSL.getText();
+        Double trigia = tinhTriGia(maSp, soluong);
+        newTriGia.setText(trigia.toString());
+        newTriGia.setVisible(true);
+    }//GEN-LAST:event_btnTinhTGActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,14 +276,19 @@ public class NhapTTHD extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuyThemHD;
     private javax.swing.JButton btnThemHD;
+    private javax.swing.JButton btnTinhTG;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    public static javax.swing.JComboBox<String> maSPComboBox;
     private javax.swing.JTextField newMaKH;
     private javax.swing.JTextField newMaNV;
     private com.toedter.calendar.JDateChooser newNgayHD;
-    private javax.swing.JTextField newTriGia;
+    public static javax.swing.JTextField newTriGia;
+    private javax.swing.JTextField textSL;
     // End of variables declaration//GEN-END:variables
 }
