@@ -43,7 +43,7 @@
                   <Component id="jLabel1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" pref="360" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -65,7 +65,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="650" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="657" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="taiTTKH" min="-2" max="-2" attributes="0"/>
@@ -73,7 +73,7 @@
                       <Component id="themKH" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="capNhatKH" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                       <Component id="xoaKH" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                   </Group>
@@ -86,11 +86,10 @@
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="xoaKH" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="capNhatKH" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="themKH" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="taiTTKH" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="capNhatKH" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-
                   </Group>
               </Group>
             </DimensionLayout>
@@ -199,14 +198,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="themKHActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="capNhatKH">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="C&#x1eac;P NH&#x1eac;T TT KH"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatKHActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="xoaKH">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xd3;A KH"/>
@@ -214,6 +205,17 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoaKHActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="capNhatKH">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="CAP NHAT TT KH"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatKHActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -229,13 +231,13 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="650" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" pref="657" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="taiTTNV" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                       <Component id="themNV" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                       <Component id="capNhatNV" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="xoaNV" min="-2" max="-2" attributes="0"/>
@@ -251,8 +253,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="taiTTNV" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="themNV" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="capNhatNV" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="xoaNV" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="capNhatNV" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -332,14 +334,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="themNVActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="capNhatNV">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="C&#x1eac;P NH&#x1eac;T TT NV"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatNVActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="xoaNV">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xd3;A NV"/>
@@ -347,6 +341,17 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoaNVActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="capNhatNV">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="CAP NHAT TT NV"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatNVActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -362,15 +367,15 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" alignment="0" pref="657" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                       <Component id="taiTTSP" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                       <Component id="themSP" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="89" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="capNhatSP" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                       <Component id="xoaSP" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
@@ -384,8 +389,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="taiTTSP" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="themSP" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="capNhatSP" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="xoaSP" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="capNhatSP" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -471,14 +476,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="themSPActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="capNhatSP">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="C&#x1eac;P NH&#x1eac;T TT SP"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatSPActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="xoaSP">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xd3;A SP"/>
@@ -486,6 +483,17 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoaSPActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="capNhatSP">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="CAP NHAT TT SP"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatSPActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -634,22 +642,7 @@
             </Constraint>
           </Constraints>
 
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane5" alignment="1" pref="650" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
-                      <Component id="btnTaiTTCTHD" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-              </Group>
-            </DimensionLayout>
-          </Layout>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
           <SubComponents>
             <Container class="javax.swing.JScrollPane" name="jScrollPane5">
               <AuxValues>
@@ -709,6 +702,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTaiTTCTHDActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

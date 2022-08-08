@@ -6,25 +6,14 @@ package Screens;
 
 import D02_ThucThi.LoginRun;
 import D02_ThucThi.QuanLy;
-import D02_ThucThi.QuanLyHD;
 import D02_ThucThi.QuanLyKH;
 import D02_ThucThi.QuanLyNV;
 import D02_ThucThi.QuanLySP;
-import javax.swing.table.DefaultTableModel;
 import D02_ThucThi.QuanLyHD;
-import static Screens.NhapTTKH.txtmaKH;
 import doancuoiky.DoAnCuoiKy;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import D02_ThucThi.QuanLyCTHD;
@@ -96,22 +85,22 @@ public class Main extends javax.swing.JFrame {
         khachHang = new javax.swing.JTable();
         taiTTKH = new javax.swing.JButton();
         themKH = new javax.swing.JButton();
-        capNhatKH = new javax.swing.JButton();
         xoaKH = new javax.swing.JButton();
+        capNhatKH = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         nhanVien = new javax.swing.JTable();
         taiTTNV = new javax.swing.JButton();
         themNV = new javax.swing.JButton();
-        capNhatNV = new javax.swing.JButton();
         xoaNV = new javax.swing.JButton();
+        capNhatNV = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         sanPham = new javax.swing.JTable();
         taiTTSP = new javax.swing.JButton();
         themSP = new javax.swing.JButton();
-        capNhatSP = new javax.swing.JButton();
         xoaSP = new javax.swing.JButton();
+        capNhatSP = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         HoaDon = new javax.swing.JTable();
@@ -174,13 +163,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        capNhatKH.setText("CẬP NHẬT TT KH");
-        capNhatKH.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                capNhatKHActionPerformed(evt);
-            }
-        });
-
         xoaKH.setText("XÓA KH");
         xoaKH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,11 +170,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        capNhatKH.setText("CAP NHAT TT KH");
+        capNhatKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatKHActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(taiTTKH)
@@ -200,7 +189,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(themKH)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(capNhatKH)
-                .addGap(53, 53, 53)
+                .addGap(83, 83, 83)
                 .addComponent(xoaKH)
                 .addGap(50, 50, 50))
         );
@@ -211,9 +200,9 @@ public class Main extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(xoaKH)
-                    .addComponent(capNhatKH)
                     .addComponent(themKH)
-                    .addComponent(taiTTKH))
+                    .addComponent(taiTTKH)
+                    .addComponent(capNhatKH)))
         );
 
         jTabbedPane1.addTab("Quản lý khách hàng", jPanel1);
@@ -261,13 +250,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        capNhatNV.setText("CẬP NHẬT TT NV");
-        capNhatNV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                capNhatNVActionPerformed(evt);
-            }
-        });
-
         xoaNV.setText("XÓA NV");
         xoaNV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,17 +257,24 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        capNhatNV.setText("CAP NHAT TT NV");
+        capNhatNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatNVActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(taiTTNV)
                 .addGap(58, 58, 58)
                 .addComponent(themNV)
-                .addGap(51, 51, 51)
+                .addGap(65, 65, 65)
                 .addComponent(capNhatNV)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(xoaNV)
@@ -299,8 +288,8 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(taiTTNV)
                     .addComponent(themNV)
-                    .addComponent(capNhatNV)
-                    .addComponent(xoaNV))
+                    .addComponent(xoaNV)
+                    .addComponent(capNhatNV)))
         );
 
         jTabbedPane1.addTab("Quản lý nhân viên", jPanel2);
@@ -348,13 +337,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        capNhatSP.setText("CẬP NHẬT TT SP");
-        capNhatSP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                capNhatSPActionPerformed(evt);
-            }
-        });
-
         xoaSP.setText("XÓA SP");
         xoaSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -362,19 +344,26 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        capNhatSP.setText("CAP NHAT TT SP");
+        capNhatSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatSPActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(taiTTSP)
                 .addGap(62, 62, 62)
                 .addComponent(themSP)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(capNhatSP)
-                .addGap(67, 67, 67)
+                .addGap(69, 69, 69)
                 .addComponent(xoaSP)
                 .addGap(40, 40, 40))
         );
@@ -386,8 +375,8 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(taiTTSP)
                     .addComponent(themSP)
-                    .addComponent(capNhatSP)
-                    .addComponent(xoaSP))
+                    .addComponent(xoaSP)
+                    .addComponent(capNhatSP)))
         );
 
         jTabbedPane1.addTab("Quản lý sản phẩm", jPanel3);
@@ -453,7 +442,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(taiTTHD)
                     .addComponent(btnThemHD)
                     .addComponent(btnXemHD)
-                    .addComponent(btnXoaHD))
+                    .addComponent(btnXoaHD)))
         );
 
         jTabbedPane1.addTab("Quản lý hóa đơn", jPanel4);
@@ -471,26 +460,15 @@ public class Main extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(CTHD);
 
+        jPanel5.add(jScrollPane5);
+
         btnTaiTTCTHD.setText("Tải TTCTHD");
         btnTaiTTCTHD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTaiTTCTHDActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(155, 155, 155)
-                .addComponent(btnTaiTTCTHD)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        );
+        jPanel5.add(btnTaiTTCTHD);
 
         jTabbedPane1.addTab("Quản lý chi tiết hóa đơn", jPanel5);
 
@@ -524,7 +502,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(dangxuat)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
 
         pack();
@@ -589,8 +567,8 @@ public class Main extends javax.swing.JFrame {
     private void themKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themKHActionPerformed
         NhapTTKH nhapttkh = new NhapTTKH();
         nhapttkh.setVisible(true);
-        nhapttkh.txtmaKH.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
-        nhapttkh.txtmaKH.setVisible(true);
+        NhapTTKH.txtmaKH.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
+        NhapTTKH.txtmaKH.setVisible(true);
     }//GEN-LAST:event_themKHActionPerformed
 
     private void xoaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaNVActionPerformed
@@ -622,8 +600,8 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         NhapTTNV nhapttnv = new NhapTTNV();
         nhapttnv.setVisible(true);
-        nhapttnv.txtmaNV.setText(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()));
-        nhapttnv.txtmaNV.setVisible(true);
+        NhapTTNV.txtmaNV.setText(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()));
+        NhapTTNV.txtmaNV.setVisible(true);
     }//GEN-LAST:event_themNVActionPerformed
 
     private void taiTTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taiTTHDActionPerformed
@@ -638,7 +616,7 @@ public class Main extends javax.swing.JFrame {
         int i = HoaDon.getSelectedRow();
         String mahd = HoaDon.getValueAt(i, 1).toString();
         DefaultTableModel tableCT = qlcthd.getCTTheoHD(mahd);
-        update.tableCTHD.setModel(tableCT);
+        CapNhatTTHD.tableCTHD.setModel(tableCT);
         taittCTHD = true;
         update.setVisible(true);
     }//GEN-LAST:event_btnXemHDActionPerformed
@@ -647,10 +625,56 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         NhapTTHD nhaptthd = new NhapTTHD();
         DefaultComboBoxModel comboModels = qlsp.getListMaSP();
-        nhaptthd.maSPComboBox.setModel(comboModels);
+        NhapTTHD.maSPComboBox.setModel(comboModels);
         nhaptthd.setVisible(true);
         
     }//GEN-LAST:event_btnThemHDActionPerformed
+
+    private void btnTaiTTCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiTTCTHDActionPerformed
+        // TODO add your handling code here:
+                // TODO add your handling code here:
+        CTHD.setModel(tableCTHD);
+        taittCTHD = true;
+    }//GEN-LAST:event_btnTaiTTCTHDActionPerformed
+
+    private void capNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatKHActionPerformed
+        // TODO add your handling code here:
+        int i = khachHang.getSelectedRow();
+        if (i >= 0 && taittkh) {
+            CapNhatTTKH capnhatkh = new CapNhatTTKH();
+            capnhatkh.setVisible(true);
+            capnhatkh.txtmaKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 1));
+            capnhatkh.txtHoTenKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 2));
+            capnhatkh.txtDiaChiKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 3));
+            capnhatkh.txtSoDTKH.setText((String) khachHang.getValueAt(khachHang.getSelectedRow(), 4));
+        }
+    }//GEN-LAST:event_capNhatKHActionPerformed
+
+    private void capNhatNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatNVActionPerformed
+        // TODO add your handling code here:
+        int i = nhanVien.getSelectedRow();
+        if (i >= 0 && taittnv) {
+            CapNhatTTNV capnhatnv = new CapNhatTTNV();
+            capnhatnv.setVisible(true);
+            capnhatnv.txtmaNV.setText((String) nhanVien.getValueAt(nhanVien.getSelectedRow(), 1));
+            capnhatnv.txtHoTenNV.setText((String) nhanVien.getValueAt(nhanVien.getSelectedRow(), 2));
+            capnhatnv.txtSoDTNV.setText((String) nhanVien.getValueAt(nhanVien.getSelectedRow(), 3));           
+        }
+    }//GEN-LAST:event_capNhatNVActionPerformed
+
+    private void capNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatSPActionPerformed
+        // TODO add your handling code here:
+         int i = sanPham.getSelectedRow();
+        if (i >= 0 && taittsp) {
+            CapNhatTTSP capnhatsp = new CapNhatTTSP();
+            capnhatsp.setVisible(true);
+            capnhatsp.txtmaSP.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 1));
+            capnhatsp.txtTenSP.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 2));
+            capnhatsp.donViTinh.setSelectedItem((String) sanPham.getValueAt(sanPham.getSelectedRow(), 3));
+            capnhatsp.txtNuocSX.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 4)); 
+            capnhatsp.txtGia.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 5)); 
+        }
+    }//GEN-LAST:event_capNhatSPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -682,6 +706,7 @@ public class Main extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Main().setVisible(true);
             }
@@ -691,13 +716,13 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTable CTHD;
     public static javax.swing.JTable HoaDon;
-    private javax.swing.JButton btnTaiTTCTHD;
+    javax.swing.JButton btnTaiTTCTHD;
     private javax.swing.JButton btnThemHD;
     private javax.swing.JButton btnXemHD;
     private javax.swing.JButton btnXoaHD;
-    private javax.swing.JButton capNhatKH;
-    private javax.swing.JButton capNhatNV;
-    private javax.swing.JButton capNhatSP;
+    javax.swing.JButton capNhatKH;
+    javax.swing.JButton capNhatNV;
+    javax.swing.JButton capNhatSP;
     private javax.swing.JButton dangxuat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

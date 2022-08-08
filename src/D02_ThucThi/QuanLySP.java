@@ -88,6 +88,51 @@ public class QuanLySP extends QuanLy {
             System.err.println("Cannot connect database, " + ex);
             return false;
         }
-
+    }
+    public boolean capNhat(String ma, String tenSP, String dvt, String nuocSX, String gia) {
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP 
+                    + "', DVT = '" + dvt + "', NUOCSX = '" + nuocSX + "', GIA = '" + gia + "' WHERE MASP = '" + ma + "'");
+            cstmt.execute();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return false;
+        }
+    }
+    public DefaultComboBoxModel<String> getListMaSP(){
+        try {
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int index=0;
+            while(rs.next()){
+                model.insertElementAt(rs.getString("MASP"), index);
+                index++;
+            }
+            return model;
+            } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex); 
+            return null;
+        }
+     }
+    public double getGia(String masp) {
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("SELECT GIA from SANPHAM WHERE MASP='" + masp + "'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            double gia = Double.parseDouble(rs.getString(1));
+            return gia;
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+            return 0.0;
+        }
     }
 }
+    
+
+
