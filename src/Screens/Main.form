@@ -43,7 +43,7 @@
                   <Component id="jLabel1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" pref="360" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -90,7 +90,7 @@
                           <Component id="themKH" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="taiTTKH" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="277" max="32767" attributes="0"/>
+
                   </Group>
               </Group>
             </DimensionLayout>
@@ -115,7 +115,7 @@
                         <Column editable="false" title="Sinh nh&#x1ead;t" type="java.lang.String"/>
                         <Column editable="false" title="Ng&#xe0;y &#x110;K" type="java.lang.String"/>
                         <Column editable="false" title="Doanh s&#x1ed1;" type="java.lang.String"/>
-                        <Column editable="true" title="Lo&#x1ea1;i KH" type="java.lang.String"/>
+                        <Column editable="false" title="Lo&#x1ea1;i KH" type="java.lang.String"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -170,6 +170,9 @@
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Default Cursor"/>
                     </Property>
+                    <Property name="dropMode" type="javax.swing.DropMode" editor="org.netbeans.modules.form.editors.EnumEditor">
+                      <Value id="ON"/>
+                    </Property>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                     </Property>
@@ -200,6 +203,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="C&#x1eac;P NH&#x1eac;T TT KH"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatKHActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="xoaKH">
               <Properties>
@@ -248,7 +254,6 @@
                           <Component id="capNhatNV" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="xoaNV" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="275" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -331,6 +336,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="C&#x1eac;P NH&#x1eac;T TT NV"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatNVActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="xoaNV">
               <Properties>
@@ -379,7 +387,6 @@
                           <Component id="capNhatSP" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="xoaSP" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="277" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -468,6 +475,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="C&#x1eac;P NH&#x1eac;T TT SP"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatSPActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="xoaSP">
               <Properties>
@@ -516,7 +526,6 @@
                           <Component id="btnXemHD" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnXoaHD" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="181" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -638,12 +647,6 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane5" min="-2" pref="258" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                      <Component id="btnTaiTTCTHD" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="167" max="32767" attributes="0"/>
-                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>

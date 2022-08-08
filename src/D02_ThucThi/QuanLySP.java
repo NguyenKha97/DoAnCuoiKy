@@ -38,8 +38,8 @@ public class QuanLySP extends QuanLy {
                 rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
                 rows[3] = rs.getString(3);
                 rows[4] = rs.getString(4);
-                rows[5] = rs.getString(5);
-                
+//                rows[5] = rs.getString(5);
+                rows[5] = String.format("%,d", rs.getLong(5));
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                 //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                 index++;
@@ -64,23 +64,10 @@ public class QuanLySP extends QuanLy {
     }
 
     @Override
-    public void xoaDongTrenSQL(int i) {
+    public void xoaDongTrenSQL(String ma) {
         try {
             Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
-            ResultSet rs = cstmt.executeQuery();
-            int temp = 0; String masp="";
-            try {
-                while(rs.next()&&temp<=i){
-                    if(temp == i){
-                        masp = rs.getString("MASP");
-                        System.out.println(masp);
-                    }
-                    temp++;
-                }
-            } catch (SQLException e) {
-            }
-            cstmt = conn.prepareCall("UPDATE SANPHAM SET XOA =" + 1 + " WHERE MASP='" + masp + "'");
+            CallableStatement cstmt = conn.prepareCall("UPDATE SANPHAM SET XOA =" + 1 + " WHERE MASP='" + ma + "'");
             cstmt.execute();
             
         } catch (SQLException ex) {
@@ -103,34 +90,7 @@ public class QuanLySP extends QuanLy {
         
     }
     
-    public DefaultComboBoxModel<String> getListMaSP(){
-        try {
-            DefaultComboBoxModel model = new DefaultComboBoxModel();
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
-            ResultSet rs = cstmt.executeQuery();
-            int index=0;
-            while(rs.next()){
-                model.insertElementAt(rs.getString("MASP"), index);
-                index++;
-            }
-            return model;
-            } catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex); 
-            return null;
-        }
-     }
-    public double getGia(String masp){
-        try {           
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT GIA from SANPHAM WHERE MASP='"+masp+"'");
-            ResultSet rs = cstmt.executeQuery();
-            rs.next();
-            double gia = Double.parseDouble(rs.getString(1));
-            return gia;
-            } catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex); 
-            return 0.0;
+
         }
     }
 

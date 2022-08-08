@@ -4,15 +4,10 @@
  */
 package Screens;
 
-import D01_KetNoi.KetNoi;
 import D02_ThucThi.LoginRun;
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -152,6 +147,7 @@ public class Login extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                Login frm = new Login();
                frm.setVisible(true);

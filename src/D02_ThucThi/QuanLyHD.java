@@ -48,7 +48,7 @@ public class QuanLyHD extends QuanLy {
                     index++;
 //                System.out.println(index);
                 }
-                System.out.println("index sau taitt = " + index);
+//                System.out.println("index sau taitt = " + index);
             } catch (SQLException e) {
             }
 
@@ -64,7 +64,7 @@ public class QuanLyHD extends QuanLy {
     }
 
     @Override
-    public void xoaDongTrenSQL(int i) {
+    public void xoaDongTrenSQL(String ma) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

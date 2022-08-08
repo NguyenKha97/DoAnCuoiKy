@@ -60,13 +60,15 @@ public class Main extends javax.swing.JFrame {
 //            System.out.println(table.getSelectedRow());
             int choice = JOptionPane.showConfirmDialog(button, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
 //        System.out.println(choice);
+            String  ma= (String) table.getValueAt(i, 1);
+//            System.out.println("ma = " + ma);
             if (choice == 0) {
 //                int i = jTable1.getSelectedRow();
 //                countButton++;
 //                System.out.println(countButton);
                 ql.xoaDong(i, dfTable, countButton);
                 table.setModel(dfTable);
-                ql.xoaDongTrenSQL(i);
+                ql.xoaDongTrenSQL(ma);
                 return true;
             }
         }
@@ -142,7 +144,7 @@ public class Main extends javax.swing.JFrame {
                 java.lang.Short.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -154,6 +156,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         khachHang.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        khachHang.setDropMode(javax.swing.DropMode.ON);
         khachHang.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(khachHang);
 
@@ -172,6 +175,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         capNhatKH.setText("CẬP NHẬT TT KH");
+        capNhatKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatKHActionPerformed(evt);
+            }
+        });
 
         xoaKH.setText("XÓA KH");
         xoaKH.addActionListener(new java.awt.event.ActionListener() {
@@ -206,7 +214,6 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(capNhatKH)
                     .addComponent(themKH)
                     .addComponent(taiTTKH))
-                .addContainerGap(277, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý khách hàng", jPanel1);
@@ -255,6 +262,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         capNhatNV.setText("CẬP NHẬT TT NV");
+        capNhatNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatNVActionPerformed(evt);
+            }
+        });
 
         xoaNV.setText("XÓA NV");
         xoaNV.addActionListener(new java.awt.event.ActionListener() {
@@ -289,7 +301,6 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(themNV)
                     .addComponent(capNhatNV)
                     .addComponent(xoaNV))
-                .addGap(0, 275, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý nhân viên", jPanel2);
@@ -338,6 +349,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         capNhatSP.setText("CẬP NHẬT TT SP");
+        capNhatSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatSPActionPerformed(evt);
+            }
+        });
 
         xoaSP.setText("XÓA SP");
         xoaSP.addActionListener(new java.awt.event.ActionListener() {
@@ -372,7 +388,6 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(themSP)
                     .addComponent(capNhatSP)
                     .addComponent(xoaSP))
-                .addGap(0, 277, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý sản phẩm", jPanel3);
@@ -439,7 +454,6 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(btnThemHD)
                     .addComponent(btnXemHD)
                     .addComponent(btnXoaHD))
-                .addGap(0, 181, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý hóa đơn", jPanel4);
@@ -476,11 +490,6 @@ public class Main extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
-                .addComponent(btnTaiTTCTHD)
-                .addGap(0, 167, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý chi tiết hóa đơn", jPanel5);
@@ -515,7 +524,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(dangxuat)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
         );
 
         pack();
@@ -599,7 +608,6 @@ public class Main extends javax.swing.JFrame {
                 qlnv.xoaDongTrenSQL(i);
             }
         }*/
-        
         if(xoaAction(nhanVien, taittnv, countButtonXoaNV, xoaNV, tableNV, qlnv))
             countButtonXoaNV++;
     }//GEN-LAST:event_xoaNVActionPerformed
@@ -643,12 +651,6 @@ public class Main extends javax.swing.JFrame {
         nhaptthd.setVisible(true);
         
     }//GEN-LAST:event_btnThemHDActionPerformed
-
-    private void btnTaiTTCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiTTCTHDActionPerformed
-        // TODO add your handling code here:
-        CTHD.setModel(tableCTHD);
-        taittCTHD = true;
-    }//GEN-LAST:event_btnTaiTTCTHDActionPerformed
 
     /**
      * @param args the command line arguments

@@ -64,7 +64,7 @@ public class QuanLyCTHD extends QuanLy {
     }
 
     @Override
-    public void xoaDongTrenSQL(int i) {
+    public void xoaDongTrenSQL(String ma) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
