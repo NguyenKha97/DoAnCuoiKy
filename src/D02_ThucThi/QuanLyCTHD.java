@@ -32,23 +32,19 @@ public class QuanLyCTHD extends QuanLy {
             CallableStatement cstmt = conn.prepareCall("SELECT * from CTHD WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
-            String[] colsName = {"STT", "Số HD", "Mã Sản Phẩm", "Số Lượng"};
+            String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
             table.setColumnIdentifiers(colsName);
-            index = 1;
             try {
                 while (rs.next()) { // nếu còn đọc tiếp được một dòng dữ liệu
-                    String rows[] = new String[4];
-                    rows[0] = Integer.toString(index);
-                    rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
-                    rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
-                    rows[3] = rs.getString(3);
+                    String rows[] = new String[3];                 
+                    rows[0] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
+                    rows[1] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                    rows[2] = rs.getString(3);
 
                     table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                     //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
-                    index++;
-//                System.out.println(index);
+                   
                 }
-                System.out.println("index sau taitt = " + index);
             } catch (SQLException e) {
             }
 
@@ -60,12 +56,24 @@ public class QuanLyCTHD extends QuanLy {
 
     @Override
     public DefaultTableModel xoaDong(int i, DefaultTableModel dfTable, int countButton) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        dfTable.removeRow(i);
+        int j = i;
+        for (; j < (index - countButton - 1); j++) {
+            dfTable.setValueAt(j + 1, j, 0);
+        }
+        return dfTable;
     }
 
     @Override
     public void xoaDongTrenSQL(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("UPDATE CTHD SET XOA =" + 1 + " WHERE SOHD='" + ma + "'");
+            cstmt.execute();
+
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
     }
 
     public boolean themCTTD(int mahd, String masp, String soluong) {

@@ -133,11 +133,8 @@ public class CapNhatTTHD extends javax.swing.JFrame {
 
     private void btnUpdateHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateHDActionPerformed
         // TODO add your handling code here:      
-
         int choice = JOptionPane.showConfirmDialog(null, "Ban co chac chan muon cap nhat du lieu nay?", "Thong bao", 0);
         int k = tableCTHD.getRowCount();
-        ArrayList newSL = new ArrayList<>();
-
         if (choice != -1) {
             String sohd = tableCTHD.getValueAt(0, 1).toString();
             double triGiaMoi = 0.0;
