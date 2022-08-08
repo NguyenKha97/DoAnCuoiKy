@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.ListDataListener;
 
 /**
  *
@@ -88,17 +90,7 @@ public class QuanLySP extends QuanLy {
         
     }
     
-    public boolean capNhat(String ma, String tenSP, String dvt, String nuocSX, String gia) {
-        try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP 
-                    + "', DVT = '" + dvt + "', NUOCSX = '" + nuocSX + "', GIA = '" + gia + "' WHERE MASP = '" + ma + "'");
-            cstmt.execute();
-            return true;
-            
-        } catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex);
-            return false;
+
         }
     }
 
