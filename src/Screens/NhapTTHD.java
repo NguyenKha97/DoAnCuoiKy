@@ -268,7 +268,8 @@ public class NhapTTHD extends javax.swing.JFrame {
     }//GEN-LAST:event_newMaNVActionPerformed
 
     private void btnTinhTGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTinhTGActionPerformed
-        // TODO add your handling code here:       
+        // TODO add your handling code here:
+        trigia =0.0;
         sp_sl.forEach((sp, sl) -> {
             trigia += tinhTriGia(sp, sl);
         });

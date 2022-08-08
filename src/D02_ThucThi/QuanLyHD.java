@@ -60,12 +60,24 @@ public class QuanLyHD extends QuanLy {
 
     @Override
     public DefaultTableModel xoaDong(int i, DefaultTableModel dfTable, int countButton) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        dfTable.removeRow(i);
+        int j = i;
+        for (; j < (index - countButton - 1); j++) {
+            dfTable.setValueAt(j + 1, j, 0);
+        }
+        return dfTable;
     }
 
     @Override
     public void xoaDongTrenSQL(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Connection conn = LoginRun.con;
+            CallableStatement cstmt = conn.prepareCall("UPDATE HOADON SET XOA =" + 1 + " WHERE SOHD='" + ma + "'");
+            cstmt.execute();
+
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
     }
 
     public void getTriGia(String mahd) {
@@ -132,5 +144,6 @@ public class QuanLyHD extends QuanLy {
             return false;
         }
     }
+    
 
 }

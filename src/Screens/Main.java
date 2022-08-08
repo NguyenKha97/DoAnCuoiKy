@@ -41,6 +41,7 @@ public class Main extends javax.swing.JFrame {
     static int countButtonXoaHD = 1;
     static QuanLyCTHD qlcthd = new QuanLyCTHD();
     static DefaultTableModel tableCTHD = qlcthd.taiTT();
+    static int countButtonXoaCTHD = 1;
     
     
     private boolean xoaAction(javax.swing.JTable table, boolean taitt, int countButton, javax.swing.JButton button, DefaultTableModel dfTable, QuanLy ql) {
@@ -416,6 +417,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnXoaHD.setText("Xóa HD");
+        btnXoaHD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaHDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -449,13 +455,13 @@ public class Main extends javax.swing.JFrame {
 
         CTHD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "STT", "Số HD", "Mã Sản phẩm", "Số Lượng"
+                "Số HD", "Mã Sản phẩm", "Số Lượng"
             }
         ));
         jScrollPane5.setViewportView(CTHD);
@@ -675,6 +681,33 @@ public class Main extends javax.swing.JFrame {
             capnhatsp.txtGia.setText((String) sanPham.getValueAt(sanPham.getSelectedRow(), 5)); 
         }
     }//GEN-LAST:event_capNhatSPActionPerformed
+
+    private void btnXoaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaHDActionPerformed
+        // TODO add your handling code here:
+        int i = HoaDon.getSelectedRow();
+        if (i >= 0 && taitthd) {
+//            System.out.println(table.getSelectedRow());
+            int choice = JOptionPane.showConfirmDialog(btnXoaHD, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
+//        System.out.println(choice);
+            String  ma= (String) HoaDon.getValueAt(i, 1);
+//            System.out.println("ma = " + ma);
+            if (choice == 0) {
+
+                qlhd.xoaDong(i, tableHD, countButtonXoaHD);
+                HoaDon.setModel(tableHD);
+                qlhd.xoaDongTrenSQL(ma);
+                countButtonXoaHD++;
+                      
+                
+                qlcthd.xoaDongTrenSQL(ma);               
+                CTHD.setModel(qlcthd.taiTT());
+                
+                
+                
+            }
+        }
+       
+    }//GEN-LAST:event_btnXoaHDActionPerformed
 
     /**
      * @param args the command line arguments

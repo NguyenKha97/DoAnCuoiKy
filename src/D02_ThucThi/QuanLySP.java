@@ -125,7 +125,7 @@ public class QuanLySP extends QuanLy {
             CallableStatement cstmt = conn.prepareCall("SELECT GIA from SANPHAM WHERE MASP='" + masp + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
-            double gia = Double.parseDouble(rs.getString(1));
+            double gia = rs.getDouble(1);
             return gia;
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
