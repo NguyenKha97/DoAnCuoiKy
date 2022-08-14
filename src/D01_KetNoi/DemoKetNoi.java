@@ -17,7 +17,7 @@ public class DemoKetNoi {
     public static void main(String[] args) {
         try {
             String dbURL = "jdbc:sqlserver://localhost:1433;"
-                    + "databaseName=QLGV7;user=sa;password=sa";
+                    + "databaseName=QLBH;user=sa;password=sa";
             Connection conn = DriverManager.getConnection(dbURL);
             if (conn != null) {
                 System.out.println("Connected");

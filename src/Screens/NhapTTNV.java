@@ -5,9 +5,8 @@
 package Screens;
 
 import D02_ThucThi.QuanLyNV;
-import static Screens.Main.qlkh;
-import static Screens.Main.qlnv;
 import doancuoiky.DoAnCuoiKy;
+import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 import javax.swing.JOptionPane;
 
 /**
@@ -70,8 +69,7 @@ public class NhapTTNV extends javax.swing.JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Nhap thong tin nhan vien");
+        setTitle("Thêm mới nhân viên");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("THÊM NHÂN VIÊN MỚI");
@@ -88,7 +86,7 @@ public class NhapTTNV extends javax.swing.JFrame {
 
         jLabel5.setText("Số ĐT");
 
-        jLabel6.setText("Sinh nhật");
+        jLabel6.setText("Ngày vào làm");
 
         themNV.setText("Thêm NV");
         themNV.addActionListener(new java.awt.event.ActionListener() {
@@ -124,35 +122,28 @@ public class NhapTTNV extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(themNV)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2)
-                                .addComponent(txtHoTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(100, 100, 100)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(txtHoTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(huyThemKh))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(huyThemKh)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel6)
-                                    .addComponent(chonNgVaoLam, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                    .addComponent(txtSoDTNV))))
-                        .addGap(49, 49, 49))))
+                                .addComponent(themNV)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtSoDTNV, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(chonNgVaoLam, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)))
+                            .addComponent(jLabel6)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jLabel1)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,8 +151,8 @@ public class NhapTTNV extends javax.swing.JFrame {
                 .addGap(8, 8, 8)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,13 +167,13 @@ public class NhapTTNV extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtHoTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(themNV)
-                            .addComponent(huyThemKh)))
+                                .addComponent(txtHoTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(themNV)
+                    .addComponent(huyThemKh))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -207,19 +198,21 @@ public class NhapTTNV extends javax.swing.JFrame {
 
     private void themNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themNVActionPerformed
         // TODO add your handling code here:
-
-        boolean check = qlnv.them(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()), txtHoTenNV.getText(), txtSoDTNV.getText(), chonNgVaoLam.getDate());
-        Main.tableNV = qlnv.taiTT();
-        Main.nhanVien.setModel(Main.tableNV);   
-        if(check){
-            JOptionPane.showMessageDialog(null, "Tao thanh cong");
-            setVisible(!check);
-            Main.countButtonXoaNV=1;
-        }
+        if (txtHoTenNV.getText().isBlank() || txtSoDTNV.getText().isBlank() || chonNgVaoLam.getDate()==null)
+            JOptionPane.showMessageDialog(themNV, "Vui lòng nhập đầy đủ thông tin để thêm mới!!!");
         else {
-            JOptionPane.showMessageDialog(null, "Khong thanh cong, vui long kiem tra lai");
-        }
-            
+            boolean check = qlnv.them(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()), txtHoTenNV.getText(), txtSoDTNV.getText(), chonNgVaoLam.getDate());
+            Main.dfTableNV = qlnv.taiTT();
+            Main.tableNhanVien.setModel(Main.dfTableNV);
+            setRightRendererAndResizeWitdh(Main.tableNhanVien);
+            if (check) {
+                JOptionPane.showMessageDialog(null, "Tạo thành công");
+                setVisible(!check);
+                Main.countButtonXoaNV = 1;
+            } else {
+                JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
+            }
+        }  
     }//GEN-LAST:event_themNVActionPerformed
 
     private void txtmaNVInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtmaNVInputMethodTextChanged
@@ -257,6 +250,7 @@ public class NhapTTNV extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new NhapTTNV().setVisible(true);
             }
@@ -265,7 +259,7 @@ public class NhapTTNV extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private com.toedter.calendar.JDateChooser chonNgVaoLam;
+    static com.toedter.calendar.JDateChooser chonNgVaoLam;
     private javax.swing.JButton huyThemKh;
     private com.toedter.calendar.JCalendar jCalendar1;
     private com.toedter.calendar.JCalendar jCalendar2;

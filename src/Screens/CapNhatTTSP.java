@@ -4,10 +4,11 @@
  */
 package Screens;
 
-import static Screens.Main.qlkh;
 import static Screens.Main.qlsp;
-import static Screens.Main.sanPham;
 import javax.swing.JOptionPane;
+import static Screens.Main.tableSanPham;
+import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
+
 
 /**
  *
@@ -32,7 +33,7 @@ public class CapNhatTTSP extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtmaSP = new javax.swing.JTextArea();
+        txtMaSP = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         txtTenSP = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -44,7 +45,7 @@ public class CapNhatTTSP extends javax.swing.JFrame {
         capNhatSP = new javax.swing.JButton();
         huyCapNhat = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cập nhật sản phẩm");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("CẬP NHẬT THÔNG TIN SẢN PHẨM");
@@ -55,10 +56,10 @@ public class CapNhatTTSP extends javax.swing.JFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        txtmaSP.setEditable(false);
-        txtmaSP.setColumns(20);
-        txtmaSP.setRows(5);
-        jScrollPane1.setViewportView(txtmaSP);
+        txtMaSP.setEditable(false);
+        txtMaSP.setColumns(20);
+        txtMaSP.setRows(5);
+        jScrollPane1.setViewportView(txtMaSP);
 
         jLabel5.setText("Tên SP");
 
@@ -163,18 +164,22 @@ public class CapNhatTTSP extends javax.swing.JFrame {
 
     private void capNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatSPActionPerformed
         // TODO add your handling code here:
-        int choice = JOptionPane.showConfirmDialog(capNhatSP, "Ban co chac chan muon cap nhat du lieu nay", "Thong bao", 0);
-        if (choice == 0) {
-            //                int i = jTable1.getSelectedRow();
-            //                countButton++;
-            //                System.out.println(countButton);
-            boolean check = qlsp.capNhat(txtmaSP.getText(), txtTenSP.getText(), donViTinh.getSelectedItem().toString(), txtNuocSX.getText(), txtGia.getText());
-            sanPham.setModel(qlsp.taiTT());
-            if (check) {
-                JOptionPane.showMessageDialog(null, "Cap nhat thanh cong");
-                setVisible(!check);
-            } else {
-                JOptionPane.showMessageDialog(null, "Khong thanh cong, vui long kiem tra lai");
+        if (txtMaSP.getText().isBlank() || txtTenSP.getText().isBlank() || txtNuocSX.getText().isBlank() || txtGia.getText().isBlank())
+            JOptionPane.showMessageDialog(capNhatSP, "Vui lòng nhập đầy đủ thông tin để thêm mới!!!");
+        else if (Double.parseDouble(txtGia.getText()) < 500) {
+            JOptionPane.showMessageDialog(capNhatSP, "Giá sản phẩm >= 500");
+        } else {
+            int choice = JOptionPane.showConfirmDialog(capNhatSP, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
+            if (choice == 0) {
+                boolean check = qlsp.capNhat(txtMaSP.getText(), txtTenSP.getText(), donViTinh.getSelectedItem().toString(), txtNuocSX.getText(), txtGia.getText());
+                tableSanPham.setModel(qlsp.taiTT());
+                setRightRendererAndResizeWitdh(tableSanPham);
+                if (check) {
+                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
+                    setVisible(!check);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
+                }
             }
         }
     }//GEN-LAST:event_capNhatSPActionPerformed
@@ -213,6 +218,7 @@ public class CapNhatTTSP extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CapNhatTTSP().setVisible(true);
             }
@@ -231,8 +237,8 @@ public class CapNhatTTSP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JTextField txtGia;
+    javax.swing.JTextArea txtMaSP;
     javax.swing.JTextField txtNuocSX;
     javax.swing.JTextField txtTenSP;
-    javax.swing.JTextArea txtmaSP;
     // End of variables declaration//GEN-END:variables
 }

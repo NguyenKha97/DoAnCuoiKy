@@ -4,16 +4,14 @@
  */
 package D02_ThucThi;
 
+import D01_KetNoi.KetNoi;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,107 +20,86 @@ import javax.swing.table.DefaultTableModel;
  * @author admin
  */
 public class QuanLyKH extends QuanLy {
-    static int index;
-    DefaultComboBoxModel model = new DefaultComboBoxModel();
+    static int indexRow;
+//    static Connection conQLKH = KetNoi.getNewConnection();
+    DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
     public String getMaCuoi(){
         String result ="";
         try {
-            Connection conn = LoginRun.con;
-//            WHERE XOA = 0
-            CallableStatement cstmt = conn.prepareCall("SELECT TOP 1 MAKH FROM KHACHHANG ORDER BY MAKH DESC");
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT TOP 1 MAKH FROM KHACHHANG ORDER BY MAKH DESC");
             ResultSet rs = cstmt.executeQuery();
-//            System.out.println(rs);
-//            System.out.println(rs.next());
             rs.next();
             result = rs.getString(1);  
         } catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex);
+            System.err.println("Không thể lấy mã KH cuối cùng, " + ex);
         }
-//        System.out.println(result);
         return result;
     }
     @Override
     public DefaultTableModel taiTT(){
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from KHACHHANG WHERE XOA = 0");
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT * from KHACHHANG WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
     
             String []colsName = {"STT", "Mã KH", "Họ và tên", "Địa chỉ", "Số ĐT", "Sinh nhật", "Ngày ĐK", "Doanh số", "Loại KH" };
             table.setColumnIdentifiers(colsName);
-            index = 1;
+            indexRow = 1;
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             try {
             while(rs.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
                 String rows[] = new String[9];
-                rows[0] = Integer.toString(index);
+                rows[0] = Integer.toString(indexRow);
                 rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã ) 
                 rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên
                 rows[3] = rs.getString(3);
                 rows[4] = rs.getString(4);
                 rows[5] = df.format(rs.getDate(5));
                 rows[6] = df.format(rs.getDate(6)); 
-//                String temp = Long.toString(rs.getLong(7));
-//                String temp1 = String.format("%,d", rs.getLong(7));
-                rows[7] = String.format("%,d", rs.getLong(7));
+                rows[7] = String.format("%,d", rs.getLong(7)) + " VNĐ";
                 rows[8] = rs.getString(8);
-                
-                
+                   
                 table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
-                //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
-                index++;
+                indexRow++;
             }
             } catch (SQLException e) {
+                System.out.println("Lỗi lấy dữ liệu resultSet trong QLKH");
             }
          
         } catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex);
+            System.err.println("Lỗi kết nỗi hoặc querry trong QLKH " + ex);
         }
         return table;
     }
     
-    @Override
-    public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count){
-//        System.out.println("row = " + i);
-        table.removeRow(i);
-        int j = i;
-        for(  ; j <(index-count-1); j++ ){
-            table.setValueAt(j+1, j, 0);
-        }
-        return table;
-    }
+//    @Override
+//    public DefaultTableModel xoaDong(int selectedRowIndex, DefaultTableModel table, int countButtonXoa){
+//        table.removeRow(selectedRowIndex);
+////        System.out.println(table.getValueAt(selectedRowIndex, 0));
+//        int j = selectedRowIndex;
+//        for(  ; j <(indexRow - countButtonXoa - 1); j++ ){
+//            table.setValueAt(j+1, j, 0);
+//        }
+//        return table;
+//    }
     @Override
     public void xoaDongTrenSQL(String ma){
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE KHACHHANG SET XOA =" + 1 + " WHERE MAKH='" + ma + "'");
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("UPDATE KHACHHANG SET XOA =" + 1 + " WHERE MAKH='" + ma + "'");
             cstmt.execute();
             
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
     }
-    public boolean them(String MaKH, String HoTenKH, String DiaChiKH, String SoDTKH, Date SinhNhatKH, Date NgDKKH, short loai) {
+    public boolean them(String MaKH, String HoTenKH, String DiaChiKH, String SoDTKH, Date SinhNhatKH, Date NgDKKH) {
         try {
-            Connection conn = LoginRun.con;
-            String loaiKH;
-            switch (loai) {
-                case 1:
-                    loaiKH = "Vang lai";
-                    break;
-                case 2:
-                    loaiKH = "Thuong xuyen";
-                    break;
-                case 3:
-                    loaiKH = "Vip";
-                    break;
-                default:
-                    loaiKH = "";
-                    break;
-            }
-
-            CallableStatement cstmt = conn.prepareCall("INSERT INTO KHACHHANG VALUES ('" + MaKH + "', '" + HoTenKH + "', '"
+            String loaiKH = "Vang lai";
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("INSERT INTO KHACHHANG VALUES ('" + MaKH + "', '" + HoTenKH + "', '"
                     + DiaChiKH + "', '" + SoDTKH + "', '" + new java.sql.Date(SinhNhatKH.getTime()) + "', '"   
                     + new java.sql.Date(NgDKKH.getTime()) + "', '" + 1 + "', '" + loaiKH 
                     + "', '" + 0 + "')");
@@ -138,8 +115,8 @@ public class QuanLyKH extends QuanLy {
     
     public boolean capNhat(String ma, String hoTen, String diaChi, String soDT, Date sinhNhat){
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE KHACHHANG SET HOTEN = '" + hoTen + "', DCHI = '" + diaChi + "', SODT = '"
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("UPDATE KHACHHANG SET HOTEN = '" + hoTen + "', DCHI = '" + diaChi + "', SODT = '"
                     + soDT + "', NGSINH = '" + new java.sql.Date(sinhNhat.getTime()) + "' WHERE MAKH = '"   
                     + ma + "'");
             cstmt.execute();
@@ -152,5 +129,98 @@ public class QuanLyKH extends QuanLy {
         
     }
     
-
+    public Date getDate(int i){
+        try {
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT NGSINH from KHACHHANG WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0;
+            try {
+                while(rs.next()&&temp<=i){
+                    if(temp == i){
+                        return rs.getDate("NGSINH");
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+                System.out.println("loi oy");
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null; 
+    }
+    
+    @Override
+    public int timMa(String makh){
+        try {
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT MAKH from KHACHHANG WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0;
+            try {
+                while(rs.next()){
+                    if(rs.getString("MAKH").equalsIgnoreCase(makh)){
+                        return temp;
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+                System.out.println("loi oy");
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return -1;
+    }
+    
+    public void capNhatDS (String ma, long ds){
+        try {
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT DOANHSO from KHACHHANG WHERE XOA = 0 AND MAKH = '" + ma + "'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            long dsMoi = ds + rs.getLong("DOANHSO");
+            if (dsMoi == 0) 
+                dsMoi = 1;
+            else if (dsMoi <0){
+                System.out.println("Loi, doanh so khong the am. kiem tra lại QLKH");
+                return;
+            }
+            cstmt = conQLKH.prepareCall("UPDATE KHACHHANG SET DOANHSO = '" + Long.toString(dsMoi) + "' WHERE MAKH = '" + ma + "'");
+            cstmt.execute();
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
+    public boolean check(String makh){
+        try {
+            Connection conQLKH = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT MAKH from KHACHHANG WHERE XOA = 0 AND MAKH = '" + makh + "'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            if (rs.getString("MAKH").equalsIgnoreCase(makh)) 
+                return true;
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return false;
+    }
+    
+    public String getTenKH(String makh) {
+        try {
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT HOTEN from KHACHHANG WHERE MAKH = '" + makh + "'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            return rs.getString(1);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;
+    }
+    
 }

@@ -5,10 +5,7 @@
 package D02_ThucThi;
 
 import D01_KetNoi.KetNoi;
-import Screens.Login;
 import static Screens.Login.statusLogin;
-import Screens.Main;
-import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -18,17 +15,14 @@ import javax.swing.JOptionPane;
  */
 public class LoginRun {
     
-    public static Connection con;
     
-    public static void execute(String username, String pass) throws SQLException{
-
-        con = KetNoi.getConnection(username, pass);
-        if(con != null){
-            statusLogin = true;   
+    public static void execute(String username, String pass) throws SQLException {
+        if (KetNoi.getConnection(username, pass)!= null) {
+            statusLogin = true;
+        } else {
+            JOptionPane.showMessageDialog(null, "ĐĂNG NHẬP KHÔNG THÀNH CÔNG:\n" + "Quá trình kết nối gặp vấn đề. Vui lòng kiểm tra lại");
         }
-        else
-            JOptionPane.showMessageDialog(null, "ĐĂNG NHẬP KHÔNG THÀNH CÔNG:\n" + "Mật khẩu hoặc tên tài khoản không đúng, vui lòng nhập lại");
-   
     }
-    
 }
+    
+

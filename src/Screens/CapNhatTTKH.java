@@ -4,10 +4,10 @@
  */
 package Screens;
 
-import static Screens.Main.khachHang;
+//import static Screens.Main.khachHang/*;*/
 import static Screens.Main.qlkh;
-import static Screens.Main.tableKH;
 import javax.swing.JOptionPane;
+import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 
 /**
  *
@@ -45,7 +45,7 @@ public class CapNhatTTKH extends javax.swing.JFrame {
         capNhatKH = new javax.swing.JButton();
         huyCapNhat = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cập nhật khách hàng");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("CẬP NHẬT THÔNG TIN KHÁCH HÀNG");
@@ -192,18 +192,20 @@ public class CapNhatTTKH extends javax.swing.JFrame {
 
     private void capNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatKHActionPerformed
         // TODO add your handling code here:
-        int choice = JOptionPane.showConfirmDialog(capNhatKH, "Ban co chac chan muon cap nhat du lieu nay", "Thong bao", 0);
-        if (choice == 0) {
-//                int i = jTable1.getSelectedRow();
-//                countButton++;
-//                System.out.println(countButton);
-            boolean check = qlkh.capNhat(txtmaKH.getText(), txtHoTenKH.getText(), txtDiaChiKH.getText(), txtSoDTKH.getText(), chonSinhNhat.getDate());
-            khachHang.setModel(qlkh.taiTT());
-            if (check) {
-                JOptionPane.showMessageDialog(null, "Cap nhat thanh cong");
-                setVisible(!check);
-            } else {
-                JOptionPane.showMessageDialog(null, "Khong thanh cong, vui long kiem tra lai");
+        if(txtHoTenKH.getText().isBlank() || txtDiaChiKH.getText().isBlank() || txtSoDTKH.getText().isBlank() || chonSinhNhat.getDate()==null)
+            JOptionPane.showMessageDialog(capNhatKH, "Vui lòng nhập đầy đủ thông tin để cập nhật!!!");
+        else {
+            int choice = JOptionPane.showConfirmDialog(capNhatKH, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
+            if (choice == 0) {
+                boolean check = qlkh.capNhat(txtmaKH.getText(), txtHoTenKH.getText(), txtDiaChiKH.getText(), txtSoDTKH.getText(), chonSinhNhat.getDate());
+                Main.tableKhachHang.setModel(qlkh.taiTT());
+                setRightRendererAndResizeWitdh(Main.tableKhachHang);
+                if (check) {
+                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
+                    setVisible(!check);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
+                }
             }
         }
     }//GEN-LAST:event_capNhatKHActionPerformed
@@ -242,6 +244,7 @@ public class CapNhatTTKH extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CapNhatTTKH().setVisible(true);
             }

@@ -5,16 +5,37 @@
 package Screens;
 
 import D02_ThucThi.LoginRun;
+import static Screens.Main.qlcthd;
+import static Screens.Main.qlhd;
+import static Screens.Main.qlkh;
+import static Screens.Main.qlnv;
+import static Screens.Main.qlsp;
+import static Screens.Main.tableKhachHang;
+import static Screens.Main.tableNhanVien;
+import static Screens.Main.taittkh;
+import static Screens.Main.taittnv;
+import static Screens.Main.taittsp;
+import static Screens.Main.taitthd;
+import static Screens.Main.taittcthd;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static Screens.Main.tableSanPham;
+import static Screens.Main.dfTableKH;
+import static Screens.Main.dfTableNV;
+import static Screens.Main.dfTableSP;
+import static Screens.Main.dfTableHD;
+import static Screens.Main.dfTableCTHD;
+import static Screens.Main.tableHoaDon;
+import static Screens.Main.tableCTHD;
+import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 
 /**
  *
  * @author HP
  */
 public class Login extends javax.swing.JFrame {
-    public static boolean statusLogin;
+    public static boolean statusLogin = false;
     
     /**
      * Creates new form frmLogin
@@ -41,6 +62,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Đăng nhập");
+        setLocationByPlatform(true);
 
         txtUser.setText("sa");
 
@@ -111,7 +133,17 @@ public class Login extends javax.swing.JFrame {
             }
         if(statusLogin == true){
             setVisible(false);
-            new Main().setVisible(true);
+            Main main = new Main();
+            main.setVisible(true);
+            main.setLocationRelativeTo(null); 
+            dfTableKH = qlkh.taiTT(); dfTableSP = qlsp.taiTT(); dfTableNV = qlnv.taiTT(); dfTableHD = qlhd.taiTT(); dfTableCTHD = qlcthd.taiTT();
+            tableNhanVien.setModel(dfTableNV); tableSanPham.setModel(dfTableSP); tableKhachHang.setModel(dfTableKH); tableHoaDon.setModel(dfTableHD); tableCTHD.setModel(dfTableCTHD);
+            setRightRendererAndResizeWitdh(tableKhachHang);
+            setRightRendererAndResizeWitdh(tableNhanVien);
+            setRightRendererAndResizeWitdh(tableSanPham);
+            setRightRendererAndResizeWitdh(tableHoaDon);
+            setRightRendererAndResizeWitdh(tableCTHD);
+            taittkh = taittnv = taittsp = taitthd = taittcthd = true;
         }       
     }//GEN-LAST:event_dangNhapActionPerformed
 
@@ -149,9 +181,9 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-               Login frm = new Login();
-               frm.setVisible(true);
-               frm.setResizable(false);
+                Login frm1 = new Login();
+                frm1.setVisible(true);
+                frm1.setResizable(false);
             }
         });
     }

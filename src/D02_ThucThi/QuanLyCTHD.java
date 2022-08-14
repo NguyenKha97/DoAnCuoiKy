@@ -4,16 +4,12 @@
  */
 package D02_ThucThi;
 
+import D01_KetNoi.KetNoi;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,15 +17,14 @@ import javax.swing.table.DefaultTableModel;
  * @author NEMO
  */
 public class QuanLyCTHD extends QuanLy {
-
     static int index;
-
+//    static Connection conQLCTHD = KetNoi.getNewConnection();
     @Override
     public DefaultTableModel taiTT() {
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from CTHD WHERE XOA = 0");
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
             String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
@@ -54,32 +49,25 @@ public class QuanLyCTHD extends QuanLy {
         return table;
     }
 
-    @Override
-    public DefaultTableModel xoaDong(int i, DefaultTableModel dfTable, int countButton) {
-        dfTable.removeRow(i);
-        int j = i;
-        for (; j < (index - countButton - 1); j++) {
-            dfTable.setValueAt(j + 1, j, 0);
-        }
-        return dfTable;
-    }
 
-    @Override
-    public void xoaDongTrenSQL(String ma) {
+    public void xoaDongTrenSQL(ArrayList sohd) {
          try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE CTHD SET XOA =" + 1 + " WHERE SOHD='" + ma + "'");
+             Connection conQLCTHD = KetNoi.getNewConnection();
+            for(int i=0; i<sohd.size();i++){
+            System.out.println(sohd.get(i));    
+            CallableStatement cstmt = conQLCTHD.prepareCall("UPDATE CTHD SET XOA = '" + 1 + "' WHERE SOHD='" + sohd.get(i) + "'");
             cstmt.execute();
+             }
 
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
     }
 
-    public boolean themCTTD(int mahd, String masp, String soluong) {
+    public boolean themCTTD(String mahd, String masp, String soluong) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("INSERT INTO CTHD VALUES ('" + mahd + "', '" + masp + "', '" + soluong + "', '" + 0 + "')");
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("INSERT INTO CTHD VALUES ('" + mahd + "', '" + masp + "', '" + soluong + "', '" + 0 + "')");
             cstmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -91,27 +79,29 @@ public class QuanLyCTHD extends QuanLy {
     public DefaultTableModel getCTTheoHD(String sohd) {
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from CTHD WHERE XOA = 0 AND SOHD ='" + sohd + "'");
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("SELECT CTHD.SOHD, CTHD.MASP, SP.TENSP, SP.NUOCSX, SP.DVT, SP.GIA, CTHD.SL FROM (CTHD JOIN SANPHAM SP ON CTHD.MASP = SP.MASP) JOIN HOADON HD ON HD.SOHD=CTHD.SOHD WHERE CTHD.SOHD ='" + sohd + "'");
             ResultSet rs = cstmt.executeQuery();
-
-            String[] colsName = {"STT", "Số HD", "Mã Sản Phẩm", "Số Lượng"};
+            
+            String[] colsName = {"STT", "Mã SP", "Tên SP", "Xuất xứ", "ĐVT", "Giá", "SL", "Thành tiền"};
             table.setColumnIdentifiers(colsName);
             index = 1;
             try {
                 while (rs.next()) { // nếu còn đọc tiếp được một dòng dữ liệu
-                    String rows[] = new String[4];
+                    String rows[] = new String[8];
                     rows[0] = Integer.toString(index);
-                    rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
-                    rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
-                    rows[3] = rs.getString(3);
+                    rows[1] = rs.getString(2); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
+                    rows[2] = rs.getString(3); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                    rows[3] = rs.getString(4);
+                    rows[4] = rs.getString(5);
+                    rows[5] = String.format("%,d", rs.getLong(6)) + " VNĐ";
+                    rows[6] = rs.getString(7);
+                    long thanhTien = rs.getLong(6) * rs.getLong(7);
+                    rows[7] = String.format("%,d", thanhTien) + " VNĐ";
 
                     table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
-                    //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                     index++;
-//                System.out.println(index);
                 }
-                System.out.println("index sau taitt = " + index);
             } catch (SQLException e) {
             }
 
@@ -123,8 +113,8 @@ public class QuanLyCTHD extends QuanLy {
 
     public boolean capnhatCTHD(String sohd, String sl, String masp) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE CTHD SET SL = '" + sl + "' WHERE MASP ='" + masp + "' AND SOHD ='" + sohd + "'");
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("UPDATE CTHD SET SL = '" + sl + "' WHERE MASP ='" + masp + "' AND SOHD ='" + sohd + "'");
             cstmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -134,4 +124,128 @@ public class QuanLyCTHD extends QuanLy {
 
     }
 
+    /**
+     *
+     * @param sohd
+     * @return
+     */
+    @Override
+    public int timMa(String sohd){
+        try {
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("SELECT SOHD from CTHD WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0;
+            try {
+                while(rs.next()){
+                    if(rs.getString("MAKH").equalsIgnoreCase(sohd)){
+                        return temp;
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+                System.out.println("loi oy");
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return -1;
+    }
+
+    @Override
+    public void xoaDongTrenSQL(String sohd) {
+        try {
+            Connection conQLHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLHD.prepareCall("UPDATE CTHD SET XOA = '" + 1 + "' WHERE SOHD='" + sohd + "'");
+            cstmt.execute();
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
+    public DefaultTableModel taiSoHD(String ma){
+        DefaultTableModel table = new DefaultTableModel();
+        try {
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0 AND SOHD = '" + ma + "'");
+            ResultSet rs = cstmt.executeQuery();
+            String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
+            table.setColumnIdentifiers(colsName);
+            try {
+                while (rs.next()) { // nếu còn đọc tiếp được một dòng dữ liệu
+                    String rows[] = new String[3];                 
+                    rows[0] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
+                    rows[1] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                    rows[2] = rs.getString(3);
+                    table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
+                    //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
+                   
+                }
+                return table;
+            } catch (SQLException e) {
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;     
+    }
+    
+    public DefaultTableModel taiMaSP(String ma){
+        DefaultTableModel table = new DefaultTableModel();
+        try {
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0 AND MASP = '" + ma + "'");
+            ResultSet rs = cstmt.executeQuery();
+            String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
+            table.setColumnIdentifiers(colsName);
+            try {
+                while (rs.next()) { // nếu còn đọc tiếp được một dòng dữ liệu
+                    String rows[] = new String[3];                 
+                    rows[0] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
+                    rows[1] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                    rows[2] = rs.getString(3);
+                    table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
+                    //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
+                   
+                }
+                return table;
+            } catch (SQLException e) {
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;     
+    }
+    
+    public DefaultTableModel taiSL(String ma){
+        DefaultTableModel table = new DefaultTableModel();
+        try {
+            Connection conQLCTHD = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0 AND SL = '" + ma + "'");
+            ResultSet rs = cstmt.executeQuery();
+            String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
+            table.setColumnIdentifiers(colsName);
+            try {
+                while (rs.next()) { // nếu còn đọc tiếp được một dòng dữ liệu
+                    String rows[] = new String[3];                 
+                    rows[0] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
+                    rows[1] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                    rows[2] = rs.getString(3);
+                    table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
+                    //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
+                   
+                }
+                return table;
+            } catch (SQLException e) {
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;     
+    }
+    
 }

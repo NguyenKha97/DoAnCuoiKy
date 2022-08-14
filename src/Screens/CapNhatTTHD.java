@@ -4,19 +4,11 @@
  */
 package Screens;
 
-import D02_ThucThi.LoginRun;
 import D02_ThucThi.QuanLyCTHD;
 import D02_ThucThi.QuanLyHD;
 import D02_ThucThi.QuanLySP;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,12 +16,6 @@ import javax.swing.JOptionPane;
  */
 public class CapNhatTTHD extends javax.swing.JFrame {
 
-    QuanLyHD qlhd = new QuanLyHD();
-    QuanLySP qlsp = new QuanLySP();
-    QuanLyCTHD qlcthd = new QuanLyCTHD();
-    HashMap<String, String> sp_sl = new HashMap<String, String>();
-    String hienThiSp_sl = "";
-    Double trigia = 0.0;
 
     /**
      * Creates new form CapNhatTTHD
@@ -47,24 +33,21 @@ public class CapNhatTTHD extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        btnUpdateHD = new javax.swing.JButton();
+        txtsoHD = new javax.swing.JLabel();
         btnHuyUpHD = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCTHD = new javax.swing.JTable();
+        txtNgHD = new javax.swing.JLabel();
+        txtNV = new javax.swing.JLabel();
+        txtKH = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cập nhật hóa đơn");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("CHI TIẾT HÓA ĐƠN");
+        txtsoHD.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
-        btnUpdateHD.setText("Cập Nhật");
-        btnUpdateHD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateHDActionPerformed(evt);
-            }
-        });
-
+        btnHuyUpHD.setBackground(new java.awt.Color(255, 0, 0));
+        btnHuyUpHD.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHuyUpHD.setForeground(new java.awt.Color(255, 255, 255));
         btnHuyUpHD.setText("Thoát");
         btnHuyUpHD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,17 +57,17 @@ public class CapNhatTTHD extends javax.swing.JFrame {
 
         tableCTHD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã Hóa Đơn", "Mã Sản Phẩm", "Số Lượng"
+                "STT", "Mã SP", "Tên SP", "Xuất xứ", "ĐVT", "Giá", "SL", "Thành tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -94,69 +77,55 @@ public class CapNhatTTHD extends javax.swing.JFrame {
         tableCTHD.setToolTipText("");
         jScrollPane1.setViewportView(tableCTHD);
 
+        txtNgHD.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        txtNV.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        txtKH.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(199, 199, 199)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtNV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNgHD, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtKH, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(268, 268, 268)
+                        .addComponent(btnHuyUpHD, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(txtsoHD, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addComponent(btnUpdateHD)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnHuyUpHD)
-                .addGap(152, 152, 152))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(98, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnUpdateHD)
-                            .addComponent(btnHuyUpHD))
-                        .addGap(20, 20, 20))))
+                .addGap(15, 15, 15)
+                .addComponent(txtsoHD, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtKH, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                    .addComponent(txtNV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtNgHD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(btnHuyUpHD, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnUpdateHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateHDActionPerformed
-        // TODO add your handling code here:      
-        int choice = JOptionPane.showConfirmDialog(null, "Ban co chac chan muon cap nhat du lieu nay?", "Thong bao", 0);
-        int k = tableCTHD.getRowCount();
-        if (choice != -1) {
-            String sohd = tableCTHD.getValueAt(0, 1).toString();
-            double triGiaMoi = 0.0;
-            for (int i = 0; i < k; i++) {
-                String slMoi = tableCTHD.getValueAt(i, 3).toString();
-                String masp = tableCTHD.getValueAt(i, 2).toString();
-                double giaSP = qlsp.getGia(masp);
-                triGiaMoi += giaSP * Double.parseDouble(slMoi);
-                qlcthd.capnhatCTHD(sohd, slMoi, masp);
-            }
-            Main.tableCTHD = Main.qlcthd.taiTT();
-            Main.CTHD.setModel(Main.tableCTHD);
-            boolean req2 = qlhd.capnhatTriGia(sohd, triGiaMoi);
-            if (req2) {
-                Main.tableHD = Main.qlhd.taiTT();
-                Main.HoaDon.setModel(Main.tableHD);
-                JOptionPane.showMessageDialog(null, "Cap nhat thanh cong!!!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Cap nhat that bai");
-            }
-        }                           
-    }//GEN-LAST:event_btnUpdateHDActionPerformed
 
     private void btnHuyUpHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyUpHDActionPerformed
         // TODO add your handling code here:
@@ -192,6 +161,7 @@ public class CapNhatTTHD extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CapNhatTTHD().setVisible(true);
             }
@@ -200,9 +170,11 @@ public class CapNhatTTHD extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuyUpHD;
-    private javax.swing.JButton btnUpdateHD;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable tableCTHD;
+    static javax.swing.JLabel txtKH;
+    static javax.swing.JLabel txtNV;
+    static javax.swing.JLabel txtNgHD;
+    static javax.swing.JLabel txtsoHD;
     // End of variables declaration//GEN-END:variables
 }

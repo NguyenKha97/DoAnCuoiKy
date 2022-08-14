@@ -4,13 +4,13 @@
  */
 package D02_ThucThi;
 
+import D01_KetNoi.KetNoi;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.event.ListDataListener;
 
 /**
  *
@@ -19,13 +19,13 @@ import javax.swing.event.ListDataListener;
 public class QuanLySP extends QuanLy {
 
     static int index;
-
+//    static Connection conQLSP = KetNoi.getNewConnection();
     @Override
     public DefaultTableModel taiTT() {
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from SANPHAM WHERE XOA = 0");
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
             String[] colsName = {"STT", "Mã SP", "Tên SP", "Đơn vị tính", "Nước sản xuất", "Giá"};
@@ -40,35 +40,27 @@ public class QuanLySP extends QuanLy {
                     rows[3] = rs.getString(3);
                     rows[4] = rs.getString(4);
 //                rows[5] = rs.getString(5);
-                    rows[5] = String.format("%,d", rs.getLong(5));
+                    rows[5] = String.format("%,d", rs.getLong(5)) + " VNĐ";
                     table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
                     //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
                     index++;
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
             }
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
+        System.out.println("thanh cong");
         return table;
     }
 
-    @Override
-    public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count) {
-        table.removeRow(i);
-        int j = i;
-        for (; j < (index - count - 1); j++) {
-            table.setValueAt(j + 1, j, 0);
-        }
-        return table;
-    }
+
 
     @Override
     public void xoaDongTrenSQL(String ma) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE SANPHAM SET XOA =" + 1 + " WHERE MASP='" + ma + "'");
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("UPDATE SANPHAM SET XOA =" + 1 + " WHERE MASP='" + ma + "'");
             cstmt.execute();
 
         } catch (SQLException ex) {
@@ -78,8 +70,8 @@ public class QuanLySP extends QuanLy {
 
     public boolean them(String MaSP, String TenSP, String Dvt, String NuocSX, String Gia) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("INSERT INTO SANPHAM VALUES ('" + MaSP + "', '" + TenSP + "', '"
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("INSERT INTO SANPHAM VALUES ('" + MaSP + "', '" + TenSP + "', '"
                     + Dvt + "', '" + NuocSX + "', '" + Gia + "', '" + 0 + "')");
             cstmt.execute();
             return true;
@@ -91,8 +83,8 @@ public class QuanLySP extends QuanLy {
     }
     public boolean capNhat(String ma, String tenSP, String dvt, String nuocSX, String gia) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP 
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP 
                     + "', DVT = '" + dvt + "', NUOCSX = '" + nuocSX + "', GIA = '" + gia + "' WHERE MASP = '" + ma + "'");
             cstmt.execute();
             return true;
@@ -104,14 +96,14 @@ public class QuanLySP extends QuanLy {
     }
     public DefaultComboBoxModel<String> getListMaSP(){
         try {
+            Connection conQLSP = KetNoi.getNewConnection();
             DefaultComboBoxModel model = new DefaultComboBoxModel();
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
-            int index=0;
+            int temp1=0;
             while(rs.next()){
-                model.insertElementAt(rs.getString("MASP"), index);
-                index++;
+                model.insertElementAt(rs.getString("MASP"), temp1);
+                temp1++;
             }
             return model;
             } catch (SQLException ex) {
@@ -119,19 +111,91 @@ public class QuanLySP extends QuanLy {
             return null;
         }
      }
-    public double getGia(String masp) {
+    public long getGia(String masp) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT GIA from SANPHAM WHERE MASP='" + masp + "'");
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT GIA from SANPHAM WHERE MASP='" + masp + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
-            double gia = rs.getDouble(1);
-            return gia;
+            return rs.getLong(1);
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
-            return 0.0;
+            return 0;
         }
     }
+    
+    /**
+     *
+     * @param masp
+     * @return
+     */
+    @Override
+    public int timMa(String masp){
+        try {
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0;
+            try {
+                while(rs.next()){
+                    if(rs.getString("MASP").equalsIgnoreCase(masp)){
+                        return temp;
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+                System.out.println("loi oy");
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return -1;
+    }
+    
+    public static void getSP(String ma, int sl, DefaultTableModel table) {
+        boolean check = false;
+        int i = 0;
+        for (; i < table.getRowCount(); i++) {
+            if (table.getValueAt(i, 0).equals(ma)) {
+                check = true;
+                break;
+            }
+        } 
+        try {
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0 AND MASP = '" + ma + "'");
+            ResultSet rs = cstmt.executeQuery();
+
+            String[] colsName = {"Mã SP", "Tên SP", "ĐVT", "Xuất xứ", "Giá", "SL", "Thành tiền"};
+            table.setColumnIdentifiers(colsName);
+            try {
+                rs.next();
+                if (check) {
+                    int slMoi = sl + Integer.parseInt((String) table.getValueAt(i, 5));
+                    table.setValueAt(Integer.toString(slMoi), i, 5);
+                    String thanhTien = String.format("%,d", (slMoi * rs.getLong(5))) + " VNĐ";
+                    table.setValueAt(thanhTien, i, 6);
+                } else {
+                    String rows[] = new String[7];
+                    rows[0] = rs.getString(1);
+                    rows[1] = rs.getString(2); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
+                    rows[2] = rs.getString(3); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                    rows[3] = rs.getString(4);
+                    rows[4] = String.format("%,d", rs.getLong(5)) + " VNĐ";
+                    rows[5] = Integer.toString(sl);
+                    rows[6] = String.format("%,d", (sl * rs.getLong(5))) + " VNĐ";
+                    table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+
+    }
+    
 }
     
 

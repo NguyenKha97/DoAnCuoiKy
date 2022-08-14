@@ -5,9 +5,9 @@
 package Screens;
 
 import javax.swing.JOptionPane;
-import static Screens.Main.nhanVien;
 import static Screens.Main.qlnv;
-import static Screens.Main.tableNV;
+import static Screens.Main.tableNhanVien;
+import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 
 /**
  *
@@ -39,8 +39,10 @@ public class CapNhatTTNV extends javax.swing.JFrame {
         txtSoDTNV = new javax.swing.JTextField();
         capNhatNV = new javax.swing.JButton();
         huyCapNhat = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        chonNgVaoLam = new com.toedter.calendar.JDateChooser();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cập nhật nhân viên");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("CẬP NHẬT THÔNG TIN NHÂN VIÊN");
@@ -80,6 +82,8 @@ public class CapNhatTTNV extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Ngày vào làm");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,22 +91,32 @@ public class CapNhatTTNV extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(txtSoDTNV, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtHoTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(txtSoDTNV, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(22, 22, 22)
+                                    .addComponent(chonNgVaoLam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtHoTenNV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(94, 94, 94))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(capNhatNV)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(huyCapNhat)
-                .addGap(26, 26, 26))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,18 +133,18 @@ public class CapNhatTTNV extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtHoTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSoDTNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(capNhatNV)
-                            .addComponent(huyCapNhat))
-                        .addGap(25, 25, 25))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtSoDTNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chonNgVaoLam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(capNhatNV)
+                    .addComponent(huyCapNhat))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -142,18 +156,20 @@ public class CapNhatTTNV extends javax.swing.JFrame {
 
     private void capNhatNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatNVActionPerformed
         // TODO add your handling code here:
-        int choice = JOptionPane.showConfirmDialog(capNhatNV, "Ban co chac chan muon cap nhat du lieu nay", "Thong bao", 0);
-        if (choice == 0) {
-            //                int i = jTable1.getSelectedRow();
-            //                countButton++;
-            //                System.out.println(countButton);
-            boolean check = qlnv.capNhat(txtmaNV.getText(), txtHoTenNV.getText(), txtSoDTNV.getText());
-            nhanVien.setModel(qlnv.taiTT());
-            if (check) {
-                JOptionPane.showMessageDialog(null, "Cap nhat thanh cong");
-                setVisible(!check);
-            } else {
-                JOptionPane.showMessageDialog(null, "Khong thanh cong, vui long kiem tra lai");
+        if (txtHoTenNV.getText().isBlank() || txtSoDTNV.getText().isBlank() || chonNgVaoLam.getDate()==null)
+            JOptionPane.showMessageDialog(capNhatNV, "Vui lòng nhập đầy đủ thông tin để cập nhật!!!");
+        else {
+            int choice = JOptionPane.showConfirmDialog(capNhatNV, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
+            if (choice == 0) {
+                boolean check = qlnv.capNhat(txtmaNV.getText(), txtHoTenNV.getText(), txtSoDTNV.getText(), chonNgVaoLam.getDate());
+                tableNhanVien.setModel(qlnv.taiTT());
+                setRightRendererAndResizeWitdh(tableNhanVien);
+                if (check) {
+                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
+                    setVisible(!check);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
+                }
             }
         }
     }//GEN-LAST:event_capNhatNVActionPerformed
@@ -192,6 +208,7 @@ public class CapNhatTTNV extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CapNhatTTNV().setVisible(true);
             }
@@ -200,11 +217,13 @@ public class CapNhatTTNV extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton capNhatNV;
+    com.toedter.calendar.JDateChooser chonNgVaoLam;
     private javax.swing.JButton huyCapNhat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JTextField txtHoTenNV;
     javax.swing.JTextField txtSoDTNV;

@@ -4,6 +4,7 @@
  */
 package D02_ThucThi;
 
+import D01_KetNoi.KetNoi;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,13 +21,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLyNV extends QuanLy {
     static int index;
-    
+//    static Connection conQLNV = KetNoi.getNewConnection();
     public String getMaCuoi(){
         String result ="";
         try {
-            Connection conn = LoginRun.con;
 //            WHERE XOA = 0
-            CallableStatement cstmt = conn.prepareCall("SELECT TOP 1 MANV FROM NHANVIEN ORDER BY MANV DESC");
+            Connection conQLNV = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLNV.prepareCall("SELECT TOP 1 MANV FROM NHANVIEN ORDER BY MANV DESC");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
             result = rs.getString(1);  
@@ -39,11 +41,11 @@ public class QuanLyNV extends QuanLy {
     public DefaultTableModel taiTT(){
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("SELECT * from NHANVIEN WHERE XOA = 0");
+            Connection conQLNV = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLNV.prepareCall("SELECT * from NHANVIEN WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
     
-            String []colsName = {"STT", "Mã NV", "Số ĐT", "Họ và tên", "Ngày vào làm" };
+            String []colsName = {"STT", "Mã NV", "Họ và tên", "Số ĐT", "Ngày vào làm" };
             table.setColumnIdentifiers(colsName);
             index = 1; 
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -67,23 +69,13 @@ public class QuanLyNV extends QuanLy {
         }
         return table;
     }
-    
-    @Override
-    public DefaultTableModel xoaDong(int i, DefaultTableModel table, int count){
-        table.removeRow(i);
-        System.out.println("row = " + i);
-        int j = i;
-        for(  ; j <(index-count-1); j++ ){
-            table.setValueAt(j+1, j, 0);
-        }
-        return table;
-    }
+
     
     @Override
     public void xoaDongTrenSQL(String ma){
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE NHANVIEN SET XOA =" + 1 + " WHERE MANV='" + ma + "'");
+            Connection conQLNV = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLNV.prepareCall("UPDATE NHANVIEN SET XOA =" + 1 + " WHERE MANV='" + ma + "'");
             cstmt.execute();   
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
@@ -92,8 +84,8 @@ public class QuanLyNV extends QuanLy {
     
     public boolean them(String MaNV, String HoTenNV, String SoDTNV, Date NgVaoLam) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("INSERT INTO NHANVIEN VALUES ('" + MaNV + "', '" + HoTenNV + "', '"
+            Connection conQLNV = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLNV.prepareCall("INSERT INTO NHANVIEN VALUES ('" + MaNV + "', '" + HoTenNV + "', '"
                     + SoDTNV + "', '" + new java.sql.Date(NgVaoLam.getTime()) +"', '" +  0 + "')");
             cstmt.execute();
             return true;
@@ -105,11 +97,11 @@ public class QuanLyNV extends QuanLy {
         
     }
     
-    public boolean capNhat(String ma, String hoTen, String soDT) {
+    public boolean capNhat(String ma, String hoTen, String soDT, Date NgVaoLam) {
         try {
-            Connection conn = LoginRun.con;
-            CallableStatement cstmt = conn.prepareCall("UPDATE NHANVIEN SET HOTEN = '" + hoTen 
-                    + "', SODT = '" + soDT + "' WHERE MANV = '" + ma + "'");
+            Connection conQLNV = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLNV.prepareCall("UPDATE NHANVIEN SET HOTEN = '" + hoTen 
+                    + "', SODT = '" + soDT + "', NGVL = '" + new java.sql.Date(NgVaoLam.getTime()) + "' WHERE MANV = '" + ma + "'");
             cstmt.execute();
             return true;
             
@@ -118,5 +110,83 @@ public class QuanLyNV extends QuanLy {
             return false;
         }
     }
-
+    
+    public Date getDate(int i){
+        try {
+            Connection conQLNV = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLNV.prepareCall("SELECT NGVL from NHANVIEN WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0;
+            try {
+                while(rs.next()&&temp<=i){
+                    if(temp == i){
+                        return rs.getDate("NGVL");
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+                System.out.println("loi oy");
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null; 
+    }
+    
+    @Override
+    public int timMa(String manv){
+        try {
+            Connection conQLNV = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLNV.prepareCall("SELECT MANV from NHANVIEN WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int temp = 0;
+            try {
+                while(rs.next()){
+                    if(rs.getString("MANV").equalsIgnoreCase(manv)){
+                        return temp;
+                    }
+                    temp++;
+                }
+            } catch (SQLException e) {
+                System.out.println("loi oy");
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return -1;
+    }
+    
+    public DefaultComboBoxModel<String> getListMaNV(){
+        try {
+            Connection conQLSP = KetNoi.getNewConnection();
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT MANV from NHANVIEN WHERE XOA = 0");
+            ResultSet rs = cstmt.executeQuery();
+            int Temp=0;
+            while(rs.next()){
+                model.insertElementAt(rs.getString("MANV"), Temp);
+                Temp++;
+            }
+            return model;
+            } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex); 
+            return null;
+        }
+     }
+    
+    public String getTenNV(String manv) {
+        try {
+            Connection conQLSP = KetNoi.getNewConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT HOTEN from NHANVIEN WHERE MANV = '" + manv + "'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            return rs.getString(1);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;
+    }
+    
 }
