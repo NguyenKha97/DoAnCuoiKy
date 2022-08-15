@@ -38,7 +38,13 @@ public class QuanLyKH extends QuanLy {
     }
     @Override
     public DefaultTableModel taiTT(){
-        DefaultTableModel table = new DefaultTableModel();
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         try {
             Connection conQLKH = KetNoi.getNewConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT * from KHACHHANG WHERE XOA = 0");

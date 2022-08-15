@@ -22,7 +22,13 @@ public class QuanLySP extends QuanLy {
 //    static Connection conQLSP = KetNoi.getNewConnection();
     @Override
     public DefaultTableModel taiTT() {
-        DefaultTableModel table = new DefaultTableModel();
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         try {
             Connection conQLSP = KetNoi.getNewConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0");
@@ -83,6 +89,7 @@ public class QuanLySP extends QuanLy {
     }
     public boolean capNhat(String ma, String tenSP, String dvt, String nuocSX, String gia) {
         try {
+           
             Connection conQLSP = KetNoi.getNewConnection();
             CallableStatement cstmt = conQLSP.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP 
                     + "', DVT = '" + dvt + "', NUOCSX = '" + nuocSX + "', GIA = '" + gia + "' WHERE MASP = '" + ma + "'");

@@ -13,6 +13,8 @@ import doancuoiky.DoAnCuoiKy;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import D02_ThucThi.QuanLyCTHD;
+import D02_ThucThi.QuanLyDN;
+import static Screens.QuanLyDangNhap.tableQuanLyDangNhap;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,17 +26,19 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class Main extends javax.swing.JFrame {
 
-    static boolean taittkh, taittnv, taittsp, taitthd, taittcthd;
+    static boolean taittkh, taittnv, taittsp, taitthd, taittcthd, taittdn;
     static QuanLyKH qlkh = new QuanLyKH();
     static QuanLyNV qlnv = new QuanLyNV();
     static QuanLySP qlsp = new QuanLySP();
     static QuanLyHD qlhd = new QuanLyHD();
     static QuanLyCTHD qlcthd = new QuanLyCTHD();
+    static QuanLyDN qldn = new QuanLyDN();
     static DefaultTableModel dfTableKH;
     static DefaultTableModel dfTableNV;
     static DefaultTableModel dfTableSP;
     static DefaultTableModel dfTableHD;
     static DefaultTableModel dfTableCTHD;
+    static DefaultTableModel dfTableQLDN;
     static int countButtonXoaKH = 1;
     static int countButtonXoaNV = 1;
     static int countButtonXoaSP = 1;
@@ -117,6 +121,10 @@ public class Main extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jPasswordField3 = new javax.swing.JPasswordField();
+        jSeparator1 = new javax.swing.JSeparator();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -156,10 +164,17 @@ public class Main extends javax.swing.JFrame {
         txtMa = new javax.swing.JTextField();
         buttonTim = new javax.swing.JButton();
         timKiemComboBox = new javax.swing.JComboBox<>();
+        buttonQLDN = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
 
         jScrollPane2.setViewportView(jEditorPane1);
+
+        jPasswordField1.setText("jPasswordField1");
+
+        jToggleButton2.setText("jToggleButton2");
+
+        jPasswordField3.setText("jPasswordField3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Màn hình chính");
@@ -205,6 +220,7 @@ public class Main extends javax.swing.JFrame {
         });
         tableKhachHang.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tableKhachHang.setDropMode(javax.swing.DropMode.ON);
+        tableKhachHang.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableKhachHang.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableKhachHang);
 
@@ -331,6 +347,7 @@ public class Main extends javax.swing.JFrame {
         });
         tableNhanVien.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tableNhanVien.setDropMode(javax.swing.DropMode.ON);
+        tableNhanVien.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableNhanVien.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(tableNhanVien);
 
@@ -392,6 +409,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         tableSanPham.setDropMode(javax.swing.DropMode.ON);
+        tableSanPham.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableSanPham.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tableSanPham);
 
@@ -477,6 +495,7 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableHoaDon.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane4.setViewportView(tableHoaDon);
 
         buttonTaiTTHD.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -598,6 +617,13 @@ public class Main extends javax.swing.JFrame {
 
         timKiemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        buttonQLDN.setText("Quản lý đăng nhập");
+        buttonQLDN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonQLDNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -617,17 +643,19 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(txtMa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonTim)))
-                .addGap(171, 171, 171)
-                .addComponent(buttonDangXuat)
-                .addGap(23, 23, 23))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(182, 182, 182)
+                        .addComponent(buttonDangXuat))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonQLDN)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(buttonDangXuat))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -635,7 +663,12 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(buttonTim)
-                            .addComponent(timKiemComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(timKiemComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(buttonDangXuat)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonQLDN)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
@@ -653,61 +686,86 @@ public class Main extends javax.swing.JFrame {
         frmLogin.setVisible(true);
     }//GEN-LAST:event_buttonDangXuatActionPerformed
 
-    private void buttonTaiTTNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTNVActionPerformed
+    private void buttonTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTimActionPerformed
         // TODO add your handling code here:
-        dfTableNV = qlnv.taiTT();
-        tableNhanVien.setModel(dfTableNV);
-        setRightRendererAndResizeWitdh(tableNhanVien);
-    }//GEN-LAST:event_buttonTaiTTNVActionPerformed
-
-    private void buttonTaiTTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTSPActionPerformed
-        // TODO add your handling code here:
-        dfTableSP = qlsp.taiTT();
-        tableSanPham.setModel(dfTableSP);
-        setRightRendererAndResizeWitdh(tableSanPham);
-    }//GEN-LAST:event_buttonTaiTTSPActionPerformed
-
-    private void buttonThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemSPActionPerformed
-        NhapTTSP nhapttsp = new NhapTTSP();
-        nhapttsp.setLocationRelativeTo(null);
-        nhapttsp.setVisible(true);
-        nhapttsp.txtGia.setText("500");
-    }//GEN-LAST:event_buttonThemSPActionPerformed
-
-    private void buttonXoaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaNVActionPerformed
-        if (xoaAction(tableNhanVien, taittnv, countButtonXoaNV, buttonXoaNV, dfTableNV, qlnv)){
-            countButtonXoaNV++;
-        JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-        } else {
-            if(choice == 0)
-            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+        if (txtMa.getText().isBlank() || timKiemComboBox.getSelectedIndex() == -1)
+            JOptionPane.showMessageDialog(rootPane, "Hãy nhập đầy đủ thông tin để tìm kiếm");
+        else {
+            String maTimKiem = txtMa.getText();
+            int loaiTK = timKiemComboBox.getSelectedIndex();
+            switch (jTabbedPane1.getSelectedIndex()) {
+//            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
+                case 0 ->
+                    tim(tableKhachHang, maTimKiem, loaiTK);
+                case 1 ->
+                    tim(tableNhanVien, maTimKiem, loaiTK);
+                case 2 ->
+                    tim(tableSanPham, maTimKiem, loaiTK);
+                case 3 ->
+                    tim(tableHoaDon, maTimKiem, loaiTK);
+                case 4 ->
+                    tim(tableCTHD, maTimKiem, loaiTK);
+            }
         }
-    }//GEN-LAST:event_buttonXoaNVActionPerformed
+    }//GEN-LAST:event_buttonTimActionPerformed
 
-    private void buttonXoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaSPActionPerformed
-        if (xoaAction(tableSanPham, taittsp, countButtonXoaSP, buttonXoaSP, dfTableSP, qlsp)){
-            countButtonXoaSP++;
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // TODO add your handling code here:
+        DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
+        switch (jTabbedPane1.getSelectedIndex()) {
+            //            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
+            case 0 ->  setComboBoxInfo(tableKhachHang, comboModels);
+            case 1 ->  setComboBoxInfo(tableNhanVien, comboModels);
+            case 2 ->  setComboBoxInfo(tableSanPham, comboModels);
+            case 3 ->  setComboBoxInfo(tableHoaDon, comboModels);
+            case 4 ->  setComboBoxInfo(tableCTHD, comboModels);
+        }
+        timKiemComboBox.setModel(comboModels);
+        timKiemComboBox.setSelectedIndex(0);
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void jTabbedPane1HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jTabbedPane1HierarchyChanged
+        // TODO add your handling code here:
+        DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
+        switch (jTabbedPane1.getSelectedIndex()) {
+            //            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
+            case 0 ->  setComboBoxInfo(tableKhachHang, comboModels);
+            case 1 ->  setComboBoxInfo(tableNhanVien, comboModels);
+            case 2 ->  setComboBoxInfo(tableSanPham, comboModels);
+            case 3 ->  setComboBoxInfo(tableHoaDon, comboModels);
+            case 4 ->  setComboBoxInfo(tableCTHD, comboModels);
+        }
+        timKiemComboBox.setModel(comboModels);
+        timKiemComboBox.setSelectedIndex(0);
+    }//GEN-LAST:event_jTabbedPane1HierarchyChanged
+
+    private void btnTaiTTCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiTTCTHDActionPerformed
+        dfTableCTHD = qlcthd.taiTT();
+        tableCTHD.setModel(dfTableCTHD);
+        setRightRendererAndResizeWitdh(tableCTHD);
+    }//GEN-LAST:event_btnTaiTTCTHDActionPerformed
+
+    private void buttonXoaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaHDActionPerformed
+
+        if (xoaAction(tableHoaDon, taitthd, countButtonXoaHD, buttonXoaHD, dfTableHD, qlhd)){
             JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+            countButtonXoaHD++;
+            qlcthd.xoaDongTrenSQL(maSR);
+            dfTableCTHD = qlcthd.taiTT();
+            tableCTHD.setModel(dfTableCTHD);
+            setRightRendererAndResizeWitdh(tableCTHD);
+            String maKh =qlhd.layMaKH(maSR);
+            long trigia = -qlhd.getTriGia(maSR);
+            qlkh.capNhatDS(maKh, trigia);
+            dfTableKH = qlkh.taiTT();
+            tableKhachHang.setModel(dfTableKH);
+            setRightRendererAndResizeWitdh(tableKhachHang);
         } else {
             if(choice == 0)
             JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
         }
-    }//GEN-LAST:event_buttonXoaSPActionPerformed
 
-    private void buttonThemNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemNVActionPerformed
-        // TODO add your handling code here:
-        NhapTTNV nhapttnv = new NhapTTNV();
-        nhapttnv.setLocationRelativeTo(null);
-        nhapttnv.setVisible(true);
-        NhapTTNV.txtmaNV.setText(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()));
-        NhapTTNV.chonNgVaoLam.setDate(Calendar.getInstance().getTime());
-    }//GEN-LAST:event_buttonThemNVActionPerformed
-
-    private void buttonTaiTTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTHDActionPerformed
-        dfTableHD = qlhd.taiTT();
-        tableHoaDon.setModel(dfTableHD);
-        setRightRendererAndResizeWitdh(tableHoaDon);
-    }//GEN-LAST:event_buttonTaiTTHDActionPerformed
+    }//GEN-LAST:event_buttonXoaHDActionPerformed
 
     private void buttonXemCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXemCTHDActionPerformed
         int i = tableHoaDon.getSelectedRow();
@@ -739,14 +797,56 @@ public class Main extends javax.swing.JFrame {
         NhapTTHD.txtSoHD.setText(qlhd.getNewSoHD());
         nhaptthd.setLocationRelativeTo(null);
         nhaptthd.setVisible(true);
-
     }//GEN-LAST:event_buttonThemHDActionPerformed
 
-    private void btnTaiTTCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiTTCTHDActionPerformed
-        dfTableCTHD = qlcthd.taiTT();
-        tableCTHD.setModel(dfTableCTHD);
-        setRightRendererAndResizeWitdh(tableCTHD);
-    }//GEN-LAST:event_btnTaiTTCTHDActionPerformed
+    private void buttonTaiTTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTHDActionPerformed
+        dfTableHD = qlhd.taiTT();
+        tableHoaDon.setModel(dfTableHD);
+        setRightRendererAndResizeWitdh(tableHoaDon);
+    }//GEN-LAST:event_buttonTaiTTHDActionPerformed
+
+    private void buttonCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatSPActionPerformed
+        // TODO add your handling code here:
+        int i = tableSanPham.getSelectedRow();
+        if (i >= 0 && taittsp) {
+            CapNhatTTSP capnhatsp = new CapNhatTTSP();
+            capnhatsp.setLocationRelativeTo(null);
+            capnhatsp.setVisible(true);
+            capnhatsp.txtMaSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 1));
+            capnhatsp.txtTenSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 2));
+            capnhatsp.donViTinh.setSelectedItem((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 3));
+            capnhatsp.txtNuocSX.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 4));
+            String gia = (String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 5);
+            String[] temp4 = gia.split(" VNĐ");
+            gia = temp4[0];
+            gia = gia.replace(",", "");
+            capnhatsp.txtGia.setText(gia);
+        }
+    }//GEN-LAST:event_buttonCapNhatSPActionPerformed
+
+    private void buttonXoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaSPActionPerformed
+        if (xoaAction(tableSanPham, taittsp, countButtonXoaSP, buttonXoaSP, dfTableSP, qlsp)){
+            countButtonXoaSP++;
+            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+        } else {
+            if(choice == 0)
+            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+        }
+    }//GEN-LAST:event_buttonXoaSPActionPerformed
+
+    private void buttonThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemSPActionPerformed
+        NhapTTSP nhapttsp = new NhapTTSP();
+        nhapttsp.setLocationRelativeTo(null);
+        nhapttsp.setVisible(true);
+        nhapttsp.txtGia.setText("500");
+    }//GEN-LAST:event_buttonThemSPActionPerformed
+
+    private void buttonTaiTTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTSPActionPerformed
+        // TODO add your handling code here:
+        dfTableSP = qlsp.taiTT();
+        tableSanPham.setModel(dfTableSP);
+        setRightRendererAndResizeWitdh(tableSanPham);
+    }//GEN-LAST:event_buttonTaiTTSPActionPerformed
 
     private void buttonCapNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatKHActionPerformed
         // TODO add your handling code here:
@@ -762,57 +862,31 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonCapNhatKHActionPerformed
 
-    private void buttonCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatSPActionPerformed
-        // TODO add your handling code here:
-        int i = tableSanPham.getSelectedRow();
-        if (i >= 0 && taittsp) {
-            CapNhatTTSP capnhatsp = new CapNhatTTSP();
-            capnhatsp.setLocationRelativeTo(null);
-            capnhatsp.setVisible(true);
-            capnhatsp.txtMaSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 1));
-            capnhatsp.txtTenSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 2));
-            capnhatsp.donViTinh.setSelectedItem((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 3));
-            capnhatsp.txtNuocSX.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 4));
-            capnhatsp.txtGia.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 5));
-        }
-    }//GEN-LAST:event_buttonCapNhatSPActionPerformed
-
-    private void buttonXoaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaHDActionPerformed
-  
-        if (xoaAction(tableHoaDon, taitthd, countButtonXoaHD, buttonXoaHD, dfTableHD, qlhd)){
+    private void buttonXoaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaNVActionPerformed
+        if (xoaAction(tableNhanVien, taittnv, countButtonXoaNV, buttonXoaNV, dfTableNV, qlnv)){
+            countButtonXoaNV++;
             JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-            countButtonXoaHD++; 
-            qlcthd.xoaDongTrenSQL(maSR);
-            dfTableCTHD = qlcthd.taiTT();
-            tableCTHD.setModel(dfTableCTHD);
-            setRightRendererAndResizeWitdh(tableCTHD);
-            String maKh =qlhd.layMaKH(maSR);
-            long trigia = -qlhd.getTriGia(maSR);
-            qlkh.capNhatDS(maKh, trigia);
-            dfTableKH = qlkh.taiTT();
-            tableKhachHang.setModel(dfTableKH);
-            setRightRendererAndResizeWitdh(tableKhachHang);
         } else {
             if(choice == 0)
             JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
         }
-        
-    }//GEN-LAST:event_buttonXoaHDActionPerformed
+    }//GEN-LAST:event_buttonXoaNVActionPerformed
 
-    private void butonCapNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonCapNhatKHActionPerformed
+    private void buttonThemNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemNVActionPerformed
+        // TODO add your handling code here:
+        NhapTTNV nhapttnv = new NhapTTNV();
+        nhapttnv.setLocationRelativeTo(null);
+        nhapttnv.setVisible(true);
+        NhapTTNV.txtmaNV.setText(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()));
+        NhapTTNV.chonNgVaoLam.setDate(Calendar.getInstance().getTime());
+    }//GEN-LAST:event_buttonThemNVActionPerformed
 
-        int i = tableKhachHang.getSelectedRow();
-        if (i >= 0 && taittkh) {
-            CapNhatTTKH capnhatkh = new CapNhatTTKH();
-            capnhatkh.setLocationRelativeTo(null);
-            capnhatkh.setVisible(true);
-            capnhatkh.txtmaKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1));
-            capnhatkh.txtHoTenKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 2));
-            capnhatkh.txtDiaChiKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 3));
-            capnhatkh.txtSoDTKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 4));
-            capnhatkh.chonSinhNhat.setDate(qlkh.getDate(i));
-        }
-    }//GEN-LAST:event_butonCapNhatKHActionPerformed
+    private void buttonTaiTTNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTNVActionPerformed
+        // TODO add your handling code here:
+        dfTableNV = qlnv.taiTT();
+        tableNhanVien.setModel(dfTableNV);
+        setRightRendererAndResizeWitdh(tableNhanVien);
+    }//GEN-LAST:event_buttonTaiTTNVActionPerformed
 
     private void buttonXoaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaKHActionPerformed
         String maKH = "";
@@ -839,6 +913,21 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonXoaKHActionPerformed
 
+    private void butonCapNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonCapNhatKHActionPerformed
+
+        int i = tableKhachHang.getSelectedRow();
+        if (i >= 0 && taittkh) {
+            CapNhatTTKH capnhatkh = new CapNhatTTKH();
+            capnhatkh.setLocationRelativeTo(null);
+            capnhatkh.setVisible(true);
+            capnhatkh.txtmaKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1));
+            capnhatkh.txtHoTenKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 2));
+            capnhatkh.txtDiaChiKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 3));
+            capnhatkh.txtSoDTKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 4));
+            capnhatkh.chonSinhNhat.setDate(qlkh.getDate(i));
+        }
+    }//GEN-LAST:event_butonCapNhatKHActionPerformed
+
     private void buttonThemKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemKHActionPerformed
         NhapTTKH nhapttkh = new NhapTTKH();
         nhapttkh.setLocationRelativeTo(null);
@@ -853,28 +942,18 @@ public class Main extends javax.swing.JFrame {
         setRightRendererAndResizeWitdh(tableKhachHang);
     }//GEN-LAST:event_buttonTaiTTKHActionPerformed
 
-    private void buttonTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTimActionPerformed
+    private void buttonQLDNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQLDNActionPerformed
         // TODO add your handling code here:
-        if (txtMa.getText().isBlank() || timKiemComboBox.getSelectedIndex() == -1)
-            JOptionPane.showMessageDialog(rootPane, "Hãy nhập đầy đủ thông tin để tìm kiếm");
-        else {
-            String maTimKiem = txtMa.getText();
-            int loaiTK = timKiemComboBox.getSelectedIndex();
-            switch (jTabbedPane1.getSelectedIndex()) {
-//            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
-                case 0 ->
-                    tim(tableKhachHang, maTimKiem, loaiTK);
-                case 1 ->
-                    tim(tableNhanVien, maTimKiem, loaiTK);
-                case 2 ->
-                    tim(tableSanPham, maTimKiem, loaiTK);
-                case 3 ->
-                    tim(tableHoaDon, maTimKiem, loaiTK);
-                case 4 ->
-                    tim(tableCTHD, maTimKiem, loaiTK);
-            }
-        }
-    }//GEN-LAST:event_buttonTimActionPerformed
+        QuanLyDangNhap screenQLDN = new QuanLyDangNhap();
+        screenQLDN.setLocationRelativeTo(null);
+        screenQLDN.setVisible(true);
+        QuanLyDangNhap.txtPassAdmin.setText("********");
+        QuanLyDangNhap.txtMaBaoVe.setText("********");
+        dfTableQLDN = qldn.taiTT();
+        tableQuanLyDangNhap.setModel(dfTableQLDN);
+        setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
+        taittdn = true;
+    }//GEN-LAST:event_buttonQLDNActionPerformed
 
     private void setComboBoxInfo(javax.swing.JTable table, DefaultComboBoxModel comboModels) {
         for (int i = 0; i < table.getColumnCount(); i++) {
@@ -883,37 +962,6 @@ public class Main extends javax.swing.JFrame {
     }
     
     
-    private void jTabbedPane1HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jTabbedPane1HierarchyChanged
-        // TODO add your handling code here:
-        DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
-        switch (jTabbedPane1.getSelectedIndex()) {
-//            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
-            case 0 ->  setComboBoxInfo(tableKhachHang, comboModels);
-            case 1 ->  setComboBoxInfo(tableNhanVien, comboModels);
-            case 2 ->  setComboBoxInfo(tableSanPham, comboModels);
-            case 3 ->  setComboBoxInfo(tableHoaDon, comboModels);
-            case 4 ->  setComboBoxInfo(tableCTHD, comboModels);
-        }
-        timKiemComboBox.setModel(comboModels);
-        timKiemComboBox.setSelectedIndex(0);
-
-    }//GEN-LAST:event_jTabbedPane1HierarchyChanged
-
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        // TODO add your handling code here:
-        DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
-        switch (jTabbedPane1.getSelectedIndex()) {
-//            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
-            case 0 ->  setComboBoxInfo(tableKhachHang, comboModels);
-            case 1 ->  setComboBoxInfo(tableNhanVien, comboModels);
-            case 2 ->  setComboBoxInfo(tableSanPham, comboModels);
-            case 3 ->  setComboBoxInfo(tableHoaDon, comboModels);
-            case 4 ->  setComboBoxInfo(tableCTHD, comboModels);
-        }
-        timKiemComboBox.setModel(comboModels);
-        timKiemComboBox.setSelectedIndex(0);
-    }//GEN-LAST:event_jTabbedPane1StateChanged
-
     /**
      * @param args the command line arguments
      */
@@ -957,6 +1005,7 @@ public class Main extends javax.swing.JFrame {
     javax.swing.JButton buttonCapNhatKH;
     javax.swing.JButton buttonCapNhatSP;
     private javax.swing.JButton buttonDangXuat;
+    private javax.swing.JButton buttonQLDN;
     private javax.swing.JButton buttonTaiTTHD;
     private javax.swing.JButton buttonTaiTTKH;
     private javax.swing.JButton buttonTaiTTNV;
@@ -979,20 +1028,24 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
     public static javax.swing.JTable tableCTHD;
     public static javax.swing.JTable tableHoaDon;
-    public static javax.swing.JTable tableKhachHang;
+    static javax.swing.JTable tableKhachHang;
     public static javax.swing.JTable tableNhanVien;
-    static javax.swing.JTable tableSanPham;
+    public static javax.swing.JTable tableSanPham;
     static javax.swing.JComboBox<String> timKiemComboBox;
     javax.swing.JTextField txtMa;
     // End of variables declaration//GEN-END:variables

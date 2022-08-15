@@ -166,19 +166,22 @@ public class CapNhatTTSP extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (txtMaSP.getText().isBlank() || txtTenSP.getText().isBlank() || txtNuocSX.getText().isBlank() || txtGia.getText().isBlank())
             JOptionPane.showMessageDialog(capNhatSP, "Vui lòng nhập đầy đủ thông tin để thêm mới!!!");
-        else if (Double.parseDouble(txtGia.getText()) < 500) {
-            JOptionPane.showMessageDialog(capNhatSP, "Giá sản phẩm >= 500");
-        } else {
-            int choice = JOptionPane.showConfirmDialog(capNhatSP, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
-            if (choice == 0) {
-                boolean check = qlsp.capNhat(txtMaSP.getText(), txtTenSP.getText(), donViTinh.getSelectedItem().toString(), txtNuocSX.getText(), txtGia.getText());
-                tableSanPham.setModel(qlsp.taiTT());
-                setRightRendererAndResizeWitdh(tableSanPham);
-                if (check) {
-                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
-                    setVisible(!check);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
+        else {
+            
+            if (Double.parseDouble(txtGia.getText()) < 500) {
+                JOptionPane.showMessageDialog(capNhatSP, "Giá sản phẩm >= 500");
+            } else {
+                int choice = JOptionPane.showConfirmDialog(capNhatSP, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
+                if (choice == 0) {
+                    boolean check = qlsp.capNhat(txtMaSP.getText(), txtTenSP.getText(), donViTinh.getSelectedItem().toString(), txtNuocSX.getText(), txtGia.getText());
+                    tableSanPham.setModel(qlsp.taiTT());
+                    setRightRendererAndResizeWitdh(tableSanPham);
+                    if (check) {
+                        JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
+                        setVisible(!check);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
+                    }
                 }
             }
         }

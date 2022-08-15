@@ -25,7 +25,13 @@ public class QuanLyHD extends QuanLy {
 //    static Connection conQLHD = KetNoi.getNewConnection();
     @Override
     public DefaultTableModel taiTT() {
-        DefaultTableModel table = new DefaultTableModel();
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         try {
             Connection conQLHD = KetNoi.getNewConnection();
             CallableStatement cstmt = conQLHD.prepareCall("SELECT * from HOADON WHERE XOA = 0");

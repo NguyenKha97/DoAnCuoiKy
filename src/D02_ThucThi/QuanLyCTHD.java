@@ -21,7 +21,13 @@ public class QuanLyCTHD extends QuanLy {
 //    static Connection conQLCTHD = KetNoi.getNewConnection();
     @Override
     public DefaultTableModel taiTT() {
-        DefaultTableModel table = new DefaultTableModel();
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         try {
             Connection conQLCTHD = KetNoi.getNewConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0");

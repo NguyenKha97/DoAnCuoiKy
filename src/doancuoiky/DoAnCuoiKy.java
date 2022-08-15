@@ -54,6 +54,7 @@ public class DoAnCuoiKy {
             }
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+
     }
     
     /**

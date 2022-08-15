@@ -39,7 +39,13 @@ public class QuanLyNV extends QuanLy {
     
     @Override
     public DefaultTableModel taiTT(){
-        DefaultTableModel table = new DefaultTableModel();
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         try {
             Connection conQLNV = KetNoi.getNewConnection();
             CallableStatement cstmt = conQLNV.prepareCall("SELECT * from NHANVIEN WHERE XOA = 0");
