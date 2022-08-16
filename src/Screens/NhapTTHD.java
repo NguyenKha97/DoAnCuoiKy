@@ -29,8 +29,13 @@ public class NhapTTHD extends javax.swing.JFrame {
 //    QuanLyHD qlhd = new QuanLyHD();
 //    QuanLySP qlsp = new QuanLySP();
 //    QuanLyCTHD qlcthd = new QuanLyCTHD();
-
-    static DefaultTableModel tempTableSP = new DefaultTableModel();
+    static DefaultTableModel tempTableSP = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
     static long trigia = 0;
 
     /**
@@ -342,43 +347,17 @@ public class NhapTTHD extends javax.swing.JFrame {
     private void txtTongTienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTongTienActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTongTienActionPerformed
-    private long tinhTriGia(String masp, int sl) {
+    public static long tinhTriGia(String masp, int sl) {
         long giaSP = qlsp.getGia(masp);
         System.out.println(giaSP);
         return sl * giaSP;
     }
     private void btnThemHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemHDActionPerformed
         // TODO add your handling code here:
-//        Date ngayMoi = txtNgayHD.getDate();
-//        String maKhMoi = txtMaKH.getText();
-//
-//        if (trigia == 0.0) {
-//            JOptionPane.showMessageDialog(null, "Hay tinh tri gia hoa don truoc khi tao!!!");
-//        } else {
-//            int newMahd = qlhd.getNewSoHD();
-//            boolean request1 = qlhd.themHD(newMahd, ngayMoi, maKhMoi, maNvMoi, trigia);
-//
-//            if (request1) {
-//                sp_sl.forEach((sp, sl) -> {
-//                    qlcthd.themCTTD(newMahd, sp, sl);
-//                });
-//                Main.dfTableHD = Main.qlhd.taiTT();
-//                Main.tableHoaDon.setModel(Main.dfTableHD);
-//                Main.dfTableCTHD = Main.qlcthd.taiTT();
-//                Main.CTHD.setModel(Main.dfTableCTHD);
-//                JOptionPane.showMessageDialog(null, "Tạo thành công!!! Số hóa đơn: " + newMahd);
-//                setVisible(!request1);
-//                Main.countButtonXoaHD = 1;
-//                qlkh.capNhatDS(maKhMoi, trigia);
-//                tablesp = new DefaultTableModel();
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
-//            }
-//        }
         
         if(trigia == 0 || txtMaKH.getText().isBlank() || tableListSP.getRowCount()==0 || maNVComboBox.getSelectedItem()==null || txtNgayHD.getDate()==null ){
             JOptionPane.showMessageDialog(null, "Hay nhap du thong tin cua hoa don truoc khi tao!!!");
-        } else if (!qlkh.check(txtMaKH.getText())) {
+        } else if (!qlkh.checkMaKH(txtMaKH.getText())) {
             int choice = JOptionPane.showConfirmDialog(null, "Mã KH không đúng hoặc không tồn tại. Bạn có muốn tạo KH mới?", "Thông báo", 0);
                 if (choice == 0) {
                     NhapTTKH nhapttkh = new NhapTTKH();
@@ -390,12 +369,12 @@ public class NhapTTHD extends javax.swing.JFrame {
         } else {
             boolean check = qlhd.themHD(qlhd.getNewSoHD(), txtNgayHD.getDate(), txtMaKH.getText(), maNVComboBox.getSelectedItem().toString(), trigia);
             if(check){
-                JOptionPane.showMessageDialog(null, "Tạo thành công!!! Số hóa đơn: " + txtSoHD);
+                JOptionPane.showMessageDialog(null, "Tạo thành công!!! Số hóa đơn: " + txtSoHD.getText());
                 Main.dfTableHD = qlhd.taiTT();
                 tableHoaDon.setModel(Main.dfTableHD);
                 setRightRendererAndResizeWitdh(tableHoaDon);
                 for (int i = 0; i < tableListSP.getRowCount(); i++) {
-                    qlcthd.themCTTD(txtSoHD.getText(), (String) tableListSP.getValueAt(i, 0), (String) tableListSP.getValueAt(i, 4));
+                    qlcthd.themCTTD(txtSoHD.getText(), (String) tableListSP.getValueAt(i, 0), (String) tableListSP.getValueAt(i, 5));
                 }
                 Main.dfTableCTHD = qlcthd.taiTT();
                 tableCTHD.setModel(Main.dfTableCTHD);
@@ -431,13 +410,19 @@ public class NhapTTHD extends javax.swing.JFrame {
     private void btnHuyThemHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyThemHDActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        tempTableSP = new DefaultTableModel();
+        tempTableSP = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
     }//GEN-LAST:event_btnHuyThemHDActionPerformed
 
     private void txtMaKHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (!qlkh.check(txtMaKH.getText())) {
+            if (!qlkh.checkMaKH(txtMaKH.getText())) {
                 int choice = JOptionPane.showConfirmDialog(null, "Mã KH không đúng hoặc không tồn tại. Bạn có muốn tạo KH mới?", "Thông báo", 0);
                 if (choice == 0) {
                     NhapTTKH nhapttkh = new NhapTTKH();

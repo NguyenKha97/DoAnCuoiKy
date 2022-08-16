@@ -25,7 +25,6 @@ public class DoAnCuoiKy {
      */
     
     
-    
         public String tangMa(String temp){
         String haiKiTuDau = temp.substring(0, 2);
         String haiKiTuSau = temp.substring(2);
@@ -75,6 +74,7 @@ public class DoAnCuoiKy {
         // TODO code application logic here
         Login frmlogin1 = new Login();
         frmlogin1.setVisible(true);
+        frmlogin1.setLocationRelativeTo(null);
         
     }
             

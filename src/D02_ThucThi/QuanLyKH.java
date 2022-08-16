@@ -26,7 +26,7 @@ public class QuanLyKH extends QuanLy {
     public String getMaCuoi(){
         String result ="";
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT TOP 1 MAKH FROM KHACHHANG ORDER BY MAKH DESC");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -46,7 +46,7 @@ public class QuanLyKH extends QuanLy {
             }
         };
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT * from KHACHHANG WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
     
@@ -93,7 +93,7 @@ public class QuanLyKH extends QuanLy {
     @Override
     public void xoaDongTrenSQL(String ma){
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("UPDATE KHACHHANG SET XOA =" + 1 + " WHERE MAKH='" + ma + "'");
             cstmt.execute();
             
@@ -104,7 +104,7 @@ public class QuanLyKH extends QuanLy {
     public boolean them(String MaKH, String HoTenKH, String DiaChiKH, String SoDTKH, Date SinhNhatKH, Date NgDKKH) {
         try {
             String loaiKH = "Vang lai";
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("INSERT INTO KHACHHANG VALUES ('" + MaKH + "', '" + HoTenKH + "', '"
                     + DiaChiKH + "', '" + SoDTKH + "', '" + new java.sql.Date(SinhNhatKH.getTime()) + "', '"   
                     + new java.sql.Date(NgDKKH.getTime()) + "', '" + 1 + "', '" + loaiKH 
@@ -121,7 +121,7 @@ public class QuanLyKH extends QuanLy {
     
     public boolean capNhat(String ma, String hoTen, String diaChi, String soDT, Date sinhNhat){
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("UPDATE KHACHHANG SET HOTEN = '" + hoTen + "', DCHI = '" + diaChi + "', SODT = '"
                     + soDT + "', NGSINH = '" + new java.sql.Date(sinhNhat.getTime()) + "' WHERE MAKH = '"   
                     + ma + "'");
@@ -137,7 +137,7 @@ public class QuanLyKH extends QuanLy {
     
     public Date getDate(int i){
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT NGSINH from KHACHHANG WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
@@ -161,7 +161,7 @@ public class QuanLyKH extends QuanLy {
     @Override
     public int timMa(String makh){
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT MAKH from KHACHHANG WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
@@ -184,7 +184,7 @@ public class QuanLyKH extends QuanLy {
     
     public void capNhatDS (String ma, long ds){
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT DOANHSO from KHACHHANG WHERE XOA = 0 AND MAKH = '" + ma + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -195,16 +195,23 @@ public class QuanLyKH extends QuanLy {
                 System.out.println("Loi, doanh so khong the am. kiem tra lại QLKH");
                 return;
             }
-            cstmt = conQLKH.prepareCall("UPDATE KHACHHANG SET DOANHSO = '" + Long.toString(dsMoi) + "' WHERE MAKH = '" + ma + "'");
+            String loaiKH;
+            if(dsMoi <100000 && dsMoi >0)
+                loaiKH = "Vang lai";
+            else if(dsMoi>=100000 && dsMoi <3000000)
+                loaiKH = "Thuong xuyen";
+            else
+                loaiKH = "Vip";
+            cstmt = conQLKH.prepareCall("UPDATE KHACHHANG SET DOANHSO = '" + Long.toString(dsMoi) + "', LOAIKH = '" + loaiKH + "' WHERE MAKH = '" + ma + "'");
             cstmt.execute();
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
     }
     
-    public boolean check(String makh){
+    public boolean checkMaKH(String makh){
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT MAKH from KHACHHANG WHERE XOA = 0 AND MAKH = '" + makh + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -218,15 +225,53 @@ public class QuanLyKH extends QuanLy {
     
     public String getTenKH(String makh) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT HOTEN from KHACHHANG WHERE MAKH = '" + makh + "'");
             ResultSet rs = cstmt.executeQuery();
-            rs.next();
-            return rs.getString(1);
+            if(rs.next())
+                return rs.getString(1);
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
         return null;
     }
     
+    public String checkSDTKH(String sdt){
+        try {
+            Connection conQLKH = KetNoi.getConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT MAKH from KHACHHANG WHERE XOA = 0 AND SODT = '" + sdt + "'");
+            ResultSet rs = cstmt.executeQuery();
+            if (rs.next()) 
+                return rs.getString("MAKH");
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;
+    }
+    
+    public String getSinhNhat(String makh) {
+        try {
+            Connection conQLSP = KetNoi.getConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT NGSINH from KHACHHANG WHERE XOA = '0' AND MAKH = '" + makh + "'");
+            ResultSet rs = cstmt.executeQuery();
+            if(rs.next())
+                return new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate(1));
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;
+    }
+    
+    public String getLoaiKH(String makh) {
+        try {
+            Connection conQLSP = KetNoi.getConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT LOAIKH from KHACHHANG WHERE XOA = '0' AND MAKH = '" + makh + "'");
+            ResultSet rs = cstmt.executeQuery();
+            if(rs.next())
+                return rs.getString(1);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return null;
+    }
 }

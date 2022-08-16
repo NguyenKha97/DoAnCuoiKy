@@ -349,6 +349,6 @@ public class NhapTTKH extends javax.swing.JFrame {
     private javax.swing.JTextField txtHoTenKH;
     private javax.swing.JTextField txtNgDKKH;
     private javax.swing.JTextField txtSinhNhatKH;
-    private javax.swing.JTextField txtSoDTKH;
+    javax.swing.JTextField txtSoDTKH;
     // End of variables declaration//GEN-END:variables
 }

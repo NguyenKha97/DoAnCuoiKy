@@ -26,7 +26,7 @@ public class QuanLyNV extends QuanLy {
         String result ="";
         try {
 //            WHERE XOA = 0
-            Connection conQLNV = KetNoi.getNewConnection();
+            Connection conQLNV = KetNoi.getConnection();
             CallableStatement cstmt = conQLNV.prepareCall("SELECT TOP 1 MANV FROM NHANVIEN ORDER BY MANV DESC");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -47,7 +47,7 @@ public class QuanLyNV extends QuanLy {
             }
         };
         try {
-            Connection conQLNV = KetNoi.getNewConnection();
+            Connection conQLNV = KetNoi.getConnection();
             CallableStatement cstmt = conQLNV.prepareCall("SELECT * from NHANVIEN WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
     
@@ -80,9 +80,11 @@ public class QuanLyNV extends QuanLy {
     @Override
     public void xoaDongTrenSQL(String ma){
         try {
-            Connection conQLNV = KetNoi.getNewConnection();
+            Connection conQLNV = KetNoi.getConnection();
             CallableStatement cstmt = conQLNV.prepareCall("UPDATE NHANVIEN SET XOA =" + 1 + " WHERE MANV='" + ma + "'");
             cstmt.execute();   
+            cstmt = conQLNV.prepareCall("UPDATE DANGNHAP SET XOA =" + 1 + " WHERE MANV='" + ma + "'");
+            cstmt.execute(); 
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -90,7 +92,7 @@ public class QuanLyNV extends QuanLy {
     
     public boolean them(String MaNV, String HoTenNV, String SoDTNV, Date NgVaoLam) {
         try {
-            Connection conQLNV = KetNoi.getNewConnection();
+            Connection conQLNV = KetNoi.getConnection();
             CallableStatement cstmt = conQLNV.prepareCall("INSERT INTO NHANVIEN VALUES ('" + MaNV + "', '" + HoTenNV + "', '"
                     + SoDTNV + "', '" + new java.sql.Date(NgVaoLam.getTime()) +"', '" +  0 + "')");
             cstmt.execute();
@@ -105,7 +107,7 @@ public class QuanLyNV extends QuanLy {
     
     public boolean capNhat(String ma, String hoTen, String soDT, Date NgVaoLam) {
         try {
-            Connection conQLNV = KetNoi.getNewConnection();
+            Connection conQLNV = KetNoi.getConnection();
             CallableStatement cstmt = conQLNV.prepareCall("UPDATE NHANVIEN SET HOTEN = '" + hoTen 
                     + "', SODT = '" + soDT + "', NGVL = '" + new java.sql.Date(NgVaoLam.getTime()) + "' WHERE MANV = '" + ma + "'");
             cstmt.execute();
@@ -119,7 +121,7 @@ public class QuanLyNV extends QuanLy {
     
     public Date getDate(int i){
         try {
-            Connection conQLNV = KetNoi.getNewConnection();
+            Connection conQLNV = KetNoi.getConnection();
             CallableStatement cstmt = conQLNV.prepareCall("SELECT NGVL from NHANVIEN WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
@@ -143,7 +145,7 @@ public class QuanLyNV extends QuanLy {
     @Override
     public int timMa(String manv){
         try {
-            Connection conQLNV = KetNoi.getNewConnection();
+            Connection conQLNV = KetNoi.getConnection();
             CallableStatement cstmt = conQLNV.prepareCall("SELECT MANV from NHANVIEN WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
@@ -166,7 +168,7 @@ public class QuanLyNV extends QuanLy {
     
     public DefaultComboBoxModel<String> getListMaNV(){
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT MANV from NHANVIEN WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
@@ -184,7 +186,7 @@ public class QuanLyNV extends QuanLy {
     
     public String getTenNV(String manv) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT HOTEN from NHANVIEN WHERE MANV = '" + manv + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();

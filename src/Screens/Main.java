@@ -26,19 +26,19 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class Main extends javax.swing.JFrame {
 
-    static boolean taittkh, taittnv, taittsp, taitthd, taittcthd, taittdn;
-    static QuanLyKH qlkh = new QuanLyKH();
-    static QuanLyNV qlnv = new QuanLyNV();
-    static QuanLySP qlsp = new QuanLySP();
-    static QuanLyHD qlhd = new QuanLyHD();
-    static QuanLyCTHD qlcthd = new QuanLyCTHD();
-    static QuanLyDN qldn = new QuanLyDN();
-    static DefaultTableModel dfTableKH;
-    static DefaultTableModel dfTableNV;
-    static DefaultTableModel dfTableSP;
-    static DefaultTableModel dfTableHD;
-    static DefaultTableModel dfTableCTHD;
-    static DefaultTableModel dfTableQLDN;
+    static public boolean taittkh, taittnv, taittsp, taitthd, taittcthd, taittdn;
+    static public QuanLyKH qlkh = new QuanLyKH();
+    static public QuanLyNV qlnv = new QuanLyNV();
+    static public QuanLySP qlsp = new QuanLySP();
+    static public QuanLyHD qlhd = new QuanLyHD();
+    static public QuanLyCTHD qlcthd = new QuanLyCTHD();
+    static public QuanLyDN qldn = new QuanLyDN();
+    static public DefaultTableModel dfTableKH;
+    static public DefaultTableModel dfTableNV;
+    static public DefaultTableModel dfTableSP;
+    static public DefaultTableModel dfTableHD;
+    static public DefaultTableModel dfTableCTHD;
+    static public DefaultTableModel dfTableQLDN;
     static int countButtonXoaKH = 1;
     static int countButtonXoaNV = 1;
     static int countButtonXoaSP = 1;
@@ -46,7 +46,7 @@ public class Main extends javax.swing.JFrame {
     static int countButtonXoaCTHD = 1;
     static int choice;
     static String maSR;
-    private boolean xoaAction(javax.swing.JTable table, boolean taitt, int countButton, javax.swing.JButton button, DefaultTableModel dfTable, QuanLy ql) {
+    public static boolean xoaAction(javax.swing.JTable table, boolean taitt, int countButton, javax.swing.JButton button, DefaultTableModel dfTable, QuanLy ql) {
         int i = table.getSelectedRow();
         if (i >= 0 && taitt) {
             choice = JOptionPane.showConfirmDialog(button, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
@@ -100,6 +100,12 @@ public class Main extends javax.swing.JFrame {
                 }
             }
             JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+        }
+    }
+
+    public static void setComboBoxInfo(javax.swing.JTable table, DefaultComboBoxModel comboModels) {
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            comboModels.insertElementAt(table.getColumnName(i), i);
         }
     }
 
@@ -725,18 +731,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void jTabbedPane1HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jTabbedPane1HierarchyChanged
-        // TODO add your handling code here:
-        DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
-        switch (jTabbedPane1.getSelectedIndex()) {
-            //            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
-            case 0 ->  setComboBoxInfo(tableKhachHang, comboModels);
-            case 1 ->  setComboBoxInfo(tableNhanVien, comboModels);
-            case 2 ->  setComboBoxInfo(tableSanPham, comboModels);
-            case 3 ->  setComboBoxInfo(tableHoaDon, comboModels);
-            case 4 ->  setComboBoxInfo(tableCTHD, comboModels);
-        }
-        timKiemComboBox.setModel(comboModels);
-        timKiemComboBox.setSelectedIndex(0);
+
     }//GEN-LAST:event_jTabbedPane1HierarchyChanged
 
     private void btnTaiTTCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiTTCTHDActionPerformed
@@ -955,13 +950,7 @@ public class Main extends javax.swing.JFrame {
         taittdn = true;
     }//GEN-LAST:event_buttonQLDNActionPerformed
 
-    private void setComboBoxInfo(javax.swing.JTable table, DefaultComboBoxModel comboModels) {
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            comboModels.insertElementAt(table.getColumnName(i), i);
-        }
-    }
-    
-    
+ 
     /**
      * @param args the command line arguments
      */
@@ -1038,15 +1027,15 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private static javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     public static javax.swing.JTable tableCTHD;
     public static javax.swing.JTable tableHoaDon;
-    static javax.swing.JTable tableKhachHang;
+    public static javax.swing.JTable tableKhachHang;
     public static javax.swing.JTable tableNhanVien;
     public static javax.swing.JTable tableSanPham;
     static javax.swing.JComboBox<String> timKiemComboBox;
-    javax.swing.JTextField txtMa;
+    static javax.swing.JTextField txtMa;
     // End of variables declaration//GEN-END:variables
 }

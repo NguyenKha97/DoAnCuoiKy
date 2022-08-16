@@ -30,7 +30,7 @@ public class QuanLySP extends QuanLy {
             }
         };
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
@@ -65,7 +65,7 @@ public class QuanLySP extends QuanLy {
     @Override
     public void xoaDongTrenSQL(String ma) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("UPDATE SANPHAM SET XOA =" + 1 + " WHERE MASP='" + ma + "'");
             cstmt.execute();
 
@@ -76,7 +76,7 @@ public class QuanLySP extends QuanLy {
 
     public boolean them(String MaSP, String TenSP, String Dvt, String NuocSX, String Gia) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("INSERT INTO SANPHAM VALUES ('" + MaSP + "', '" + TenSP + "', '"
                     + Dvt + "', '" + NuocSX + "', '" + Gia + "', '" + 0 + "')");
             cstmt.execute();
@@ -90,7 +90,7 @@ public class QuanLySP extends QuanLy {
     public boolean capNhat(String ma, String tenSP, String dvt, String nuocSX, String gia) {
         try {
            
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP 
                     + "', DVT = '" + dvt + "', NUOCSX = '" + nuocSX + "', GIA = '" + gia + "' WHERE MASP = '" + ma + "'");
             cstmt.execute();
@@ -103,7 +103,7 @@ public class QuanLySP extends QuanLy {
     }
     public DefaultComboBoxModel<String> getListMaSP(){
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
@@ -120,7 +120,7 @@ public class QuanLySP extends QuanLy {
      }
     public long getGia(String masp) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT GIA from SANPHAM WHERE MASP='" + masp + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -139,7 +139,7 @@ public class QuanLySP extends QuanLy {
     @Override
     public int timMa(String masp){
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
@@ -161,6 +161,7 @@ public class QuanLySP extends QuanLy {
     }
     
     public static void getSP(String ma, int sl, DefaultTableModel table) {
+
         boolean check = false;
         int i = 0;
         for (; i < table.getRowCount(); i++) {
@@ -170,7 +171,7 @@ public class QuanLySP extends QuanLy {
             }
         } 
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0 AND MASP = '" + ma + "'");
             ResultSet rs = cstmt.executeQuery();
 
@@ -201,6 +202,24 @@ public class QuanLySP extends QuanLy {
             System.err.println("Cannot connect database, " + ex);
         }
 
+    }
+    
+    public String getTTSP(String masp) {
+        String thongTinSP = "";
+        try {
+            Connection conQLSP = KetNoi.getConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0 AND MASP = '" + masp + "'");
+            ResultSet rs = cstmt.executeQuery();
+            try {
+                rs.next();
+                thongTinSP = rs.getString(1) + " - " + rs.getString(2) + " - " + rs.getString(3) + " - " + rs.getString(4) + " - " + String.format("%,d", rs.getLong(5)) + " VNĐ";
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return thongTinSP;
     }
     
 }

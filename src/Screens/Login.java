@@ -5,37 +5,21 @@
 package Screens;
 
 import D02_ThucThi.LoginRun;
-import static Screens.Main.qlcthd;
-import static Screens.Main.qlhd;
-import static Screens.Main.qlkh;
-import static Screens.Main.qlnv;
-import static Screens.Main.qlsp;
-import static Screens.Main.tableKhachHang;
-import static Screens.Main.tableNhanVien;
-import static Screens.Main.taittkh;
-import static Screens.Main.taittnv;
-import static Screens.Main.taittsp;
-import static Screens.Main.taitthd;
-import static Screens.Main.taittcthd;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static Screens.Main.tableSanPham;
-import static Screens.Main.dfTableKH;
-import static Screens.Main.dfTableNV;
-import static Screens.Main.dfTableSP;
-import static Screens.Main.dfTableHD;
-import static Screens.Main.dfTableCTHD;
-import static Screens.Main.tableHoaDon;
-import static Screens.Main.tableCTHD;
-import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
+import static Screens.Main.qldn;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author HP
  */
 public class Login extends javax.swing.JFrame {
-    public static boolean statusLogin = false;
+    static public boolean statusLogin = false;
+    private final String passAdmin = qldn.getPassAdmin();
+    
     
     /**
      * Creates new form frmLogin
@@ -64,13 +48,18 @@ public class Login extends javax.swing.JFrame {
         setTitle("Đăng nhập");
         setLocationByPlatform(true);
 
-        txtUser.setText("sa");
+        txtUser.setText("nv01");
 
         jLabel1.setText("Username:");
 
         jLabel2.setText("Password:");
 
-        txtPass.setText("sa");
+        txtPass.setText("nv01");
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
 
         dangNhap.setText("LOGIN");
         dangNhap.addActionListener(new java.awt.event.ActionListener() {
@@ -124,28 +113,34 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dangNhapActionPerformed
-        
+    private void LoginAction() {
         try {
-            LoginRun.execute(txtUser.getText(), txtPass.getText());
-            } catch (SQLException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        if(statusLogin == true){
-            setVisible(false);
-            Main main = new Main();
-            main.setVisible(true);
-            main.setLocationRelativeTo(null); 
-            dfTableKH = qlkh.taiTT(); dfTableSP = qlsp.taiTT(); dfTableNV = qlnv.taiTT(); dfTableHD = qlhd.taiTT(); dfTableCTHD = qlcthd.taiTT();
-            tableNhanVien.setModel(dfTableNV); tableSanPham.setModel(dfTableSP); tableKhachHang.setModel(dfTableKH); tableHoaDon.setModel(dfTableHD); tableCTHD.setModel(dfTableCTHD);
-            setRightRendererAndResizeWitdh(tableKhachHang);
-            setRightRendererAndResizeWitdh(tableNhanVien);
-            setRightRendererAndResizeWitdh(tableSanPham);
-            setRightRendererAndResizeWitdh(tableHoaDon);
-            setRightRendererAndResizeWitdh(tableCTHD);
-            taittkh = taittnv = taittsp = taitthd = taittcthd = true;
-        }       
+            LoginRun.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (statusLogin == true) {
+            if (txtUser.getText().equalsIgnoreCase("admin") && txtPass.getText().equalsIgnoreCase(passAdmin)) {
+                LoginRun.getAdminScreens();
+                setVisible(false);
+            } else if (qldn.checkUsernameAndPass(txtUser.getText(), txtPass.getText())) {
+                setVisible(false);
+                LoginRun.getStaffScreens(); 
+            } else
+                JOptionPane.showMessageDialog(null, "ĐĂNG NHẬP KHÔNG THÀNH CÔNG:\n" + "Thông tin đăng nhập không đúng. Vui lòng kiểm tra lại");
+        }
+    }
+    
+    private void dangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dangNhapActionPerformed
+        LoginAction();
     }//GEN-LAST:event_dangNhapActionPerformed
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           LoginAction(); 
+        }
+    }//GEN-LAST:event_txtPassKeyPressed
 
     /**
      * @param args the command line arguments
@@ -194,6 +189,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField txtPass;
-    private javax.swing.JTextField txtUser;
+    public static javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

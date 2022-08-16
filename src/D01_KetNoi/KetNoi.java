@@ -16,37 +16,38 @@ import java.sql.Connection;
 public class KetNoi {
     
 //    public static Connection connection;    
+    private static String user = "sa";
+    private static String pass = "sa";
 
-    public static Connection getConnection(String user, String pass) {
-            SQLServerDataSource ds = new SQLServerDataSource();
+//    public static Connection getConnection() {
+//            SQLServerDataSource ds = new SQLServerDataSource();
+//            ds.setUser(user);
+//            ds.setPassword(pass);
+//            ds.setPortNumber(Integer.parseInt("1433")); //1433
+//            ds.setDatabaseName("QLBH");
+//            Connection connection = null;
+//            try {
+//                connection = ds.getConnection();  
+//                System.out.println("Connected");
+//            } catch (SQLException ex) {
+//                System.out.println("Can not connect to database");
+//                System.out.println(ex);
+//            }
+//            return connection;
+//        }
+    public static Connection getConnection() {
+        SQLServerDataSource ds = new SQLServerDataSource();
             ds.setUser(user);
             ds.setPassword(pass);
             ds.setPortNumber(Integer.parseInt("1433")); //1433
             ds.setDatabaseName("QLBH");
             Connection connection = null;
             try {
-                connection = ds.getConnection();  
-                System.out.println("Connected");
+                connection = ds.getConnection();
             } catch (SQLException ex) {
-//                connection = null;
                 System.out.println("Can not connect to database");
                 System.out.println(ex);
             }
             return connection;
-        }
-    public static Connection getNewConnection() {
-        SQLServerDataSource ds = new SQLServerDataSource();
-            ds.setUser("sa");
-            ds.setPassword("sa");
-            ds.setPortNumber(Integer.parseInt("1433")); //1433
-            ds.setDatabaseName("QLBH");
-            Connection conn = null;
-            try {
-                conn = ds.getConnection();
-            } catch (SQLException ex) {
-                System.out.println("Can not connect to database");
-                System.out.println(ex);
-            }
-            return conn;
     }
 }

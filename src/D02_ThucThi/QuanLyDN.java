@@ -25,7 +25,7 @@ public class QuanLyDN {
             }
         };
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT * from DANGNHAP WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
@@ -49,7 +49,7 @@ public class QuanLyDN {
     
      public String getPassAdmin() {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT PASSWORD from DANGNHAP WHERE MANV = 'ADMN'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -62,7 +62,7 @@ public class QuanLyDN {
      
           public String getMaBaoVe() {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT GHICHU from DANGNHAP WHERE MANV = 'ADMN'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -75,7 +75,7 @@ public class QuanLyDN {
          
     public boolean capNhatPass(String manv, String passMoi) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall(" UPDATE DANGNHAP SET PASSWORD = '" + passMoi + "' WHERE MANV = '" + manv + "'");
             cstmt.execute();
             return true;
@@ -87,7 +87,7 @@ public class QuanLyDN {
       
     public boolean capNhatMaBaoVe(String maBVMoi) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall(" UPDATE DANGNHAP SET GHICHU = '" + maBVMoi + "' WHERE MANV = 'ADMN'");
             cstmt.execute();
             return true;
@@ -100,7 +100,7 @@ public class QuanLyDN {
 
     public boolean resetPass(String manv) {
         try {
-            Connection conQLSP = KetNoi.getNewConnection();
+            Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall(" UPDATE DANGNHAP SET PASSWORD = '" + manv.toLowerCase() + "' WHERE MANV = '" + manv + "'");
             cstmt.execute();
             return true;
@@ -110,6 +110,20 @@ public class QuanLyDN {
         return false;
     }
         
+    public boolean checkUsernameAndPass(String user, String pass) {
+        try {
+            Connection conQLSP = KetNoi.getConnection();
+            CallableStatement cstmt = conQLSP.prepareCall(" SELECT USERNAME, PASSWORD FROM DANGNHAP WHERE MANV = '" + user.toUpperCase() + "'");
+            ResultSet rs = cstmt.executeQuery();
+            if(rs.next() && rs.getString("USERNAME").equalsIgnoreCase(user) && rs.getString("PASSWORD").equalsIgnoreCase(pass))
+                return true;
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return false;
+    }
+    
+    
 }
     
 

@@ -33,7 +33,7 @@ public class QuanLyHD extends QuanLy {
             }
         };
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("SELECT * from HOADON WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
@@ -70,7 +70,7 @@ public class QuanLyHD extends QuanLy {
 
     public void xoaDongTrenSQL(ArrayList makh) {
          try {
-             Connection conQLHD = KetNoi.getNewConnection();
+             Connection conQLHD = KetNoi.getConnection();
              for(int i=0; i<makh.size();i++){
             CallableStatement cstmt = conQLHD.prepareCall("UPDATE HOADON SET XOA = '" + 1 + "' WHERE SOHD='" + makh.get(i) + "'");
             cstmt.execute();
@@ -83,7 +83,7 @@ public class QuanLyHD extends QuanLy {
 
     public long getTriGia(String sohd) {
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("SELECT TRIGIA FROM HOADON WHERE SOHD ='" + sohd + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -96,7 +96,7 @@ public class QuanLyHD extends QuanLy {
 
     public boolean capNhatNgayHD(String mahd, Date ngayhd) {
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("UPDATE HOADON SET NGHD = '" + new java.sql.Date(ngayhd.getTime()) + "' WHERE SOHD ='" + mahd + "'");
             cstmt.execute();
             return true;
@@ -108,7 +108,7 @@ public class QuanLyHD extends QuanLy {
 
     public boolean themHD(String mahd, Date ngayhd, String makh, String manv, long trigia) {
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("INSERT INTO HOADON VALUES ('" + mahd + "', '" + new java.sql.Date(ngayhd.getTime()) + "', '" + makh + "', '" + manv + "', '" + trigia + "', '" + 0 + "')");
             cstmt.execute();
             return true;
@@ -120,7 +120,7 @@ public class QuanLyHD extends QuanLy {
 
     public String getNewSoHD() {
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("SELECT TOP 1 SOHD FROM HOADON ORDER BY SOHD DESC");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -133,7 +133,7 @@ public class QuanLyHD extends QuanLy {
     }
     public boolean capnhatTriGia(String sohd, double trigiaNew){
          try {
-             Connection conQLHD = KetNoi.getNewConnection();
+             Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("UPDATE HOADON SET TRIGIA = '" + trigiaNew + "' WHERE XOA = 0 AND SOHD ='" + sohd + "'");
             cstmt.execute();
             return true;
@@ -151,7 +151,7 @@ public class QuanLyHD extends QuanLy {
     @Override
     public int timMa(String sohd){
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("SELECT SOHD from HOADON WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
@@ -175,7 +175,7 @@ public class QuanLyHD extends QuanLy {
     public ArrayList laySoHDTheoMaKH(String maKH){
         ArrayList sohd = new ArrayList<String>();
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("SELECT SOHD from HOADON WHERE MAKH = '" + maKH + "'");
             ResultSet rs = cstmt.executeQuery();
             try {
@@ -194,7 +194,7 @@ public class QuanLyHD extends QuanLy {
     @Override
     public void xoaDongTrenSQL(String makh) {
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("UPDATE HOADON SET XOA = '" + 1 + "' WHERE SOHD='" + makh + "'");
             cstmt.execute();
         } catch (SQLException ex) {
@@ -205,7 +205,7 @@ public class QuanLyHD extends QuanLy {
     public String layMaKH(String sohd){
         String result ="";
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("SELECT MAKH FROM HOADON WHERE SOHD ='" + sohd + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();
@@ -218,7 +218,7 @@ public class QuanLyHD extends QuanLy {
     
     public boolean check(String makh){
         try {
-            Connection conQLKH = KetNoi.getNewConnection();
+            Connection conQLKH = KetNoi.getConnection();
             CallableStatement cstmt = conQLKH.prepareCall("SELECT MAKH from HOADON WHERE XOA = 0 AND MAKH = '" + makh + "'");
             ResultSet rs = cstmt.executeQuery();
             rs.next();

@@ -29,7 +29,7 @@ public class QuanLyCTHD extends QuanLy {
             }
         };
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
 
@@ -58,7 +58,7 @@ public class QuanLyCTHD extends QuanLy {
 
     public void xoaDongTrenSQL(ArrayList sohd) {
          try {
-             Connection conQLCTHD = KetNoi.getNewConnection();
+             Connection conQLCTHD = KetNoi.getConnection();
             for(int i=0; i<sohd.size();i++){
             System.out.println(sohd.get(i));    
             CallableStatement cstmt = conQLCTHD.prepareCall("UPDATE CTHD SET XOA = '" + 1 + "' WHERE SOHD='" + sohd.get(i) + "'");
@@ -72,7 +72,7 @@ public class QuanLyCTHD extends QuanLy {
 
     public boolean themCTTD(String mahd, String masp, String soluong) {
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("INSERT INTO CTHD VALUES ('" + mahd + "', '" + masp + "', '" + soluong + "', '" + 0 + "')");
             cstmt.execute();
             return true;
@@ -85,7 +85,7 @@ public class QuanLyCTHD extends QuanLy {
     public DefaultTableModel getCTTheoHD(String sohd) {
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("SELECT CTHD.SOHD, CTHD.MASP, SP.TENSP, SP.NUOCSX, SP.DVT, SP.GIA, CTHD.SL FROM (CTHD JOIN SANPHAM SP ON CTHD.MASP = SP.MASP) JOIN HOADON HD ON HD.SOHD=CTHD.SOHD WHERE CTHD.SOHD ='" + sohd + "'");
             ResultSet rs = cstmt.executeQuery();
             
@@ -119,7 +119,7 @@ public class QuanLyCTHD extends QuanLy {
 
     public boolean capnhatCTHD(String sohd, String sl, String masp) {
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("UPDATE CTHD SET SL = '" + sl + "' WHERE MASP ='" + masp + "' AND SOHD ='" + sohd + "'");
             cstmt.execute();
             return true;
@@ -138,7 +138,7 @@ public class QuanLyCTHD extends QuanLy {
     @Override
     public int timMa(String sohd){
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("SELECT SOHD from CTHD WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
@@ -162,7 +162,7 @@ public class QuanLyCTHD extends QuanLy {
     @Override
     public void xoaDongTrenSQL(String sohd) {
         try {
-            Connection conQLHD = KetNoi.getNewConnection();
+            Connection conQLHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLHD.prepareCall("UPDATE CTHD SET XOA = '" + 1 + "' WHERE SOHD='" + sohd + "'");
             cstmt.execute();
         } catch (SQLException ex) {
@@ -173,7 +173,7 @@ public class QuanLyCTHD extends QuanLy {
     public DefaultTableModel taiSoHD(String ma){
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0 AND SOHD = '" + ma + "'");
             ResultSet rs = cstmt.executeQuery();
             String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
@@ -201,7 +201,7 @@ public class QuanLyCTHD extends QuanLy {
     public DefaultTableModel taiMaSP(String ma){
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0 AND MASP = '" + ma + "'");
             ResultSet rs = cstmt.executeQuery();
             String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
@@ -229,7 +229,7 @@ public class QuanLyCTHD extends QuanLy {
     public DefaultTableModel taiSL(String ma){
         DefaultTableModel table = new DefaultTableModel();
         try {
-            Connection conQLCTHD = KetNoi.getNewConnection();
+            Connection conQLCTHD = KetNoi.getConnection();
             CallableStatement cstmt = conQLCTHD.prepareCall("SELECT * from CTHD WHERE XOA = 0 AND SL = '" + ma + "'");
             ResultSet rs = cstmt.executeQuery();
             String[] colsName = {"Số HD", "Mã Sản Phẩm", "Số Lượng"};
