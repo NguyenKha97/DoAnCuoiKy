@@ -45,6 +45,7 @@ public class CapNhatTTKH extends javax.swing.JFrame {
         capNhatKH = new javax.swing.JButton();
         huyCapNhat = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cập nhật khách hàng");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -192,7 +193,7 @@ public class CapNhatTTKH extends javax.swing.JFrame {
 
     private void capNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatKHActionPerformed
         // TODO add your handling code here:
-        if(txtHoTenKH.getText().isBlank() || txtDiaChiKH.getText().isBlank() || txtSoDTKH.getText().isBlank() || chonSinhNhat.getDate()==null)
+        if (txtHoTenKH.getText().isBlank() || txtDiaChiKH.getText().isBlank() || txtSoDTKH.getText().isBlank() || chonSinhNhat.getDate() == null)
             JOptionPane.showMessageDialog(capNhatKH, "Vui lòng nhập đầy đủ thông tin để cập nhật!!!");
         else {
             int choice = JOptionPane.showConfirmDialog(capNhatKH, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
@@ -203,6 +204,7 @@ public class CapNhatTTKH extends javax.swing.JFrame {
                 if (check) {
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
                     setVisible(!check);
+                    Main.screenIsOn = false;
                 } else {
                     JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
                 }
@@ -213,6 +215,7 @@ public class CapNhatTTKH extends javax.swing.JFrame {
     private void huyCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huyCapNhatActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        Main.screenIsOn = false;
     }//GEN-LAST:event_huyCapNhatActionPerformed
 
     /**

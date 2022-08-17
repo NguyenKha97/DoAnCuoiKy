@@ -42,6 +42,7 @@ public class CapNhatTTNV extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         chonNgVaoLam = new com.toedter.calendar.JDateChooser();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cập nhật nhân viên");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -156,7 +157,7 @@ public class CapNhatTTNV extends javax.swing.JFrame {
 
     private void capNhatNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatNVActionPerformed
         // TODO add your handling code here:
-        if (txtHoTenNV.getText().isBlank() || txtSoDTNV.getText().isBlank() || chonNgVaoLam.getDate()==null)
+        if (txtHoTenNV.getText().isBlank() || txtSoDTNV.getText().isBlank() || chonNgVaoLam.getDate() == null)
             JOptionPane.showMessageDialog(capNhatNV, "Vui lòng nhập đầy đủ thông tin để cập nhật!!!");
         else {
             int choice = JOptionPane.showConfirmDialog(capNhatNV, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
@@ -167,6 +168,7 @@ public class CapNhatTTNV extends javax.swing.JFrame {
                 if (check) {
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
                     setVisible(!check);
+                    Main.screenIsOn = false;
                 } else {
                     JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
                 }
@@ -177,6 +179,7 @@ public class CapNhatTTNV extends javax.swing.JFrame {
     private void huyCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huyCapNhatActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        Main.screenIsOn = false;
     }//GEN-LAST:event_huyCapNhatActionPerformed
 
     /**

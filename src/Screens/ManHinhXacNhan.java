@@ -4,7 +4,8 @@
  */
 package Screens;
 
-import static Screens.BanHangChoNV.maKH1;
+import static Screens.BanHangChoNV.buttonXoaHD;
+import static Screens.BanHangChoNV.buttonXoaKH;
 import static Screens.BanHangChoNV.tableHoaDon;
 import static Screens.BanHangChoNV.tableKhachHang;
 import static Screens.BanHangChoNV.tableSanPham;
@@ -22,10 +23,12 @@ import static Screens.Main.qldn;
 import static Screens.Main.qlhd;
 import static Screens.Main.qlkh;
 import static Screens.Main.qlsp;
+import static Screens.Main.screenIsOn;
 import static Screens.Main.tableCTHD;
 import static Screens.Main.taitthd;
 import static Screens.Main.taittkh;
 import static Screens.Main.taittsp;
+import static Screens.Main.xoaAction;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 import javax.swing.JOptionPane;
 
@@ -53,10 +56,10 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtMaBaoVe = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        buttonXacNhan = new javax.swing.JButton();
+        buttonHuy = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Thông báo");
@@ -67,17 +70,17 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Mã bảo vệ: ");
 
-        jButton1.setText("Xác nhận");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonXacNhan.setText("Xác nhận");
+        buttonXacNhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonXacNhanActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Hủy");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonHuy.setText("Hủy");
+        buttonHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonHuyActionPerformed(evt);
             }
         });
 
@@ -93,13 +96,13 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addComponent(buttonXacNhan)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton2))
+                                .addComponent(buttonHuy))
                             .addComponent(txtMaBaoVe))
                         .addGap(50, 50, 50))))
             .addGroup(layout.createSequentialGroup()
@@ -120,85 +123,167 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
                     .addComponent(txtMaBaoVe, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(buttonXacNhan)
+                    .addComponent(buttonHuy))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void buttonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXacNhanActionPerformed
 
         if (txtMaBaoVe.getText().equalsIgnoreCase(qldn.getMaBaoVe())) {
             switch (BanHangChoNV.jTabbedPane1.getSelectedIndex()) {
                 case 1 -> {
                     setVisible(false);
-                    if (Main.xoaAction(tableKhachHang, taittkh, countButtonXoaKH, BanHangChoNV.buttonXoaKH, dfTableKH, qlkh)) {
-                        JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-                        countButtonXoaKH++;
-                        if (qlhd.check(maKH1)) {
-                            qlhd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
-                            dfTableHD = qlhd.taiTT();
-                            tableHoaDon.setModel(dfTableHD);
-                            setRightRendererAndResizeWitdh(tableHoaDon);
-                            qlcthd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
-                            dfTableCTHD = qlcthd.taiTT();
-                            tableCTHD.setModel(dfTableCTHD);
-                            setRightRendererAndResizeWitdh(tableCTHD);
+                    screenIsOn = false;
+                    if (BanHangChoNV.buttonXoaKHIsActive) {
+                        String maKH = "";
+                        if (tableKhachHang.getSelectedRow() >= 0 && taittkh && !screenIsOn) {
+                            maKH = tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1).toString();
+                            if (xoaAction(tableKhachHang, taittkh, countButtonXoaKH, buttonXoaKH, dfTableKH, qlkh)) {
+                                JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+                                countButtonXoaKH++;
+                                if (qlhd.check(maKH)) {
+                                    qlhd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
+                                    dfTableHD = qlhd.taiTT();
+                                    tableHoaDon.setModel(dfTableHD);
+                                    setRightRendererAndResizeWitdh(tableHoaDon);
+                                    qlcthd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
+                                    dfTableCTHD = qlcthd.taiTT();
+                                    tableCTHD.setModel(dfTableCTHD);
+                                    setRightRendererAndResizeWitdh(tableCTHD);
+                                }
+                            } else {
+                                if (choice == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                                }
+                                choice = 0;
+                            }
                         }
-                    } else {
-                        if (choice == 0) {
-                            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                        toBack();
+                        BanHangChoNV.buttonXoaKHIsActive = false;
+                    } else if (BanHangChoNV.buttonCapNhatKHIsActive) {
+                        int i = tableKhachHang.getSelectedRow();
+                        if (i >= 0 && taittkh && !screenIsOn) {
+                            CapNhatTTKH capnhatkh = new CapNhatTTKH();
+                            capnhatkh.setLocationRelativeTo(null);
+                            capnhatkh.setVisible(true);
+                            capnhatkh.txtmaKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1));
+                            capnhatkh.txtHoTenKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 2));
+                            capnhatkh.txtDiaChiKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 3));
+                            capnhatkh.txtSoDTKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 4));
+                            capnhatkh.chonSinhNhat.setDate(qlkh.getDate(i));
+                            screenIsOn = true;
                         }
+                        toBack();
+                        if (!screenIsOn && choice != 1) {
+                            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
+                        }
+                        BanHangChoNV.buttonCapNhatKHIsActive = false;
                     }
+                    BanHangChoNV.tableKhachHang.setModel(qlkh.taiTT());
+                    setRightRendererAndResizeWitdh(BanHangChoNV.tableKhachHang);
                 }
                 case 2 -> {
                     setVisible(false);
-                    if (Main.xoaAction(tableSanPham, taittsp, countButtonXoaSP, BanHangChoNV.buttonXoaSP_TBHD, dfTableSP, qlsp)) {
-                        countButtonXoaSP++;
-                        JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-                    } else {
-                        if (choice == 0) {
-                            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                    screenIsOn = false;
+                    if (BanHangChoNV.buttonXoaSPIsActive) {
+                        int i = tableSanPham.getSelectedRow();
+                        if (i >= 0 && taittsp && !screenIsOn) {
+                            if (xoaAction(tableSanPham, taittsp, countButtonXoaSP, BanHangChoNV.buttonXoaSP_TBHD, dfTableSP, qlsp)) {
+                                countButtonXoaSP++;
+                                JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+                            } else {
+                                if (choice == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                                }
+                                choice = 0;
+                            }
                         }
+                        toBack();
+                    } else if (BanHangChoNV.buttonCapNhatSPIsActive) {
+                        int i = tableSanPham.getSelectedRow();
+                        if (i >= 0 && taittsp && !screenIsOn) {
+                            CapNhatTTSP capnhatsp = new CapNhatTTSP();
+                            capnhatsp.setLocationRelativeTo(null);
+                            capnhatsp.setVisible(true);
+                            capnhatsp.txtMaSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 1));
+                            capnhatsp.txtTenSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 2));
+                            capnhatsp.donViTinh.setSelectedItem((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 3));
+                            capnhatsp.txtNuocSX.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 4));
+                            String gia = (String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 5);
+                            String[] temp4 = gia.split(" VNĐ");
+                            gia = temp4[0];
+                            gia = gia.replace(",", "");
+                            capnhatsp.txtGia.setText(gia);
+                            screenIsOn = true;
+                        }
+                        toBack();
+                        if (!screenIsOn && choice != 1) {
+                            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
+                        }
+                        BanHangChoNV.buttonCapNhatSPIsActive = false;
+                    } else if (BanHangChoNV.buttonThemSPIsActive) {
+                        if (!screenIsOn) {
+                            NhapTTSP nhapttsp = new NhapTTSP();
+                            nhapttsp.setLocationRelativeTo(null);
+                            nhapttsp.setVisible(true);
+                            NhapTTSP.txtGia.setText("500");
+                            screenIsOn = true;
+                        }
+                        toBack();
+                        BanHangChoNV.buttonThemSPIsActive = false;
                     }
+                    BanHangChoNV.tableSanPham.setModel(qlsp.taiTT());
+                    setRightRendererAndResizeWitdh(BanHangChoNV.tableSanPham);
                 }
                 case 3 -> {
                     setVisible(false);
-                    if (Main.xoaAction(tableHoaDon, taitthd, countButtonXoaHD, BanHangChoNV.buttonXoaHD, dfTableHD, qlhd)) {
-                        JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-                        countButtonXoaHD++;
-                        qlcthd.xoaDongTrenSQL(maSR);
-                        dfTableCTHD = qlcthd.taiTT();
-                        tableCTHD.setModel(dfTableCTHD);
-                        setRightRendererAndResizeWitdh(tableCTHD);
-                        String maKh = qlhd.layMaKH(maSR);
-                        long trigia = -qlhd.getTriGia(maSR);
-                        qlkh.capNhatDS(maKh, trigia);
-                        dfTableKH = qlkh.taiTT();
-                        tableKhachHang.setModel(dfTableKH);
-                        setRightRendererAndResizeWitdh(tableKhachHang);
-                    } else {
-                        if (choice == 0) {
-                            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                    screenIsOn = false;
+                    int i = tableHoaDon.getSelectedRow();
+                    if (i >= 0 && taitthd && !screenIsOn) {
+                        if (xoaAction(tableHoaDon, taitthd, countButtonXoaHD, buttonXoaHD, dfTableHD, qlhd)) {
+                            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+                            countButtonXoaHD++;
+                            qlcthd.xoaDongTrenSQL(maSR);
+                            dfTableCTHD = qlcthd.taiTT();
+                            tableCTHD.setModel(dfTableCTHD);
+                            setRightRendererAndResizeWitdh(tableCTHD);
+                            String maKh = qlhd.layMaKH(maSR);
+                            long trigia = -qlhd.getTriGia(maSR);
+                            qlkh.capNhatDS(maKh, trigia);
+                            dfTableKH = qlkh.taiTT();
+                            tableKhachHang.setModel(dfTableKH);
+                            setRightRendererAndResizeWitdh(tableKhachHang);
+                        } else {
+                            if (choice == 0) {
+                                JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                            }
+                            choice = 0;
                         }
                     }
+                    toBack();
+                    BanHangChoNV.tableHoaDon.setModel(qlhd.taiTTTheoMaNV(Login.txtUser.getText().toUpperCase()));
+                    setRightRendererAndResizeWitdh(BanHangChoNV.tableHoaDon);
                 }
             }
+            screenIsOn = false;
         } else {
             JOptionPane.showMessageDialog(rootPane, "Sai mã bảo vệ, hủy thao tác");
             dispose();
             setVisible(false);
+            screenIsOn = false;
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_buttonXacNhanActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void buttonHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHuyActionPerformed
         // TODO add your handling code here:
         dispose();
         setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        screenIsOn = false;
+    }//GEN-LAST:event_buttonHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,15 +301,11 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManHinhXacNhan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManHinhXacNhan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManHinhXacNhan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ManHinhXacNhan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -237,8 +318,8 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton buttonHuy;
+    private javax.swing.JButton buttonXacNhan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

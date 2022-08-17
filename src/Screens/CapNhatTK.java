@@ -44,6 +44,8 @@ public class CapNhatTK extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
         temp1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         temp1.setText("Pass cũ");
 
@@ -136,18 +138,18 @@ public class CapNhatTK extends javax.swing.JFrame {
     private void buttonCapNhatTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatTKActionPerformed
         // TODO add your handling code here:
         int choice = JOptionPane.showConfirmDialog(buttonCapNhatTK, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
-            if (choice == 0) {
-                boolean check = qldn.capNhatPass(txtMaNV.getText(), txtPassMoi.getText());
-                Main.dfTableQLDN = qldn.taiTT();
-                tableQuanLyDangNhap.setModel(Main.dfTableQLDN);
-                setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
-                if (check) {
-                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
-                    setVisible(!check);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
-                }
+        if (choice == 0) {
+            boolean check = qldn.capNhatPass(txtMaNV.getText(), txtPassMoi.getText());
+            Main.dfTableQLDN = qldn.taiTT();
+            tableQuanLyDangNhap.setModel(Main.dfTableQLDN);
+            setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
+            if (check) {
+                JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
+                setVisible(!check);
+            } else {
+                JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
             }
+        }
     }//GEN-LAST:event_buttonCapNhatTKActionPerformed
 
     /**

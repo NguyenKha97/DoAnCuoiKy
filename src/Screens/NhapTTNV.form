@@ -38,6 +38,7 @@
     </Component>
   </NonVisualComponents>
   <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Th&#xea;m m&#x1edb;i nh&#xe2;n vi&#xea;n"/>
   </Properties>
   <SyntheticProperties>

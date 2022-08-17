@@ -336,7 +336,7 @@
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Component id="buttonThemNV" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="60" max="32767" attributes="0"/>
-                      <Component id="buttonCapNhatKH" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonCapNhatNV" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Component id="buttonXoaNV" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -352,7 +352,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="buttonTaiTTNV" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="buttonThemNV" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="buttonCapNhatKH" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonCapNhatNV" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="buttonXoaNV" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
@@ -394,7 +394,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonXoaNVActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="buttonCapNhatKH">
+            <Component class="javax.swing.JButton" name="buttonCapNhatNV">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
@@ -402,7 +402,7 @@
                 <Property name="text" type="java.lang.String" value="C&#x1eac;P NH&#x1eac;T TT NV"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCapNhatKHActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCapNhatNVActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -913,7 +913,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="8"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="buttonQLDN">

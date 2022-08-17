@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-
 /**
  *
  * @author admin
@@ -21,19 +20,18 @@ public class DoAnCuoiKy {
 
     /**
      * @param temp
-     * @return 
+     * @return
      */
-    
-    
-        public String tangMa(String temp){
+    public String tangMa(String temp) {
         String haiKiTuDau = temp.substring(0, 2);
         String haiKiTuSau = temp.substring(2);
         int x = Integer.parseInt(haiKiTuSau);
         String so = "0";
-        if(++x <= 9)
+        if (++x <= 9) {
             so = so.concat(Integer.toString(x));
-        else
+        } else {
             so = Integer.toString(x);
+        }
         temp = haiKiTuDau;
         temp = temp.concat(so);
         return temp;
@@ -53,9 +51,8 @@ public class DoAnCuoiKy {
             }
             columnModel.getColumn(column).setPreferredWidth(width);
         }
-
     }
-    
+
     /**
      *
      * @param table
@@ -67,16 +64,13 @@ public class DoAnCuoiKy {
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
         }
-
     }
-    
+
     public static void main(String[] args) {
         // TODO code application logic here
         Login frmlogin1 = new Login();
         frmlogin1.setVisible(true);
         frmlogin1.setLocationRelativeTo(null);
-        
     }
-            
-    
+
 }

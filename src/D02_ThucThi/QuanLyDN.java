@@ -10,17 +10,17 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  *
  * @author admin
  */
 public class QuanLyDN {
-    
+
     public DefaultTableModel taiTT() {
         DefaultTableModel table = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                //all cells false
                 return false;
             }
         };
@@ -46,8 +46,8 @@ public class QuanLyDN {
         }
         return table;
     }
-    
-     public String getPassAdmin() {
+
+    public String getPassAdmin() {
         try {
             Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT PASSWORD from DANGNHAP WHERE MANV = 'ADMN'");
@@ -59,8 +59,8 @@ public class QuanLyDN {
         }
         return null;
     }
-     
-          public String getMaBaoVe() {
+
+    public String getMaBaoVe() {
         try {
             Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT GHICHU from DANGNHAP WHERE MANV = 'ADMN'");
@@ -72,7 +72,7 @@ public class QuanLyDN {
         }
         return null;
     }
-         
+
     public boolean capNhatPass(String manv, String passMoi) {
         try {
             Connection conQLSP = KetNoi.getConnection();
@@ -84,7 +84,7 @@ public class QuanLyDN {
         }
         return false;
     }
-      
+
     public boolean capNhatMaBaoVe(String maBVMoi) {
         try {
             Connection conQLSP = KetNoi.getConnection();
@@ -95,8 +95,7 @@ public class QuanLyDN {
             System.err.println("Cannot connect database, " + ex);
         }
         return false;
-    }      
-        
+    }
 
     public boolean resetPass(String manv) {
         try {
@@ -109,21 +108,19 @@ public class QuanLyDN {
         }
         return false;
     }
-        
+
     public boolean checkUsernameAndPass(String user, String pass) {
         try {
             Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall(" SELECT USERNAME, PASSWORD FROM DANGNHAP WHERE MANV = '" + user.toUpperCase() + "'");
             ResultSet rs = cstmt.executeQuery();
-            if(rs.next() && rs.getString("USERNAME").equalsIgnoreCase(user) && rs.getString("PASSWORD").equalsIgnoreCase(pass))
+            if (rs.next() && rs.getString("USERNAME").equalsIgnoreCase(user) && rs.getString("PASSWORD").equalsIgnoreCase(pass)) {
                 return true;
+            }
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
         return false;
     }
-    
-    
-}
-    
 
+}

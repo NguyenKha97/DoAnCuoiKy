@@ -17,6 +17,7 @@ import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 public class NhapTTSP extends javax.swing.JFrame {
 
     QuanLySP qlsp = new QuanLySP();
+
     /**
      * Creates new form NhapTTKH
      */
@@ -72,6 +73,7 @@ public class NhapTTSP extends javax.swing.JFrame {
             }
         });
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thêm mới sản phẩm");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -206,6 +208,7 @@ public class NhapTTSP extends javax.swing.JFrame {
     private void huyThemKhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huyThemKhActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        Main.screenIsOn = false;
     }//GEN-LAST:event_huyThemKhActionPerformed
 
     private void themSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themSPActionPerformed
@@ -214,6 +217,8 @@ public class NhapTTSP extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(themSP, "Vui lòng nhập đầy đủ thông tin để thêm mới!!!");
         else if (Double.parseDouble(txtGia.getText()) < 500) {
             JOptionPane.showMessageDialog(themSP, "Giá sản phẩm >= 500");
+        } else if (qlsp.checkSPTonTai(txtMaSP.getText())) {
+            JOptionPane.showMessageDialog(themSP, "Mã SP đã tồn tại, hãy nhập mã SP khác");
         } else {
             boolean check = qlsp.them(txtMaSP.getText(), txtTenSP.getText(), donViTinh.getSelectedItem().toString(), txtNuocSX.getText(), txtGia.getText());
             dfTableSP = qlsp.taiTT();
@@ -222,6 +227,7 @@ public class NhapTTSP extends javax.swing.JFrame {
             if (check) {
                 JOptionPane.showMessageDialog(null, "Tạo thành công");
                 setVisible(!check);
+                Main.screenIsOn = false;
                 Main.countButtonXoaSP = 1;
             } else {
                 JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");

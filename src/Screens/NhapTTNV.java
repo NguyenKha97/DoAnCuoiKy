@@ -5,6 +5,9 @@
 package Screens;
 
 import D02_ThucThi.QuanLyNV;
+import static Screens.Main.dfTableQLDN;
+import static Screens.Main.qldn;
+import static Screens.QuanLyDangNhap.tableQuanLyDangNhap;
 import doancuoiky.DoAnCuoiKy;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 import javax.swing.JOptionPane;
@@ -16,6 +19,7 @@ import javax.swing.JOptionPane;
 public class NhapTTNV extends javax.swing.JFrame {
 
     QuanLyNV qlnv = new QuanLyNV();
+
     /**
      * Creates new form NhapTTKH
      */
@@ -69,6 +73,7 @@ public class NhapTTNV extends javax.swing.JFrame {
             }
         });
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thêm mới nhân viên");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -194,11 +199,12 @@ public class NhapTTNV extends javax.swing.JFrame {
     private void huyThemKhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huyThemKhActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        Main.screenIsOn = false;
     }//GEN-LAST:event_huyThemKhActionPerformed
 
     private void themNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themNVActionPerformed
         // TODO add your handling code here:
-        if (txtHoTenNV.getText().isBlank() || txtSoDTNV.getText().isBlank() || chonNgVaoLam.getDate()==null)
+        if (txtHoTenNV.getText().isBlank() || txtSoDTNV.getText().isBlank() || chonNgVaoLam.getDate() == null)
             JOptionPane.showMessageDialog(themNV, "Vui lòng nhập đầy đủ thông tin để thêm mới!!!");
         else {
             boolean check = qlnv.them(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()), txtHoTenNV.getText(), txtSoDTNV.getText(), chonNgVaoLam.getDate());
@@ -206,13 +212,17 @@ public class NhapTTNV extends javax.swing.JFrame {
             Main.tableNhanVien.setModel(Main.dfTableNV);
             setRightRendererAndResizeWitdh(Main.tableNhanVien);
             if (check) {
+                dfTableQLDN = qldn.taiTT();
+                tableQuanLyDangNhap.setModel(dfTableQLDN);
+                setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
                 JOptionPane.showMessageDialog(null, "Tạo thành công");
+                Main.screenIsOn = false;
                 setVisible(!check);
                 Main.countButtonXoaNV = 1;
             } else {
                 JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
             }
-        }  
+        }
     }//GEN-LAST:event_themNVActionPerformed
 
     private void txtmaNVInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtmaNVInputMethodTextChanged

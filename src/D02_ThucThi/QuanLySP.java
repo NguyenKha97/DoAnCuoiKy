@@ -20,9 +20,10 @@ public class QuanLySP extends QuanLy {
 
     static int index;
 //    static Connection conQLSP = KetNoi.getNewConnection();
+
     @Override
     public DefaultTableModel taiTT() {
-        DefaultTableModel table = new DefaultTableModel(){
+        DefaultTableModel table = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 //all cells false
@@ -60,8 +61,6 @@ public class QuanLySP extends QuanLy {
         return table;
     }
 
-
-
     @Override
     public void xoaDongTrenSQL(String ma) {
         try {
@@ -87,37 +86,40 @@ public class QuanLySP extends QuanLy {
             return false;
         }
     }
+
     public boolean capNhat(String ma, String tenSP, String dvt, String nuocSX, String gia) {
         try {
-           
+
             Connection conQLSP = KetNoi.getConnection();
-            CallableStatement cstmt = conQLSP.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP 
+            CallableStatement cstmt = conQLSP.prepareCall("UPDATE SANPHAM SET TENSP = '" + tenSP
                     + "', DVT = '" + dvt + "', NUOCSX = '" + nuocSX + "', GIA = '" + gia + "' WHERE MASP = '" + ma + "'");
             cstmt.execute();
             return true;
-            
+
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
             return false;
         }
     }
-    public DefaultComboBoxModel<String> getListMaSP(){
+
+    public DefaultComboBoxModel<String> getListMaSP() {
         try {
             Connection conQLSP = KetNoi.getConnection();
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
-            int temp1=0;
-            while(rs.next()){
+            int temp1 = 0;
+            while (rs.next()) {
                 model.insertElementAt(rs.getString("MASP"), temp1);
                 temp1++;
             }
             return model;
-            } catch (SQLException ex) {
-            System.err.println("Cannot connect database, " + ex); 
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
             return null;
         }
-     }
+    }
+
     public long getGia(String masp) {
         try {
             Connection conQLSP = KetNoi.getConnection();
@@ -130,22 +132,22 @@ public class QuanLySP extends QuanLy {
             return 0;
         }
     }
-    
+
     /**
      *
      * @param masp
      * @return
      */
     @Override
-    public int timMa(String masp){
+    public int timMa(String masp) {
         try {
             Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0");
             ResultSet rs = cstmt.executeQuery();
             int temp = 0;
             try {
-                while(rs.next()){
-                    if(rs.getString("MASP").equalsIgnoreCase(masp)){
+                while (rs.next()) {
+                    if (rs.getString("MASP").equalsIgnoreCase(masp)) {
                         return temp;
                     }
                     temp++;
@@ -153,13 +155,13 @@ public class QuanLySP extends QuanLy {
             } catch (SQLException e) {
                 System.out.println("loi oy");
             }
-            
+
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
         return -1;
     }
-    
+
     public static void getSP(String ma, int sl, DefaultTableModel table) {
 
         boolean check = false;
@@ -169,7 +171,7 @@ public class QuanLySP extends QuanLy {
                 check = true;
                 break;
             }
-        } 
+        }
         try {
             Connection conQLSP = KetNoi.getConnection();
             CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0 AND MASP = '" + ma + "'");
@@ -203,7 +205,7 @@ public class QuanLySP extends QuanLy {
         }
 
     }
-    
+
     public String getTTSP(String masp) {
         String thongTinSP = "";
         try {
@@ -221,8 +223,59 @@ public class QuanLySP extends QuanLy {
         }
         return thongTinSP;
     }
-    
+
+    public boolean checkSPTonTai(String masp) {
+        try {
+            Connection conQLKH = KetNoi.getConnection();
+            CallableStatement cstmt = conQLKH.prepareCall("SELECT MASP from SANPHAM WHERE XOA = 0 AND MASP = '" + masp + "'");
+            ResultSet rs = cstmt.executeQuery();
+            rs.next();
+            if (!rs.getString("MASP").isEmpty()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        return false;
+    }
+
+    public DefaultTableModel timSP(String ma, String dieuKienTim) {
+        DefaultTableModel table = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+        try {
+            Connection conQLSP = KetNoi.getConnection();
+            CallableStatement cstmt = conQLSP.prepareCall("SELECT * from SANPHAM WHERE XOA = 0 AND " + dieuKienTim + " = '" + ma + "'");
+            ResultSet rs = cstmt.executeQuery();
+
+            String[] colsName = {"STT", "Mã SP", "Tên SP", "Đơn vị tính", "Nước sản xuất", "Giá"};
+            table.setColumnIdentifiers(colsName);
+            index = 1;
+            try {
+                while (rs.next()) { // nếu còn đọc tiếp được một dòng dữ liệu
+                    String rows[] = new String[6];
+                    rows[0] = Integer.toString(index);
+                    rows[1] = rs.getString(1); // lấy dữ liệu tại cột số 1 (ứng với mã hàng) 
+                    rows[2] = rs.getString(2); // lấy dữ liệu tai cột số 2 ứng với tên hàng
+                    rows[3] = rs.getString(3);
+                    rows[4] = rs.getString(4);
+//                rows[5] = rs.getString(5);
+                    rows[5] = String.format("%,d", rs.getLong(5)) + " VNĐ";
+                    table.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
+                    //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
+                    index++;
+                }
+            } catch (SQLException e) {
+            }
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        System.out.println("thanh cong");
+        return table;
+    }
+
 }
-    
-
-

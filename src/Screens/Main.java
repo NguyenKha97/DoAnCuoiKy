@@ -16,6 +16,7 @@ import D02_ThucThi.QuanLyCTHD;
 import D02_ThucThi.QuanLyDN;
 import static Screens.QuanLyDangNhap.tableQuanLyDangNhap;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
+import java.awt.Frame;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
@@ -26,6 +27,7 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class Main extends javax.swing.JFrame {
 
+    static public boolean screenIsOn = false;
     static public boolean taittkh, taittnv, taittsp, taitthd, taittcthd, taittdn;
     static public QuanLyKH qlkh = new QuanLyKH();
     static public QuanLyNV qlnv = new QuanLyNV();
@@ -46,6 +48,7 @@ public class Main extends javax.swing.JFrame {
     static int countButtonXoaCTHD = 1;
     static int choice;
     static String maSR;
+
     public static boolean xoaAction(javax.swing.JTable table, boolean taitt, int countButton, javax.swing.JButton button, DefaultTableModel dfTable, QuanLy ql) {
         int i = table.getSelectedRow();
         if (i >= 0 && taitt) {
@@ -61,35 +64,205 @@ public class Main extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private void tim(javax.swing.JTable table, String maTimKiem, int loaiTK) {
+        switch (jTabbedPane1.getSelectedIndex()) {
+            case 0:
+                switch (loaiTK) {
+                    case 0, 1, 2, 3, 4:
+                        for (int i = 0; i < table.getRowCount(); i++) {
+                            if (table.getValueAt(i, loaiTK).toString().equalsIgnoreCase(maTimKiem)) {
+                                JOptionPane.showMessageDialog(null, "Đã tìm thấy !!!");
+                                table.setRowSelectionInterval(i, i);
+                                table.scrollRectToVisible(table.getCellRect(i, 2, true));
+                                return;
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        break;
+                    case 5:
+                        if (qlkh.timKH(maTimKiem, "NGSINH") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableKhachHang.setModel(qlkh.timKH(maTimKiem, "NGSINH"));
+                            setRightRendererAndResizeWitdh(tableKhachHang);
+                        }
+                        break;
+                    case 6:
+                        if (qlkh.timKH(maTimKiem, "NGDK") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableKhachHang.setModel(qlkh.timKH(maTimKiem, "NGDK"));
+                            setRightRendererAndResizeWitdh(tableKhachHang);
+                        }
+                        break;
+                    case 7:
+                        if (qlkh.timKH(maTimKiem, "DOANHSO") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableKhachHang.setModel(qlkh.timKH(maTimKiem, "DOANHSO"));
+                            setRightRendererAndResizeWitdh(tableKhachHang);
+                        }
+                        break;
+                    case 8:
+                        if (qlkh.timKH(maTimKiem, "LOAIKH") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableKhachHang.setModel(qlkh.timKH(maTimKiem, "LOAIKH"));
+                            setRightRendererAndResizeWitdh(tableKhachHang);
+                        }
+                        break;
+                }
+                break;
+            case 1:
+                switch (loaiTK) {
+                    case 0, 1, 2, 3, 4:
+                        for (int i = 0; i < table.getRowCount(); i++) {
+                            if (table.getValueAt(i, loaiTK).toString().equalsIgnoreCase(maTimKiem)) {
+                                JOptionPane.showMessageDialog(null, "Đã tìm thấy !!!");
+                                table.setRowSelectionInterval(i, i);
+                                table.scrollRectToVisible(table.getCellRect(i, 2, true));
+                                return;
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        break;
+                    case 5:
+                        if (qlnv.timNV(maTimKiem, "NGVL") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableNhanVien.setModel(qlnv.timNV(maTimKiem, "NGVL"));
+                            setRightRendererAndResizeWitdh(tableNhanVien);
+                        }
+                        break;
+                }
+                break;
+            case 2:
+                switch (loaiTK) {
+                    case 0, 1:
+                        for (int i = 0; i < table.getRowCount(); i++) {
+                            if (table.getValueAt(i, loaiTK).toString().equalsIgnoreCase(maTimKiem)) {
+                                JOptionPane.showMessageDialog(null, "Đã tìm thấy !!!");
+                                table.setRowSelectionInterval(i, i);
+                                table.scrollRectToVisible(table.getCellRect(i, 2, true));
+                                return;
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        break;
+                    case 2:
+                        if (qlsp.timSP(maTimKiem, "TENSP") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableSanPham.setModel(qlsp.timSP(maTimKiem, "TENSP"));
+                            setRightRendererAndResizeWitdh(tableSanPham);
+                        }
+                        break;
+                    case 3:
+                        if (qlsp.timSP(maTimKiem, "DVT") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableSanPham.setModel(qlsp.timSP(maTimKiem, "DVT"));
+                            setRightRendererAndResizeWitdh(tableSanPham);
+                        }
+                        break;
+                    case 4:
+                        if (qlsp.timSP(maTimKiem, "NUOCSX") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableSanPham.setModel(qlsp.timSP(maTimKiem, "DVT"));
+                            setRightRendererAndResizeWitdh(tableSanPham);
+                        }
+                        break;
+                    case 5:
+                        if (qlsp.timSP(maTimKiem, "GIA") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableSanPham.setModel(qlsp.timSP(maTimKiem, "GIA"));
+                            setRightRendererAndResizeWitdh(tableSanPham);
+                        }
+                        break;
+                }
+                break;
+            case 3:
+                switch (loaiTK) {
+                    case 0, 1:
+                        for (int i = 0; i < table.getRowCount(); i++) {
+                            if (table.getValueAt(i, loaiTK).toString().equalsIgnoreCase(maTimKiem)) {
+                                JOptionPane.showMessageDialog(null, "Đã tìm thấy !!!");
+                                table.setRowSelectionInterval(i, i);
+                                table.scrollRectToVisible(table.getCellRect(i, 2, true));
+                                return;
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        break;
+                    case 2:
+                        if (qlhd.timHD(maTimKiem, "NGHD") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableHoaDon.setModel(qlhd.timHD(maTimKiem, "NGHD"));
+                            setRightRendererAndResizeWitdh(tableHoaDon);
+                        }
+                        break;
+                    case 3:
+                        if (qlhd.timHD(maTimKiem, "MAKH") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableHoaDon.setModel(qlhd.timHD(maTimKiem, "MAKH"));
+                            setRightRendererAndResizeWitdh(tableHoaDon);
+                        }
+                        break;
+                    case 4:
+                        if (qlhd.timHD(maTimKiem, "MANV") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableHoaDon.setModel(qlhd.timHD(maTimKiem, "MANV"));
+                            setRightRendererAndResizeWitdh(tableHoaDon);
+                        }
+                        break;
+                    case 5:
+                        if (qlhd.timHD(maTimKiem, "TRIGIA") == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableHoaDon.setModel(qlhd.timHD(maTimKiem, "TRIGIA"));
+                            setRightRendererAndResizeWitdh(tableHoaDon);
+                        }
+                        break;
+                }
+                break;
+            case 4:
+                switch (loaiTK) {
+                    case 0:
+                        if (qlcthd.taiSoHD(maTimKiem) == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableCTHD.setModel(qlcthd.taiSoHD(maTimKiem));
+                            setRightRendererAndResizeWitdh(tableCTHD);
+                        }
+                        break;
+                    case 1:
+                        if (qlcthd.taiMaSP(maTimKiem) == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableCTHD.setModel(qlcthd.taiMaSP(maTimKiem));
+                            setRightRendererAndResizeWitdh(tableCTHD);
+                        }
+                        break;
+                    case 2:
+                        if (qlcthd.taiSL(maTimKiem) == null) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+                        } else {
+                            tableCTHD.setModel(qlcthd.taiSL(maTimKiem));
+                            setRightRendererAndResizeWitdh(tableCTHD);
+                        }
+                        break;
+                }
+                break;
+        }
+
         if (jTabbedPane1.getSelectedIndex() == 4) {
-            switch (loaiTK) {
-                case 0:
-                    if(qlcthd.taiSoHD(maTimKiem)==null)
-                        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
-                    else {
-                        tableCTHD.setModel(qlcthd.taiSoHD(maTimKiem));
-                        setRightRendererAndResizeWitdh(tableCTHD);
-                    }
-                    break;
-                case 1:
-                    if(qlcthd.taiMaSP(maTimKiem)==null)
-                        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
-                    else {
-                        tableCTHD.setModel(qlcthd.taiMaSP(maTimKiem));
-                        setRightRendererAndResizeWitdh(tableCTHD);
-                    }
-                    break;
-                case 2:
-                    if(qlcthd.taiSL(maTimKiem)==null)
-                        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
-                    else {
-                        tableCTHD.setModel(qlcthd.taiSL(maTimKiem));
-                        setRightRendererAndResizeWitdh(tableCTHD);
-                    }
-                    break;
-            }
+
         } else {
             for (int i = 0; i < table.getRowCount(); i++) {
                 if (table.getValueAt(i, loaiTK).toString().equalsIgnoreCase(maTimKiem)) {
@@ -106,6 +279,12 @@ public class Main extends javax.swing.JFrame {
     public static void setComboBoxInfo(javax.swing.JTable table, DefaultComboBoxModel comboModels) {
         for (int i = 0; i < table.getColumnCount(); i++) {
             comboModels.insertElementAt(table.getColumnName(i), i);
+        }
+    }
+
+    public static void disposeAll() {
+        for (Frame i : NhapTTHD.getFrames()) {
+            i.dispose();
         }
     }
 
@@ -143,7 +322,7 @@ public class Main extends javax.swing.JFrame {
         buttonTaiTTNV = new javax.swing.JButton();
         buttonThemNV = new javax.swing.JButton();
         buttonXoaNV = new javax.swing.JButton();
-        buttonCapNhatKH = new javax.swing.JButton();
+        buttonCapNhatNV = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         tableNhanVien = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -317,11 +496,11 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        buttonCapNhatKH.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        buttonCapNhatKH.setText("CẬP NHẬT TT NV");
-        buttonCapNhatKH.addActionListener(new java.awt.event.ActionListener() {
+        buttonCapNhatNV.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonCapNhatNV.setText("CẬP NHẬT TT NV");
+        buttonCapNhatNV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonCapNhatKHActionPerformed(evt);
+                buttonCapNhatNVActionPerformed(evt);
             }
         });
 
@@ -367,7 +546,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addComponent(buttonThemNV)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addComponent(buttonCapNhatKH)
+                .addComponent(buttonCapNhatNV)
                 .addGap(46, 46, 46)
                 .addComponent(buttonXoaNV)
                 .addContainerGap())
@@ -381,7 +560,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonTaiTTNV)
                     .addComponent(buttonThemNV)
-                    .addComponent(buttonCapNhatKH)
+                    .addComponent(buttonCapNhatNV)
                     .addComponent(buttonXoaNV))
                 .addGap(34, 34, 34))
         );
@@ -684,23 +863,20 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDangXuatActionPerformed
-
         Login.statusLogin = false;
-        setVisible(false);
+        disposeAll();
         Login frmLogin = new Login();
         frmLogin.setLocationRelativeTo(null);
         frmLogin.setVisible(true);
     }//GEN-LAST:event_buttonDangXuatActionPerformed
 
     private void buttonTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTimActionPerformed
-        // TODO add your handling code here:
         if (txtMa.getText().isBlank() || timKiemComboBox.getSelectedIndex() == -1)
             JOptionPane.showMessageDialog(rootPane, "Hãy nhập đầy đủ thông tin để tìm kiếm");
         else {
             String maTimKiem = txtMa.getText();
             int loaiTK = timKiemComboBox.getSelectedIndex();
             switch (jTabbedPane1.getSelectedIndex()) {
-//            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
                 case 0 ->
                     tim(tableKhachHang, maTimKiem, loaiTK);
                 case 1 ->
@@ -716,15 +892,18 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonTimActionPerformed
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        // TODO add your handling code here:
         DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
         switch (jTabbedPane1.getSelectedIndex()) {
-            //            case 4 -> tim(tableCTHD, dfTableCTHD, taittcthd, qlcthd);
-            case 0 ->  setComboBoxInfo(tableKhachHang, comboModels);
-            case 1 ->  setComboBoxInfo(tableNhanVien, comboModels);
-            case 2 ->  setComboBoxInfo(tableSanPham, comboModels);
-            case 3 ->  setComboBoxInfo(tableHoaDon, comboModels);
-            case 4 ->  setComboBoxInfo(tableCTHD, comboModels);
+            case 0 ->
+                setComboBoxInfo(tableKhachHang, comboModels);
+            case 1 ->
+                setComboBoxInfo(tableNhanVien, comboModels);
+            case 2 ->
+                setComboBoxInfo(tableSanPham, comboModels);
+            case 3 ->
+                setComboBoxInfo(tableHoaDon, comboModels);
+            case 4 ->
+                setComboBoxInfo(tableCTHD, comboModels);
         }
         timKiemComboBox.setModel(comboModels);
         timKiemComboBox.setSelectedIndex(0);
@@ -735,36 +914,43 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1HierarchyChanged
 
     private void btnTaiTTCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiTTCTHDActionPerformed
+        toBack();
+        choice = 3;
         dfTableCTHD = qlcthd.taiTT();
         tableCTHD.setModel(dfTableCTHD);
         setRightRendererAndResizeWitdh(tableCTHD);
     }//GEN-LAST:event_btnTaiTTCTHDActionPerformed
 
     private void buttonXoaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaHDActionPerformed
-
-        if (xoaAction(tableHoaDon, taitthd, countButtonXoaHD, buttonXoaHD, dfTableHD, qlhd)){
-            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-            countButtonXoaHD++;
-            qlcthd.xoaDongTrenSQL(maSR);
-            dfTableCTHD = qlcthd.taiTT();
-            tableCTHD.setModel(dfTableCTHD);
-            setRightRendererAndResizeWitdh(tableCTHD);
-            String maKh =qlhd.layMaKH(maSR);
-            long trigia = -qlhd.getTriGia(maSR);
-            qlkh.capNhatDS(maKh, trigia);
-            dfTableKH = qlkh.taiTT();
-            tableKhachHang.setModel(dfTableKH);
-            setRightRendererAndResizeWitdh(tableKhachHang);
-        } else {
-            if(choice == 0)
-            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+        int i = tableHoaDon.getSelectedRow();
+        if (i >= 0 && taitthd && !screenIsOn) {
+            if (xoaAction(tableHoaDon, taitthd, countButtonXoaHD, buttonXoaHD, dfTableHD, qlhd)) {
+                JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+                countButtonXoaHD++;
+                qlcthd.xoaDongTrenSQL(maSR);
+                dfTableCTHD = qlcthd.taiTT();
+                tableCTHD.setModel(dfTableCTHD);
+                setRightRendererAndResizeWitdh(tableCTHD);
+                String maKh = qlhd.layMaKH(maSR);
+                long trigia = -qlhd.getTriGia(maSR);
+                qlkh.capNhatDS(maKh, trigia);
+                dfTableKH = qlkh.taiTT();
+                tableKhachHang.setModel(dfTableKH);
+                setRightRendererAndResizeWitdh(tableKhachHang);
+            } else {
+                if (choice == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                }
+            }
         }
-
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXoaHDActionPerformed
 
     private void buttonXemCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXemCTHDActionPerformed
         int i = tableHoaDon.getSelectedRow();
-        if (i >= 0 && taitthd) {
+        if (i >= 0 && taitthd && !screenIsOn) {
             CapNhatTTHD capnhattthd = new CapNhatTTHD();
             String mahd = tableHoaDon.getValueAt(i, 1).toString();
             DefaultTableModel tableCT = qlcthd.getCTTheoHD(mahd);
@@ -778,32 +964,40 @@ public class Main extends javax.swing.JFrame {
             CapNhatTTHD.txtNgHD.setText("Ngày lập: " + tableHoaDon.getValueAt(i, 2).toString());
             capnhattthd.setLocationRelativeTo(null);
             capnhattthd.setVisible(true);
+            screenIsOn = true;
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXemCTHDActionPerformed
 
     private void buttonThemHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemHDActionPerformed
-        // TODO add your handling code here:
-        NhapTTHD nhaptthd = new NhapTTHD();
-        DefaultComboBoxModel comboModels = qlsp.getListMaSP();
-        NhapTTHD.maSPComboBox.setModel(comboModels);
-        comboModels = qlnv.getListMaNV();
-        NhapTTHD.maNVComboBox.setModel(comboModels);
-        NhapTTHD.txtNgayHD.setDate(Calendar.getInstance().getTime());
-        NhapTTHD.txtSoHD.setText(qlhd.getNewSoHD());
-        nhaptthd.setLocationRelativeTo(null);
-        nhaptthd.setVisible(true);
+        if (!screenIsOn) {
+            NhapTTHD nhaptthd = new NhapTTHD();
+            DefaultComboBoxModel comboModels = qlsp.getListMaSP();
+            NhapTTHD.maSPComboBox.setModel(comboModels);
+            comboModels = qlnv.getListMaNV();
+            NhapTTHD.maNVComboBox.setModel(comboModels);
+            NhapTTHD.txtNgayHD.setDate(Calendar.getInstance().getTime());
+            NhapTTHD.txtSoHD.setText(qlhd.getNewSoHD());
+            nhaptthd.setLocationRelativeTo(null);
+            nhaptthd.setVisible(true);
+            screenIsOn = true;
+        }
+        toBack();
     }//GEN-LAST:event_buttonThemHDActionPerformed
 
     private void buttonTaiTTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTHDActionPerformed
+        toBack();
+        choice = 3;
         dfTableHD = qlhd.taiTT();
         tableHoaDon.setModel(dfTableHD);
         setRightRendererAndResizeWitdh(tableHoaDon);
     }//GEN-LAST:event_buttonTaiTTHDActionPerformed
 
     private void buttonCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatSPActionPerformed
-        // TODO add your handling code here:
         int i = tableSanPham.getSelectedRow();
-        if (i >= 0 && taittsp) {
+        if (i >= 0 && taittsp && !screenIsOn) {
             CapNhatTTSP capnhatsp = new CapNhatTTSP();
             capnhatsp.setLocationRelativeTo(null);
             capnhatsp.setVisible(true);
@@ -816,37 +1010,52 @@ public class Main extends javax.swing.JFrame {
             gia = temp4[0];
             gia = gia.replace(",", "");
             capnhatsp.txtGia.setText(gia);
+            screenIsOn = true;
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonCapNhatSPActionPerformed
 
     private void buttonXoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaSPActionPerformed
-        if (xoaAction(tableSanPham, taittsp, countButtonXoaSP, buttonXoaSP, dfTableSP, qlsp)){
-            countButtonXoaSP++;
-            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-        } else {
-            if(choice == 0)
-            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+        int i = tableSanPham.getSelectedRow();
+        if (i >= 0 && taittsp && !screenIsOn) {
+            if (xoaAction(tableSanPham, taittsp, countButtonXoaSP, buttonXoaSP, dfTableSP, qlsp)) {
+                countButtonXoaSP++;
+                JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+            } else {
+                if (choice == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                }
+            }
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXoaSPActionPerformed
 
     private void buttonThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemSPActionPerformed
-        NhapTTSP nhapttsp = new NhapTTSP();
-        nhapttsp.setLocationRelativeTo(null);
-        nhapttsp.setVisible(true);
-        nhapttsp.txtGia.setText("500");
+        if (!screenIsOn) {
+            NhapTTSP nhapttsp = new NhapTTSP();
+            nhapttsp.setLocationRelativeTo(null);
+            nhapttsp.setVisible(true);
+            NhapTTSP.txtGia.setText("500");
+            screenIsOn = true;
+        }
+        toBack();
     }//GEN-LAST:event_buttonThemSPActionPerformed
 
     private void buttonTaiTTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTSPActionPerformed
-        // TODO add your handling code here:
+        toBack();
+        choice = 3;
         dfTableSP = qlsp.taiTT();
         tableSanPham.setModel(dfTableSP);
         setRightRendererAndResizeWitdh(tableSanPham);
     }//GEN-LAST:event_buttonTaiTTSPActionPerformed
 
-    private void buttonCapNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatKHActionPerformed
-        // TODO add your handling code here:
+    private void buttonCapNhatNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatNVActionPerformed
         int i = tableNhanVien.getSelectedRow();
-        if (i >= 0 && taittnv) {
+        if (i >= 0 && taittnv && !screenIsOn) {
             CapNhatTTNV capnhatnv = new CapNhatTTNV();
             capnhatnv.setLocationRelativeTo(null);
             capnhatnv.setVisible(true);
@@ -854,64 +1063,87 @@ public class Main extends javax.swing.JFrame {
             capnhatnv.txtHoTenNV.setText((String) tableNhanVien.getValueAt(tableNhanVien.getSelectedRow(), 2));
             capnhatnv.txtSoDTNV.setText((String) tableNhanVien.getValueAt(tableNhanVien.getSelectedRow(), 3));
             capnhatnv.chonNgVaoLam.setDate(qlnv.getDate(i));
+            screenIsOn = true;
         }
-    }//GEN-LAST:event_buttonCapNhatKHActionPerformed
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
+    }//GEN-LAST:event_buttonCapNhatNVActionPerformed
 
     private void buttonXoaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaNVActionPerformed
-        if (xoaAction(tableNhanVien, taittnv, countButtonXoaNV, buttonXoaNV, dfTableNV, qlnv)){
-            countButtonXoaNV++;
-            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-        } else {
-            if(choice == 0)
-            JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+        int i = tableNhanVien.getSelectedRow();
+        if (i >= 0 && taittnv && !screenIsOn) {
+            if (xoaAction(tableNhanVien, taittnv, countButtonXoaNV, buttonXoaNV, dfTableNV, qlnv)) {
+                countButtonXoaNV++;
+                dfTableQLDN = qldn.taiTT();
+                tableQuanLyDangNhap.setModel(dfTableQLDN);
+                setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
+                JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+            } else {
+                if (choice == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                }
+            }
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXoaNVActionPerformed
 
     private void buttonThemNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemNVActionPerformed
-        // TODO add your handling code here:
-        NhapTTNV nhapttnv = new NhapTTNV();
-        nhapttnv.setLocationRelativeTo(null);
-        nhapttnv.setVisible(true);
-        NhapTTNV.txtmaNV.setText(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()));
-        NhapTTNV.chonNgVaoLam.setDate(Calendar.getInstance().getTime());
+        if (!screenIsOn) {
+            NhapTTNV nhapttnv = new NhapTTNV();
+            nhapttnv.setLocationRelativeTo(null);
+            nhapttnv.setVisible(true);
+            NhapTTNV.txtmaNV.setText(new DoAnCuoiKy().tangMa(qlnv.getMaCuoi()));
+            NhapTTNV.chonNgVaoLam.setDate(Calendar.getInstance().getTime());
+            screenIsOn = true;
+        }
+        toBack();
     }//GEN-LAST:event_buttonThemNVActionPerformed
 
     private void buttonTaiTTNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTNVActionPerformed
-        // TODO add your handling code here:
+        toBack();
+        choice = 3;
         dfTableNV = qlnv.taiTT();
         tableNhanVien.setModel(dfTableNV);
         setRightRendererAndResizeWitdh(tableNhanVien);
+        dfTableQLDN = qldn.taiTT();
+        tableQuanLyDangNhap.setModel(dfTableQLDN);
+        setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
     }//GEN-LAST:event_buttonTaiTTNVActionPerformed
 
     private void buttonXoaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaKHActionPerformed
         String maKH = "";
-        if (tableKhachHang.getSelectedRow() >= 0 && taittkh) {
+        if (tableKhachHang.getSelectedRow() >= 0 && taittkh && !screenIsOn) {
             maKH = tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1).toString();
-        }
-        if (xoaAction(tableKhachHang, taittkh, countButtonXoaKH, buttonXoaKH, dfTableKH, qlkh)) {
-            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-            countButtonXoaKH++;
-            if (qlhd.check(maKH)) {
-                qlhd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
-                dfTableHD = qlhd.taiTT();
-                tableHoaDon.setModel(dfTableHD);
-                setRightRendererAndResizeWitdh(tableHoaDon);
-                qlcthd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
-                dfTableCTHD = qlcthd.taiTT();
-                tableCTHD.setModel(dfTableCTHD);
-                setRightRendererAndResizeWitdh(tableCTHD);
+            if (xoaAction(tableKhachHang, taittkh, countButtonXoaKH, buttonXoaKH, dfTableKH, qlkh)) {
+                JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+                countButtonXoaKH++;
+                if (qlhd.check(maKH)) {
+                    qlhd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
+                    dfTableHD = qlhd.taiTT();
+                    tableHoaDon.setModel(dfTableHD);
+                    setRightRendererAndResizeWitdh(tableHoaDon);
+                    qlcthd.xoaDongTrenSQL(qlhd.laySoHDTheoMaKH(maSR));
+                    dfTableCTHD = qlcthd.taiTT();
+                    tableCTHD.setModel(dfTableCTHD);
+                    setRightRendererAndResizeWitdh(tableCTHD);
+                }
+            } else {
+                if (choice == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                }
             }
-        } else {
-            if (choice == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
-            }
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXoaKHActionPerformed
 
     private void butonCapNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonCapNhatKHActionPerformed
-
         int i = tableKhachHang.getSelectedRow();
-        if (i >= 0 && taittkh) {
+        if (i >= 0 && taittkh && !screenIsOn) {
             CapNhatTTKH capnhatkh = new CapNhatTTKH();
             capnhatkh.setLocationRelativeTo(null);
             capnhatkh.setVisible(true);
@@ -920,25 +1152,35 @@ public class Main extends javax.swing.JFrame {
             capnhatkh.txtDiaChiKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 3));
             capnhatkh.txtSoDTKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 4));
             capnhatkh.chonSinhNhat.setDate(qlkh.getDate(i));
+            screenIsOn = true;
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_butonCapNhatKHActionPerformed
 
     private void buttonThemKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemKHActionPerformed
-        NhapTTKH nhapttkh = new NhapTTKH();
-        nhapttkh.setLocationRelativeTo(null);
-        nhapttkh.setVisible(true);
-        nhapttkh.maKh.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
-        nhapttkh.ngdk.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+        if (!screenIsOn) {
+            NhapTTKH nhapttkh = new NhapTTKH();
+            nhapttkh.setLocationRelativeTo(null);
+            nhapttkh.setVisible(true);
+            nhapttkh.maKh.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
+            nhapttkh.ngdk.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+            screenIsOn = true;
+        }
+        toBack();
     }//GEN-LAST:event_buttonThemKHActionPerformed
 
     private void buttonTaiTTKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTKHActionPerformed
         dfTableKH = qlkh.taiTT();
         tableKhachHang.setModel(dfTableKH);
         setRightRendererAndResizeWitdh(tableKhachHang);
+        toBack();
+        choice = 3;
     }//GEN-LAST:event_buttonTaiTTKHActionPerformed
 
     private void buttonQLDNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQLDNActionPerformed
-        // TODO add your handling code here:
+        if(!screenIsOn) {
         QuanLyDangNhap screenQLDN = new QuanLyDangNhap();
         screenQLDN.setLocationRelativeTo(null);
         screenQLDN.setVisible(true);
@@ -948,9 +1190,11 @@ public class Main extends javax.swing.JFrame {
         tableQuanLyDangNhap.setModel(dfTableQLDN);
         setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
         taittdn = true;
+        screenIsOn = true;
+        }
+        toBack();
     }//GEN-LAST:event_buttonQLDNActionPerformed
 
- 
     /**
      * @param args the command line arguments
      */
@@ -991,7 +1235,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JButton btnTaiTTCTHD;
     javax.swing.JButton butonCapNhatKH;
-    javax.swing.JButton buttonCapNhatKH;
+    javax.swing.JButton buttonCapNhatNV;
     javax.swing.JButton buttonCapNhatSP;
     private javax.swing.JButton buttonDangXuat;
     private javax.swing.JButton buttonQLDN;
@@ -1035,7 +1279,7 @@ public class Main extends javax.swing.JFrame {
     public static javax.swing.JTable tableKhachHang;
     public static javax.swing.JTable tableNhanVien;
     public static javax.swing.JTable tableSanPham;
-    static javax.swing.JComboBox<String> timKiemComboBox;
+    public static javax.swing.JComboBox<String> timKiemComboBox;
     static javax.swing.JTextField txtMa;
     // End of variables declaration//GEN-END:variables
 }

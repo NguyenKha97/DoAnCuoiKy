@@ -4,6 +4,7 @@
  */
 package Screens;
 
+import static Screens.Main.dfTableKH;
 import static Screens.Main.qlkh;
 import doancuoiky.DoAnCuoiKy;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
@@ -16,8 +17,6 @@ import javax.swing.JOptionPane;
  * @author admin
  */
 public class NhapTTKH extends javax.swing.JFrame {
-    
-    
 
     /**
      * Creates new form NhapTTKH
@@ -90,6 +89,7 @@ public class NhapTTKH extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jScrollPane1.setViewportView(jTextArea2);
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thêm mới khách hàng");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -256,11 +256,12 @@ public class NhapTTKH extends javax.swing.JFrame {
     private void huyThemKhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huyThemKhActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        Main.screenIsOn = false;
     }//GEN-LAST:event_huyThemKhActionPerformed
 
     private void themKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themKHActionPerformed
         // TODO add your handling code here:
-        if (txtHoTenKH.getText().isBlank() || txtDiaChiKH.getText().isBlank() || txtSoDTKH.getText().isBlank() || chonSinhNhat.getDate()==null)
+        if (txtHoTenKH.getText().isBlank() || txtDiaChiKH.getText().isBlank() || txtSoDTKH.getText().isBlank() || chonSinhNhat.getDate() == null)
             JOptionPane.showMessageDialog(themKH, "Vui lòng nhập đầy đủ thông tin để thêm khách hàng!!!");
         else {
             Calendar cal = Calendar.getInstance();
@@ -271,7 +272,13 @@ public class NhapTTKH extends javax.swing.JFrame {
             if (check) {
                 JOptionPane.showMessageDialog(null, "Tạo thành công");
                 setVisible(!check);
+                Main.screenIsOn = false;
                 Main.countButtonXoaKH = 1;
+                BanHangChoNV.maKH = qlkh.getMaCuoi();
+                BanHangChoNV.setScreen();
+                BanHangChoNV.tableKhachHang.setModel(Main.qlkh.taiTT());
+                setRightRendererAndResizeWitdh(BanHangChoNV.tableKhachHang);
+
             } else {
                 JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
             }
@@ -344,7 +351,7 @@ public class NhapTTKH extends javax.swing.JFrame {
     private com.toedter.calendar.JYearChooser jYearChooser1;
     javax.swing.JTextArea maKh;
     public javax.swing.JTextArea ngdk;
-    private javax.swing.JButton themKH;
+    public static javax.swing.JButton themKH;
     private javax.swing.JTextField txtDiaChiKH;
     private javax.swing.JTextField txtHoTenKH;
     private javax.swing.JTextField txtNgDKKH;

@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author admin
  */
 public class QuanLyDangNhap extends javax.swing.JFrame {
+
     private String passAdmin = qldn.getPassAdmin();
     private String maBaoVe = qldn.getMaBaoVe();
 
@@ -49,6 +50,8 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
         txtPassAdmin = new javax.swing.JTextField();
         txtMaBaoVe = new javax.swing.JTextField();
         buttonCapNhatMaBaoVe = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("USERNAME:       admin");
@@ -247,14 +250,14 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
 
     private void buttonUpdatePassAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdatePassAdminActionPerformed
         // TODO add your handling code here:
-        if(txtPassAdmin.getText().isBlank())
+        if (txtPassAdmin.getText().isBlank())
             JOptionPane.showMessageDialog(rootPane, "Không thể cập nhật password!!!");
-        else{
+        else if (buttonHienPassAdmin.isSelected()) {
             int choice = JOptionPane.showConfirmDialog(buttonUpdatePassAdmin, "Bạn có chắc chắn muốn cập nhật mật khẩu admin?", "Thông báo", 0);
             if (choice == 0) {
                 if (qldn.capNhatPass("ADMN", txtPassAdmin.getText())) {
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
-                    passAdmin = txtPassAdmin.getText();
+                    passAdmin = qldn.getPassAdmin();
                     txtPassAdmin.setText(passAdmin);
                 } else {
                     JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
@@ -266,36 +269,37 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
     private void buttonThoatQLDNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThoatQLDNActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        Main.screenIsOn = false;
     }//GEN-LAST:event_buttonThoatQLDNActionPerformed
 
     private void buttonHienPassAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHienPassAdminActionPerformed
         // TODO add your handling code here:
-        if(buttonHienPassAdmin.isSelected()){
-            txtPassAdmin.setText(passAdmin); 
+        if (buttonHienPassAdmin.isSelected()) {
+            txtPassAdmin.setText(passAdmin);
         } else {
-            txtPassAdmin.setText("********");      
+            txtPassAdmin.setText("********");
         }
     }//GEN-LAST:event_buttonHienPassAdminActionPerformed
 
     private void buttonHienMaBaoVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHienMaBaoVeActionPerformed
         // TODO add your handling code here:
-        if(buttonHienMaBaoVe.isSelected()){
-            txtMaBaoVe.setText(maBaoVe); 
+        if (buttonHienMaBaoVe.isSelected()) {
+            txtMaBaoVe.setText(maBaoVe);
         } else {
-            txtMaBaoVe.setText("********");      
+            txtMaBaoVe.setText("********");
         }
     }//GEN-LAST:event_buttonHienMaBaoVeActionPerformed
 
     private void buttonCapNhatMaBaoVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatMaBaoVeActionPerformed
         // TODO add your handling code here:
-        if(txtMaBaoVe.getText().isBlank())
+        if (txtMaBaoVe.getText().isBlank())
             JOptionPane.showMessageDialog(rootPane, "Không thể cập nhật password!!!");
-        else{
+        else if (buttonHienMaBaoVe.isSelected()) {
             int choice = JOptionPane.showConfirmDialog(buttonCapNhatMaBaoVe, "Bạn có chắc chắn muốn cập nhật mật khẩu admin?", "Thông báo", 0);
             if (choice == 0) {
-                if (qldn.capNhatMaBaoVe( txtMaBaoVe.getText())) {
+                if (qldn.capNhatMaBaoVe(txtMaBaoVe.getText())) {
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
-                    maBaoVe = txtMaBaoVe.getText();
+                    maBaoVe = qldn.getMaBaoVe();
                     txtMaBaoVe.setText(maBaoVe);
                 } else {
                     JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
@@ -370,7 +374,7 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
             @Override
             public void run() {
                 new QuanLyDangNhap().setVisible(true);
-                
+
             }
         });
     }

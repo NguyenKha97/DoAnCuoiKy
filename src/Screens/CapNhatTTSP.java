@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import static Screens.Main.tableSanPham;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 
-
 /**
  *
  * @author admin
@@ -45,6 +44,7 @@ public class CapNhatTTSP extends javax.swing.JFrame {
         capNhatSP = new javax.swing.JButton();
         huyCapNhat = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cập nhật sản phẩm");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -167,7 +167,7 @@ public class CapNhatTTSP extends javax.swing.JFrame {
         if (txtMaSP.getText().isBlank() || txtTenSP.getText().isBlank() || txtNuocSX.getText().isBlank() || txtGia.getText().isBlank())
             JOptionPane.showMessageDialog(capNhatSP, "Vui lòng nhập đầy đủ thông tin để thêm mới!!!");
         else {
-            
+
             if (Double.parseDouble(txtGia.getText()) < 500) {
                 JOptionPane.showMessageDialog(capNhatSP, "Giá sản phẩm >= 500");
             } else {
@@ -179,6 +179,7 @@ public class CapNhatTTSP extends javax.swing.JFrame {
                     if (check) {
                         JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
                         setVisible(!check);
+                        Main.screenIsOn = false;
                     } else {
                         JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
                     }
@@ -190,6 +191,7 @@ public class CapNhatTTSP extends javax.swing.JFrame {
     private void huyCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huyCapNhatActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        Main.screenIsOn = false;
     }//GEN-LAST:event_huyCapNhatActionPerformed
 
     /**

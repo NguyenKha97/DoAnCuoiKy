@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import static Screens.Main.qlcthd;
 import static Screens.Main.qlkh;
 import static Screens.Main.qlnv;
-import static Screens.Main.tableKhachHang;
 import static Screens.Main.tableNhanVien;
 import static Screens.Main.taittkh;
 import static Screens.Main.taittnv;
@@ -28,8 +27,11 @@ import static Screens.Main.dfTableHD;
 import static Screens.Main.dfTableCTHD;
 import static Screens.Main.qlhd;
 import static Screens.Main.qlsp;
+import static Screens.Main.setComboBoxInfo;
 import static Screens.Main.tableHoaDon;
 import static Screens.Main.tableCTHD;
+import static Screens.Main.tableKhachHang;
+import static Screens.Main.timKiemComboBox;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,6 +72,10 @@ public class LoginRun {
         setRightRendererAndResizeWitdh(tableHoaDon);
         setRightRendererAndResizeWitdh(tableCTHD);
         taittkh = taittnv = taittsp = taitthd = taittcthd = true;
+        DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
+        setComboBoxInfo(tableKhachHang, comboModels);
+        timKiemComboBox.setModel(comboModels);
+        timKiemComboBox.setSelectedIndex(0);
     }
     
     public static void getStaffScreens() {
@@ -80,7 +86,7 @@ public class LoginRun {
         main.setVisible(false);
         dfTableKH = qlkh.taiTT();
         dfTableSP = qlsp.taiTT();
-        dfTableHD = qlhd.taiTT();
+        dfTableHD = qlhd.taiTTTheoMaNV(Login.txtUser.getText().toUpperCase());
         dfTableCTHD = qlcthd.taiTT();
         BanHangChoNV.tableSanPham.setModel(dfTableSP);
         BanHangChoNV.tableKhachHang.setModel(dfTableKH);
@@ -95,7 +101,6 @@ public class LoginRun {
         BanHangChoNV.txtHoTenNV.setText("Họ tên NV: " + Main.qlnv.getTenNV(Login.txtUser.getText().toUpperCase()));
         BanHangChoNV.txtNgayTaoHD.setText("Ngày tạo: " + new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
         BanHangChoNV.comboBoxMaSP.setModel(comboModels);
-
     }
     
 }

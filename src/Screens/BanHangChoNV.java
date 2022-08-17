@@ -5,25 +5,17 @@
 package Screens;
 
 import D02_ThucThi.LoginRun;
-import D02_ThucThi.QuanLy;
 import D02_ThucThi.QuanLySP;
 import static Screens.Main.choice;
-import static Screens.Main.countButtonXoaHD;
-import static Screens.Main.countButtonXoaKH;
-import static Screens.Main.countButtonXoaSP;
-import static Screens.Main.dfTableCTHD;
 import static Screens.Main.dfTableHD;
 import static Screens.Main.dfTableKH;
 import static Screens.Main.dfTableSP;
-import static Screens.Main.maSR;
 import static Screens.Main.qlcthd;
 import static Screens.Main.qlhd;
 import static Screens.Main.qlkh;
 import static Screens.Main.qlnv;
 import static Screens.Main.qlsp;
-import static Screens.Main.tableCTHD;
-import static Screens.Main.tableHoaDon;
-import static Screens.Main.tableSanPham;
+import static Screens.Main.screenIsOn;
 import static Screens.Main.taittcthd;
 import static Screens.Main.taitthd;
 import static Screens.Main.taittkh;
@@ -46,9 +38,11 @@ import javax.swing.table.DefaultTableModel;
  * @author admin
  */
 public class BanHangChoNV extends javax.swing.JFrame {
-    private String maKH;
+
+    public static String maKH;
     static String maKH1;
-    static boolean checkMaKH = false, confirm = false;
+    static boolean checkMaKH = false, confirm = false, buttonThemSPIsActive = false, buttonCapNhatSPIsActive = false, buttonXoaSPIsActive = false, buttonXoaKHIsActive = false, buttonCapNhatKHIsActive = false;
+
     /**
      * Creates new form BanHangChoNV
      */
@@ -790,53 +784,55 @@ public class BanHangChoNV extends javax.swing.JFrame {
     private void buttonDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDangXuatActionPerformed
         // TODO add your handling code here:
         Login.statusLogin = false;
-        setVisible(false);
+        Main.disposeAll();
         Login frmLogin = new Login();
         frmLogin.setLocationRelativeTo(null);
         frmLogin.setVisible(true);
     }//GEN-LAST:event_buttonDangXuatActionPerformed
 
-    private void setScreen() {
+    public static void setScreen() {
         txtMaKH.setText(maKH + " - " + qlkh.getTenKH(maKH));
         txtSinhNhatKH.setText(qlkh.getSinhNhat(maKH));
         txtLoaiKH.setText(qlkh.getLoaiKH(maKH));
         checkMaKH = true;
     }
-    
+
     private void themKH() {
         int choice = JOptionPane.showConfirmDialog(null, "Mã KH không đúng hoặc không tồn tại. Bạn có muốn tạo KH mới?", "Thông báo", 0);
-        if (choice == 0) {
+        if (choice == 0 && !screenIsOn) {
             NhapTTKH nhapttkh = new NhapTTKH();
             nhapttkh.setLocationRelativeTo(null);
             nhapttkh.setVisible(true);
             nhapttkh.maKh.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
             nhapttkh.ngdk.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+            screenIsOn = true;
         }
     }
-    
+
     private void themKHTheoSDT(String sdt) {
         int choice = JOptionPane.showConfirmDialog(null, "Không tìm thấy thông tin SĐT này. Bạn có muốn tạo KH mới?", "Thông báo", 0);
-        if (choice == 0) {
+        if (choice == 0 && !screenIsOn) {
             NhapTTKH nhapttkh = new NhapTTKH();
             nhapttkh.setLocationRelativeTo(null);
             nhapttkh.setVisible(true);
             nhapttkh.maKh.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
             nhapttkh.ngdk.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
             nhapttkh.txtSoDTKH.setText(sdt);
+            screenIsOn = true;
         }
     }
-    
-    private void mouseClick(){
-        if(!txtMaKH.getText().isBlank() && !checkMaKH){
-            if(txtMaKH.getText().length() == 4){
+
+    private void mouseClick() {
+        if (!txtMaKH.getText().isBlank() && !checkMaKH) {
+            if (txtMaKH.getText().length() == 4) {
                 maKH = txtMaKH.getText().toUpperCase();
-                if(qlkh.checkMaKH(maKH)){
+                if (qlkh.checkMaKH(maKH)) {
                     setScreen();
                 } else {
                     themKH();
                 }
-            } else if(txtMaKH.getText().length() >=8 && txtMaKH.getText().length() <= 11) {
-                if(qlkh.checkSDTKH(txtMaKH.getText()) != null){
+            } else if (txtMaKH.getText().length() >= 8 && txtMaKH.getText().length() <= 11) {
+                if (qlkh.checkSDTKH(txtMaKH.getText()) != null) {
                     maKH = qlkh.checkSDTKH(txtMaKH.getText());
                     setScreen();
                 } else {
@@ -846,37 +842,40 @@ public class BanHangChoNV extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Độ dài mã KH hoặc số ĐT không đúng. Hãy nhập lại.");
             }
         }
+        checkMaKH = true;
     }
-    
+
     public void tim(javax.swing.JTable table, String maTimKiem, int loaiTK) {
-            for (int i = 0; i < table.getRowCount(); i++) {
-                if (table.getValueAt(i, loaiTK).toString().equalsIgnoreCase(maTimKiem)) {
-                    JOptionPane.showMessageDialog(null, "Đã tìm thấy !!!");
-                    table.setRowSelectionInterval(i, i);
-                    table.scrollRectToVisible(table.getCellRect(i, 2, true));
-                    return;
-                }
+        for (int i = 0; i < table.getRowCount(); i++) {
+            if (table.getValueAt(i, loaiTK).toString().equalsIgnoreCase(maTimKiem)) {
+                JOptionPane.showMessageDialog(null, "Đã tìm thấy !!!");
+                table.setRowSelectionInterval(i, i);
+                table.scrollRectToVisible(table.getCellRect(i, 2, true));
+                return;
             }
-            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
+        }
+        JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu có mã " + txtMa.getText() + "\nVui lòng kiểm tra lại thông tin tìm kiếm!!!");
     }
-    
+
     private void txtMaKHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(txtMaKH.getText().length() == 4){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (txtMaKH.getText().length() == 4) {
                 maKH = txtMaKH.getText().toUpperCase();
-                if(qlkh.checkMaKH(maKH)){
+                if (qlkh.checkMaKH(maKH)) {
                     setScreen();
                 } else {
                     themKH();
                     checkMaKH = true;
                 }
-            } else if(txtMaKH.getText().length() >=8 && txtMaKH.getText().length() <= 11) {
-                if(qlkh.checkSDTKH(txtMaKH.getText()) != null){
+            } else if (txtMaKH.getText().length() >= 8 && txtMaKH.getText().length() <= 11) {
+                if (qlkh.checkSDTKH(txtMaKH.getText()) != null) {
                     maKH = qlkh.checkSDTKH(txtMaKH.getText());
                     setScreen();
                 } else {
                     themKHTheoSDT(txtMaKH.getText());
+                    maKH = qlkh.getMaCuoi();
+                    setScreen();
                     checkMaKH = true;
                 }
             } else {
@@ -902,43 +901,43 @@ public class BanHangChoNV extends javax.swing.JFrame {
     }//GEN-LAST:event_comboBoxMaSPActionPerformed
 
     private void buttonThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemSPActionPerformed
-        // TODO add your handling code here:
-        if(comboBoxMaSP.getSelectedItem()==null || txtSL.getText().isBlank() || Integer.parseInt(txtSL.getText()) <=0 )
+
+        if (comboBoxMaSP.getSelectedItem() == null || txtSL.getText().isBlank() || Integer.parseInt(txtSL.getText()) <= 0)
             JOptionPane.showMessageDialog(null, "Hay nhap dung ma san pham va so luong!!!");
-        else{
+        else {
             int soluong = Integer.parseInt(txtSL.getText());
             String maSp = comboBoxMaSP.getSelectedItem().toString();
             trigia += tinhTriGia(maSp, soluong);
-            txtTongTien.setText(String.format("%,d",(trigia)));
+            txtTongTien.setText(String.format("%,d", (trigia)));
             txtTongTien.setHorizontalAlignment(JTextField.RIGHT);
             txtTongTien.setVisible(true);
             QuanLySP.getSP(maSp, soluong, tempTableSP);
             tableListSP_staff.setModel(tempTableSP);
-            DoAnCuoiKy.setRightRendererAndResizeWitdh(tableListSP_staff);          
+            DoAnCuoiKy.setRightRendererAndResizeWitdh(tableListSP_staff);
         }
     }//GEN-LAST:event_buttonThemSPActionPerformed
 
     private void buttonXoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaSPActionPerformed
         // TODO add your handling code here:
         int i = tableListSP_staff.getSelectedRow();
-        if (i >= 0 && tableListSP_staff.getRowCount()>0) {
+        if (i >= 0 && tableListSP_staff.getRowCount() > 0) {
             int choice = JOptionPane.showConfirmDialog(null, "Ban co chac chan muon xoa du lieu nay", "Thong bao", 0);
             if (choice == 0) {
-                trigia -= (Long.parseLong((String)tableListSP_staff.getValueAt(i, 5)) * qlsp.getGia((String)tableListSP_staff.getValueAt(i, 0)));
+                trigia -= (Long.parseLong((String) tableListSP_staff.getValueAt(i, 5)) * qlsp.getGia((String) tableListSP_staff.getValueAt(i, 0)));
                 txtTongTien.setText(String.format("%,d", (trigia)));
                 txtTongTien.setHorizontalAlignment(JTextField.RIGHT);
                 tempTableSP.removeRow(i);
                 tableListSP_staff.setModel(tempTableSP);
                 setRightRendererAndResizeWitdh(tableListSP_staff);
             }
-        }  
+        }
     }//GEN-LAST:event_buttonXoaSPActionPerformed
 
     private void buttonHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHuyActionPerformed
         // TODO add your handling code here:
         dispose();
 //        setVisible(false);
-        tempTableSP = new DefaultTableModel(){
+        tempTableSP = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 //all cells false
@@ -946,37 +945,42 @@ public class BanHangChoNV extends javax.swing.JFrame {
             }
         };
         LoginRun.getStaffScreens();
+        screenIsOn = false;
     }//GEN-LAST:event_buttonHuyActionPerformed
 
     private void buttonThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThanhToanActionPerformed
         // TODO add your handling code here:
-        if(trigia == 0 || txtMaKH.getText().isBlank() || tableListSP_staff.getRowCount()==0 ){
+        if (trigia == 0 || txtMaKH.getText().isBlank() || tableListSP_staff.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Hay nhap du thong tin cua hoa don truoc khi tao!!!");
         } else if (!qlkh.checkMaKH(maKH)) {
             int choice = JOptionPane.showConfirmDialog(null, "Thông tin KH không đúng hoặc không tồn tại. Bạn có muốn tạo KH mới?", "Thông báo", 0);
-                if (choice == 0) {
-                    NhapTTKH nhapttkh = new NhapTTKH();
-                    nhapttkh.setLocationRelativeTo(null);
-                    nhapttkh.setVisible(true);
-                    nhapttkh.maKh.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
-                    nhapttkh.ngdk.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
-                }
+            if (choice == 0 && !screenIsOn) {
+                NhapTTKH nhapttkh = new NhapTTKH();
+                nhapttkh.setLocationRelativeTo(null);
+                nhapttkh.setVisible(true);
+                nhapttkh.maKh.setText(new DoAnCuoiKy().tangMa(qlkh.getMaCuoi()));
+                nhapttkh.ngdk.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+                screenIsOn = true;
+            }
         } else {
-            boolean check = qlhd.themHD(txtSoHD.getText(), Calendar.getInstance().getTime() , maKH, Login.txtUser.getText().toUpperCase(), trigia);
-            if(check){
+            boolean check = qlhd.themHD(txtSoHD.getText(), Calendar.getInstance().getTime(), maKH, Login.txtUser.getText().toUpperCase(), trigia);
+            if (check) {
                 JOptionPane.showMessageDialog(null, "Tạo thành công!!! Số hóa đơn: " + txtSoHD.getText());
-                Main.dfTableHD = qlhd.taiTT();
-                tableHoaDon.setModel(Main.dfTableHD);
-                setRightRendererAndResizeWitdh(tableHoaDon);
                 for (int i = 0; i < tableListSP_staff.getRowCount(); i++) {
                     qlcthd.themCTTD(txtSoHD.getText(), (String) tableListSP_staff.getValueAt(i, 0), (String) tableListSP_staff.getValueAt(i, 5));
                 }
                 Main.dfTableCTHD = qlcthd.taiTT();
-//                tableCTHD.setModel(Main.dfTableCTHD);
-//                setRightRendererAndResizeWitdh(tableCTHD);
                 qlkh.capNhatDS(maKH, trigia);
-                tempTableSP = new DefaultTableModel();
                 Main.countButtonXoaHD = 1;
+                dispose();
+                tempTableSP = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        //all cells false
+                        return false;
+                    }
+                };
+                LoginRun.getStaffScreens();
             } else {
                 JOptionPane.showMessageDialog(null, "Tạo HD không thành công, vui lòng kiểm tra lại");
             }
@@ -984,35 +988,40 @@ public class BanHangChoNV extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonThanhToanActionPerformed
 
     private void butonCapNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonCapNhatKHActionPerformed
-        // TODO add your handling code here:
-        int i = tableKhachHang.getSelectedRow();
-        if (i >= 0 && taittkh) {
-            CapNhatTTKH capnhatkh = new CapNhatTTKH();
-            capnhatkh.setLocationRelativeTo(null);
-            capnhatkh.setVisible(true);
-            capnhatkh.txtmaKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1));
-            capnhatkh.txtHoTenKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 2));
-            capnhatkh.txtDiaChiKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 3));
-            capnhatkh.txtSoDTKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 4));
-            capnhatkh.chonSinhNhat.setDate(qlkh.getDate(i));
+        System.out.println(choice);
+        if (tableKhachHang.getSelectedRow() >= 0 && taittkh && !screenIsOn) {
+            ManHinhXacNhan xacNhan = new ManHinhXacNhan();
+            xacNhan.setVisible(true);
+            xacNhan.setLocationRelativeTo(null);
+            buttonCapNhatKHIsActive = true;
+            screenIsOn = true;
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_butonCapNhatKHActionPerformed
 
     private void buttonTaiTTKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTKHActionPerformed
         // TODO add your handling code here:
+        toBack();
+        choice = 3;
         dfTableKH = qlkh.taiTT();
         tableKhachHang.setModel(dfTableKH);
         setRightRendererAndResizeWitdh(tableKhachHang);
     }//GEN-LAST:event_buttonTaiTTKHActionPerformed
 
     private void buttonXoaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaKHActionPerformed
-        // TODO add your handling code here:
-        if (tableKhachHang.getSelectedRow() >= 0 && taittkh) {
+        if (tableKhachHang.getSelectedRow() >= 0 && taittkh && !screenIsOn) {
             maKH1 = tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1).toString();
             ManHinhXacNhan xacNhan = new ManHinhXacNhan();
             xacNhan.setVisible(true);
             xacNhan.setLocationRelativeTo(null);
+            buttonXoaKHIsActive = true;
+            screenIsOn = true;
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXoaKHActionPerformed
 
     private void buttonTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTimActionPerformed
@@ -1028,7 +1037,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
 
     private void buttonTim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTim1ActionPerformed
         if (txtMaSP.getText().isBlank() || timKiemComboBox1.getSelectedIndex() == -1)
-        JOptionPane.showMessageDialog(rootPane, "Hãy nhập đầy đủ thông tin để tìm kiếm");
+            JOptionPane.showMessageDialog(rootPane, "Hãy nhập đầy đủ thông tin để tìm kiếm");
         else {
             String maTimKiem = txtMaSP.getText();
             int loaiTK = timKiemComboBox1.getSelectedIndex();
@@ -1047,45 +1056,45 @@ public class BanHangChoNV extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonTim2ActionPerformed
 
     private void buttonThemSP_TBHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThemSP_TBHDActionPerformed
-        // TODO add your handling code here:
-        NhapTTSP nhapttsp = new NhapTTSP();
-        nhapttsp.setLocationRelativeTo(null);
-        nhapttsp.setVisible(true);
-        NhapTTSP.txtGia.setText("500");
-    }//GEN-LAST:event_buttonThemSP_TBHDActionPerformed
-
-    private void buttonCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatSPActionPerformed
-        // TODO add your handling code here:
-         int i = tableSanPham.getSelectedRow();
-        if (i >= 0 && taittsp) {
-            CapNhatTTSP capnhatsp = new CapNhatTTSP();
-            capnhatsp.setLocationRelativeTo(null);
-            capnhatsp.setVisible(true);
-            capnhatsp.txtMaSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 1));
-            capnhatsp.txtTenSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 2));
-            capnhatsp.donViTinh.setSelectedItem((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 3));
-            capnhatsp.txtNuocSX.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 4));
-            String gia = (String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 5);
-            String[] temp4 = gia.split(" VNĐ");
-            gia = temp4[0];
-            gia = gia.replace(",", "");
-            capnhatsp.txtGia.setText(gia);
-        }
-    }//GEN-LAST:event_buttonCapNhatSPActionPerformed
-
-    private void buttonXoaSP_TBHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaSP_TBHDActionPerformed
-        // TODO add your handling code here:
-         if (tableSanPham.getSelectedRow() >= 0 && taittsp) {
+        if (tableSanPham.getSelectedRow() >= 0 && taittsp && !screenIsOn) {
             ManHinhXacNhan xacNhan = new ManHinhXacNhan();
             xacNhan.setVisible(true);
             xacNhan.setLocationRelativeTo(null);
-        }       
+            buttonThemSPIsActive = true;
+            screenIsOn = true;
+        }
+        toBack();
+    }//GEN-LAST:event_buttonThemSP_TBHDActionPerformed
+
+    private void buttonCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatSPActionPerformed
+        if (tableSanPham.getSelectedRow() >= 0 && taittsp && !screenIsOn) {
+            ManHinhXacNhan xacNhan = new ManHinhXacNhan();
+            xacNhan.setVisible(true);
+            xacNhan.setLocationRelativeTo(null);
+            buttonCapNhatSPIsActive = true;
+            screenIsOn = true;
+        }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
+    }//GEN-LAST:event_buttonCapNhatSPActionPerformed
+
+    private void buttonXoaSP_TBHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaSP_TBHDActionPerformed
+        if (tableSanPham.getSelectedRow() >= 0 && taittsp && !screenIsOn) {
+            ManHinhXacNhan xacNhan = new ManHinhXacNhan();
+            xacNhan.setVisible(true);
+            xacNhan.setLocationRelativeTo(null);
+            buttonXoaSPIsActive = true;
+            screenIsOn = true;
+        }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXoaSP_TBHDActionPerformed
 
     private void buttonXemCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXemCTHDActionPerformed
-        // TODO add your handling code here:
         int i = tableHoaDon.getSelectedRow();
-        if (i >= 0 && taitthd) {
+        if (i >= 0 && taitthd && !screenIsOn) {
             CapNhatTTHD capnhattthd = new CapNhatTTHD();
             String mahd = tableHoaDon.getValueAt(i, 1).toString();
             DefaultTableModel tableCT = qlcthd.getCTTheoHD(mahd);
@@ -1093,22 +1102,29 @@ public class BanHangChoNV extends javax.swing.JFrame {
             setRightRendererAndResizeWitdh(CapNhatTTHD.tableCTHD);
             taittcthd = true;
             CapNhatTTHD.txtsoHD.setText("CHI TIẾT HÓA ĐƠN : " + tableHoaDon.getValueAt(i, 1).toString());
-            String maNV = tableHoaDon.getValueAt(i, 4).toString(), maKH2 = tableHoaDon.getValueAt(i, 3).toString();
+            String maNV = tableHoaDon.getValueAt(i, 4).toString(), maKH5 = tableHoaDon.getValueAt(i, 3).toString();
             CapNhatTTHD.txtNV.setText(maNV + " - " + qlnv.getTenNV(maNV));
-            CapNhatTTHD.txtKH.setText(maKH2 + " - " + qlkh.getTenKH(maKH2));
+            CapNhatTTHD.txtKH.setText(maKH5 + " - " + qlkh.getTenKH(maKH5));
             CapNhatTTHD.txtNgHD.setText("Ngày lập: " + tableHoaDon.getValueAt(i, 2).toString());
             capnhattthd.setLocationRelativeTo(null);
             capnhattthd.setVisible(true);
+            screenIsOn = true;
         }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXemCTHDActionPerformed
 
     private void buttonXoaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXoaHDActionPerformed
-        // TODO add your handling code here:
-        if (tableHoaDon.getSelectedRow() >= 0 && taitthd) {
+        if (tableHoaDon.getSelectedRow() >= 0 && taitthd && !screenIsOn) {
             ManHinhXacNhan xacNhan = new ManHinhXacNhan();
             xacNhan.setVisible(true);
             xacNhan.setLocationRelativeTo(null);
-        } 
+            screenIsOn = true;
+        }
+        toBack();
+        if (!screenIsOn && choice != 1)
+            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
     }//GEN-LAST:event_buttonXoaHDActionPerformed
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
@@ -1132,21 +1148,21 @@ public class BanHangChoNV extends javax.swing.JFrame {
                     timKiemComboBox2.setSelectedIndex(0);
                 }
             }
-//            timKiemComboBox.setModel(comboModels);
-//            timKiemComboBox.setSelectedIndex(0);
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void buttonTaiTTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTSPActionPerformed
-        // TODO add your handling code here:
+        toBack();
+        choice = 3;
         dfTableSP = qlsp.taiTT();
         tableSanPham.setModel(dfTableSP);
         setRightRendererAndResizeWitdh(tableSanPham);
     }//GEN-LAST:event_buttonTaiTTSPActionPerformed
 
     private void buttonTaiTTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTHDActionPerformed
-        // TODO add your handling code here:
-                 dfTableHD = qlhd.taiTT();
+        toBack();
+        choice = 3;
+        dfTableHD = qlhd.taiTTTheoMaNV(Login.txtUser.getText().toUpperCase());
         tableHoaDon.setModel(dfTableHD);
         setRightRendererAndResizeWitdh(tableHoaDon);
     }//GEN-LAST:event_buttonTaiTTHDActionPerformed
@@ -1167,15 +1183,11 @@ public class BanHangChoNV extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BanHangChoNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BanHangChoNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BanHangChoNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(BanHangChoNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -1189,7 +1201,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butonCapNhatKH;
-    private javax.swing.JButton buttonCapNhatSP;
+    static javax.swing.JButton buttonCapNhatSP;
     private javax.swing.JButton buttonDangXuat;
     private javax.swing.JButton buttonHuy;
     private javax.swing.JButton buttonTaiTTHD;
@@ -1197,7 +1209,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
     private javax.swing.JButton buttonTaiTTSP;
     private javax.swing.JButton buttonThanhToan;
     private javax.swing.JButton buttonThemSP;
-    private javax.swing.JButton buttonThemSP_TBHD;
+    static javax.swing.JButton buttonThemSP_TBHD;
     javax.swing.JButton buttonTim;
     javax.swing.JButton buttonTim1;
     javax.swing.JButton buttonTim2;
