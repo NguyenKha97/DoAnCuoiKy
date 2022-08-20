@@ -5,6 +5,7 @@
 package Screens;
 
 import static Screens.Main.qldn;
+import static Screens.QuanLyDangNhap.capNhatTKIsOn;
 import static Screens.QuanLyDangNhap.tableQuanLyDangNhap;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
 import javax.swing.JOptionPane;
@@ -133,18 +134,22 @@ public class CapNhatTK extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         setVisible(false);
+        setAlwaysOnTop(false);
+        capNhatTKIsOn = false;
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void buttonCapNhatTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapNhatTKActionPerformed
         // TODO add your handling code here:
         int choice = JOptionPane.showConfirmDialog(buttonCapNhatTK, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
         if (choice == 0) {
+            setAlwaysOnTop(false);
             boolean check = qldn.capNhatPass(txtMaNV.getText(), txtPassMoi.getText());
             Main.dfTableQLDN = qldn.taiTT();
             tableQuanLyDangNhap.setModel(Main.dfTableQLDN);
             setRightRendererAndResizeWitdh(tableQuanLyDangNhap);
             if (check) {
-                JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
+                JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!"); 
+                capNhatTKIsOn = false;
                 setVisible(!check);
             } else {
                 JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");

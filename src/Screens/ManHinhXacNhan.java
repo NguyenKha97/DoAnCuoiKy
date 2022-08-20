@@ -170,6 +170,7 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
                             CapNhatTTKH capnhatkh = new CapNhatTTKH();
                             capnhatkh.setLocationRelativeTo(null);
                             capnhatkh.setVisible(true);
+                            choice = 1;
                             capnhatkh.txtmaKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 1));
                             capnhatkh.txtHoTenKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 2));
                             capnhatkh.txtDiaChiKH.setText((String) tableKhachHang.getValueAt(tableKhachHang.getSelectedRow(), 3));
@@ -178,9 +179,9 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
                             screenIsOn = true;
                         }
                         toBack();
-                        if (!screenIsOn && choice != 1) {
-                            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
-                        }
+//                        if (!screenIsOn && choice != 1) {
+//                            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
+//                        }
                         BanHangChoNV.buttonCapNhatKHIsActive = false;
                     }
                     BanHangChoNV.tableKhachHang.setModel(qlkh.taiTT());
@@ -209,6 +210,7 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
                             CapNhatTTSP capnhatsp = new CapNhatTTSP();
                             capnhatsp.setLocationRelativeTo(null);
                             capnhatsp.setVisible(true);
+                            choice = 1;
                             capnhatsp.txtMaSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 1));
                             capnhatsp.txtTenSP.setText((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 2));
                             capnhatsp.donViTinh.setSelectedItem((String) tableSanPham.getValueAt(tableSanPham.getSelectedRow(), 3));
@@ -221,9 +223,9 @@ public class ManHinhXacNhan extends javax.swing.JFrame {
                             screenIsOn = true;
                         }
                         toBack();
-                        if (!screenIsOn && choice != 1) {
-                            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
-                        }
+//                        if (!screenIsOn && choice != 1) {
+//                            JOptionPane.showMessageDialog(rootPane, "Click chọn dòng để thực hiện");
+//                        }
                         BanHangChoNV.buttonCapNhatSPIsActive = false;
                     } else if (BanHangChoNV.buttonThemSPIsActive) {
                         if (!screenIsOn) {

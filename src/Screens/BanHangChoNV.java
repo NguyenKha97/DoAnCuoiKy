@@ -326,6 +326,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtHoTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(26, 26, 26)
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtSoHD)))))
@@ -785,6 +786,8 @@ public class BanHangChoNV extends javax.swing.JFrame {
         // TODO add your handling code here:
         Login.statusLogin = false;
         Main.disposeAll();
+        dispose();
+        Main.screenIsOn = false;
         Login frmLogin = new Login();
         frmLogin.setLocationRelativeTo(null);
         frmLogin.setVisible(true);
@@ -950,10 +953,11 @@ public class BanHangChoNV extends javax.swing.JFrame {
 
     private void buttonThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonThanhToanActionPerformed
         // TODO add your handling code here:
+        int choice;
         if (trigia == 0 || txtMaKH.getText().isBlank() || tableListSP_staff.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Hay nhap du thong tin cua hoa don truoc khi tao!!!");
         } else if (!qlkh.checkMaKH(maKH)) {
-            int choice = JOptionPane.showConfirmDialog(null, "Thông tin KH không đúng hoặc không tồn tại. Bạn có muốn tạo KH mới?", "Thông báo", 0);
+            choice = JOptionPane.showConfirmDialog(null, "Thông tin KH không đúng hoặc không tồn tại. Bạn có muốn tạo KH mới?", "Thông báo", 0);
             if (choice == 0 && !screenIsOn) {
                 NhapTTKH nhapttkh = new NhapTTKH();
                 nhapttkh.setLocationRelativeTo(null);
@@ -963,6 +967,8 @@ public class BanHangChoNV extends javax.swing.JFrame {
                 screenIsOn = true;
             }
         } else {
+            choice = JOptionPane.showConfirmDialog(null, "Không thể hoàn tác sau khi thực hiện.\nXác nhận thanh toán?", "Thông báo", 0);
+            if(choice == 0) {
             boolean check = qlhd.themHD(txtSoHD.getText(), Calendar.getInstance().getTime(), maKH, Login.txtUser.getText().toUpperCase(), trigia);
             if (check) {
                 JOptionPane.showMessageDialog(null, "Tạo thành công!!! Số hóa đơn: " + txtSoHD.getText());
@@ -985,6 +991,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Tạo HD không thành công, vui lòng kiểm tra lại");
             }
         }
+        }
     }//GEN-LAST:event_buttonThanhToanActionPerformed
 
     private void butonCapNhatKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonCapNhatKHActionPerformed
@@ -1004,7 +1011,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
     private void buttonTaiTTKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTKHActionPerformed
         // TODO add your handling code here:
         toBack();
-        choice = 3;
+        choice = 1;
         dfTableKH = qlkh.taiTT();
         tableKhachHang.setModel(dfTableKH);
         setRightRendererAndResizeWitdh(tableKhachHang);
@@ -1153,7 +1160,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
 
     private void buttonTaiTTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTSPActionPerformed
         toBack();
-        choice = 3;
+        choice = 1;
         dfTableSP = qlsp.taiTT();
         tableSanPham.setModel(dfTableSP);
         setRightRendererAndResizeWitdh(tableSanPham);
@@ -1161,7 +1168,7 @@ public class BanHangChoNV extends javax.swing.JFrame {
 
     private void buttonTaiTTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaiTTHDActionPerformed
         toBack();
-        choice = 3;
+        choice = 1;
         dfTableHD = qlhd.taiTTTheoMaNV(Login.txtUser.getText().toUpperCase());
         tableHoaDon.setModel(dfTableHD);
         setRightRendererAndResizeWitdh(tableHoaDon);

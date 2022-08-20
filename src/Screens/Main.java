@@ -66,7 +66,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void tim(javax.swing.JTable table, String maTimKiem, int loaiTK) {
-        switch (jTabbedPane1.getSelectedIndex()) {
+        switch (jTabbedPaneAdmin.getSelectedIndex()) {
             case 0:
                 switch (loaiTK) {
                     case 0, 1, 2, 3, 4:
@@ -261,7 +261,7 @@ public class Main extends javax.swing.JFrame {
                 break;
         }
 
-        if (jTabbedPane1.getSelectedIndex() == 4) {
+        if (jTabbedPaneAdmin.getSelectedIndex() == 4) {
 
         } else {
             for (int i = 0; i < table.getRowCount(); i++) {
@@ -283,8 +283,9 @@ public class Main extends javax.swing.JFrame {
     }
 
     public static void disposeAll() {
-        for (Frame i : NhapTTHD.getFrames()) {
+        for (Frame i : Main.getFrames()) {
             i.dispose();
+//            i.setVisible(false);
         }
     }
 
@@ -310,7 +311,7 @@ public class Main extends javax.swing.JFrame {
         jToggleButton2 = new javax.swing.JToggleButton();
         jPasswordField3 = new javax.swing.JPasswordField();
         jSeparator1 = new javax.swing.JSeparator();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPaneAdmin = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableKhachHang = new javax.swing.JTable();
@@ -364,14 +365,9 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Màn hình chính");
 
-        jTabbedPane1.addHierarchyListener(new java.awt.event.HierarchyListener() {
-            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
-                jTabbedPane1HierarchyChanged(evt);
-            }
-        });
-        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+        jTabbedPaneAdmin.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jTabbedPane1StateChanged(evt);
+                jTabbedPaneAdminStateChanged(evt);
             }
         });
 
@@ -470,7 +466,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(34, 34, 34))
         );
 
-        jTabbedPane1.addTab("Quản lý khách hàng", jPanel1);
+        jTabbedPaneAdmin.addTab("Quản lý khách hàng", jPanel1);
 
         buttonTaiTTNV.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         buttonTaiTTNV.setText("TẢI THÔNG TIN NHÂN VIÊN");
@@ -565,7 +561,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(34, 34, 34))
         );
 
-        jTabbedPane1.addTab("Quản lý nhân viên", jPanel2);
+        jTabbedPaneAdmin.addTab("Quản lý nhân viên", jPanel2);
 
         tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -659,7 +655,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(36, 36, 36))
         );
 
-        jTabbedPane1.addTab("Quản lý sản phẩm", jPanel3);
+        jTabbedPaneAdmin.addTab("Quản lý sản phẩm", jPanel3);
 
         tableHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -744,7 +740,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
         );
 
-        jTabbedPane1.addTab("Quản lý hóa đơn", jPanel4);
+        jTabbedPaneAdmin.addTab("Quản lý hóa đơn", jPanel4);
 
         btnTaiTTCTHD.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnTaiTTCTHD.setText("TẢI CHI TIẾT HD");
@@ -778,7 +774,7 @@ public class Main extends javax.swing.JFrame {
 
         jPanel5.add(jScrollPane5);
 
-        jTabbedPane1.addTab("Quản lý chi tiết hóa đơn", jPanel5);
+        jTabbedPaneAdmin.addTab("Quản lý chi tiết hóa đơn", jPanel5);
 
         buttonDangXuat.setText("Đăng xuất");
         buttonDangXuat.addActionListener(new java.awt.event.ActionListener() {
@@ -813,7 +809,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPaneAdmin)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -855,7 +851,7 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonQLDN)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPaneAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
 
@@ -865,6 +861,8 @@ public class Main extends javax.swing.JFrame {
     private void buttonDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDangXuatActionPerformed
         Login.statusLogin = false;
         disposeAll();
+        dispose();
+        screenIsOn = false;
         Login frmLogin = new Login();
         frmLogin.setLocationRelativeTo(null);
         frmLogin.setVisible(true);
@@ -876,7 +874,7 @@ public class Main extends javax.swing.JFrame {
         else {
             String maTimKiem = txtMa.getText();
             int loaiTK = timKiemComboBox.getSelectedIndex();
-            switch (jTabbedPane1.getSelectedIndex()) {
+            switch (jTabbedPaneAdmin.getSelectedIndex()) {
                 case 0 ->
                     tim(tableKhachHang, maTimKiem, loaiTK);
                 case 1 ->
@@ -891,9 +889,9 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonTimActionPerformed
 
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+    private void jTabbedPaneAdminStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneAdminStateChanged
         DefaultComboBoxModel comboModels = new DefaultComboBoxModel();
-        switch (jTabbedPane1.getSelectedIndex()) {
+        switch (jTabbedPaneAdmin.getSelectedIndex()) {
             case 0 ->
                 setComboBoxInfo(tableKhachHang, comboModels);
             case 1 ->
@@ -907,11 +905,8 @@ public class Main extends javax.swing.JFrame {
         }
         timKiemComboBox.setModel(comboModels);
         timKiemComboBox.setSelectedIndex(0);
-    }//GEN-LAST:event_jTabbedPane1StateChanged
-
-    private void jTabbedPane1HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jTabbedPane1HierarchyChanged
-
-    }//GEN-LAST:event_jTabbedPane1HierarchyChanged
+        toBack();
+    }//GEN-LAST:event_jTabbedPaneAdminStateChanged
 
     private void btnTaiTTCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiTTCTHDActionPerformed
         toBack();
@@ -939,9 +934,10 @@ public class Main extends javax.swing.JFrame {
                 setRightRendererAndResizeWitdh(tableKhachHang);
             } else {
                 if (choice == 0) {
-                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
+                    JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");                    
                 }
             }
+            choice = 1;
         }
         toBack();
         if (!screenIsOn && choice != 1)
@@ -1028,6 +1024,7 @@ public class Main extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
                 }
             }
+            choice = 1;
         }
         toBack();
         if (!screenIsOn && choice != 1)
@@ -1084,6 +1081,7 @@ public class Main extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
                 }
             }
+            choice = 1;
         }
         toBack();
         if (!screenIsOn && choice != 1)
@@ -1135,6 +1133,7 @@ public class Main extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Không thành công.\nVui lòng kiểm tra lại");
                 }
             }
+            choice = 1;
         }
         toBack();
         if (!screenIsOn && choice != 1)
@@ -1227,7 +1226,7 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                taittnv = taittsp = taittkh = taitthd = taittcthd = true;
+//                taittnv = taittsp = taittkh = taitthd = taittcthd = true;
             }
         });
     }
@@ -1271,7 +1270,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner jSpinner1;
-    private static javax.swing.JTabbedPane jTabbedPane1;
+    private static javax.swing.JTabbedPane jTabbedPaneAdmin;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     public static javax.swing.JTable tableCTHD;

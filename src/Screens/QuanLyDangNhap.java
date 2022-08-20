@@ -7,6 +7,7 @@ package Screens;
 import static Screens.Main.qldn;
 import static Screens.Main.taittdn;
 import static doancuoiky.DoAnCuoiKy.setRightRendererAndResizeWitdh;
+import java.awt.Frame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +19,8 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
 
     private String passAdmin = qldn.getPassAdmin();
     private String maBaoVe = qldn.getMaBaoVe();
+    static boolean capNhatTKIsOn = false;
+    CapNhatTK capnhattk = new CapNhatTK();
 
     /**
      * Creates new form NewJFrame
@@ -252,7 +255,7 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (txtPassAdmin.getText().isBlank())
             JOptionPane.showMessageDialog(rootPane, "Không thể cập nhật password!!!");
-        else if (buttonHienPassAdmin.isSelected()) {
+        else if (buttonHienPassAdmin.isSelected() && !capnhattk.isAlwaysOnTop()) {
             int choice = JOptionPane.showConfirmDialog(buttonUpdatePassAdmin, "Bạn có chắc chắn muốn cập nhật mật khẩu admin?", "Thông báo", 0);
             if (choice == 0) {
                 if (qldn.capNhatPass("ADMN", txtPassAdmin.getText())) {
@@ -270,6 +273,7 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         setVisible(false);
         Main.screenIsOn = false;
+        capnhattk.setVisible(false);
     }//GEN-LAST:event_buttonThoatQLDNActionPerformed
 
     private void buttonHienPassAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHienPassAdminActionPerformed
@@ -294,8 +298,8 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (txtMaBaoVe.getText().isBlank())
             JOptionPane.showMessageDialog(rootPane, "Không thể cập nhật password!!!");
-        else if (buttonHienMaBaoVe.isSelected()) {
-            int choice = JOptionPane.showConfirmDialog(buttonCapNhatMaBaoVe, "Bạn có chắc chắn muốn cập nhật mật khẩu admin?", "Thông báo", 0);
+        else if (buttonHienMaBaoVe.isSelected() && !capnhattk.isAlwaysOnTop()) {
+            int choice = JOptionPane.showConfirmDialog(buttonCapNhatMaBaoVe, "Bạn có chắc chắn muốn cập nhật mã bảo vệ?", "Thông báo", 0);
             if (choice == 0) {
                 if (qldn.capNhatMaBaoVe(txtMaBaoVe.getText())) {
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!");
@@ -309,20 +313,24 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCapNhatMaBaoVeActionPerformed
 
     private void buttonPassNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPassNVActionPerformed
-        // TODO add your handling code here:
+        if(!capNhatTKIsOn){
         int i = tableQuanLyDangNhap.getSelectedRow();
         if (i >= 0 && taittdn) {
-            CapNhatTK capnhattk = new CapNhatTK();
+
             capnhattk.setLocationRelativeTo(null);
             capnhattk.setVisible(true);
+            capnhattk.setAlwaysOnTop(true);
+            capNhatTKIsOn = true;
             CapNhatTK.txtMaNV.setText((String) tableQuanLyDangNhap.getValueAt(tableQuanLyDangNhap.getSelectedRow(), 0));
             CapNhatTK.txtPassCu.setText((String) tableQuanLyDangNhap.getValueAt(tableQuanLyDangNhap.getSelectedRow(), 1));
 
+        } else
+            JOptionPane.showMessageDialog(null, "Click chọn dòng để thực hiện");
         }
     }//GEN-LAST:event_buttonPassNVActionPerformed
 
     private void buttonResetPassNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResetPassNVActionPerformed
-        // TODO add your handling code here:
+        if(!capNhatTKIsOn){
         int i = tableQuanLyDangNhap.getSelectedRow();
         if (i >= 0 && taittdn) {
             int choice = JOptionPane.showConfirmDialog(buttonResetPassNV, "Bạn có chắc chắn muốn cập nhật dữ liệu này?", "Thông báo", 0);
@@ -336,6 +344,8 @@ public class QuanLyDangNhap extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Không thành công, vui lòng kiểm tra lại");
                 }
             }
+        } else 
+            JOptionPane.showMessageDialog(null, "Click chọn dòng để thực hiện");
         }
     }//GEN-LAST:event_buttonResetPassNVActionPerformed
 
